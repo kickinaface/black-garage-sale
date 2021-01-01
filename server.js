@@ -102,6 +102,46 @@ app.get('/profile', function (req, res) {
 	});
 });
 
+app.get('/garage', function (req, res) {
+	//console.log('token: ', req.body);
+	var clientIp = req.connection.remoteAddress;
+	//var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, function(data) {
+		//console.log(clientIp, data);
+		if(data == true) {
+			res.sendFile(path.join(__dirname+'/public/garage.html'));
+		} else {
+			res.sendStatus(403);
+		}
+	});
+});
+
+app.get('/search', function (req, res) {
+	var clientIp = req.connection.remoteAddress;
+	//var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, function(data) {
+		//console.log(clientIp, data);
+		if(data == true) {
+			res.sendFile(path.join(__dirname+'/public/search.html'));
+		} else {
+			res.sendStatus(403);
+		}
+	});
+});
+
+app.get('/messages', function (req, res) {
+	var clientIp = req.connection.remoteAddress;
+	//var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, function(data) {
+		//console.log(clientIp, data);
+		if(data == true) {
+			res.sendFile(path.join(__dirname+'/public/messages.html'));
+		} else {
+			res.sendStatus(403);
+		}
+	});
+});
+
 app.get('/logout', function (req, res) {
 	var clientIp = req.connection.remoteAddress;
 	//var userAgent = req.headers['user-agent'];
@@ -123,19 +163,6 @@ app.get('/logout', function (req, res) {
 
 app.get('/register', function (req, res) {
 	res.sendFile(path.join(__dirname+'/public/register.html'));
-});
-
-app.get('/messages', function (req, res) {
-	var clientIp = req.connection.remoteAddress;
-	//var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, function(data) {
-		//console.log(clientIp, data);
-		if(data == true) {
-			res.sendFile(path.join(__dirname+'/public/messages.html'));
-		} else {
-			res.sendStatus(403);
-		}
-	});
 });
 
 function searchIp(ip, callback){
