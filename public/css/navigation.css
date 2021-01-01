@@ -1,0 +1,31 @@
+.navigation {
+    width: 100%;
+    background: black;
+    padding: 5px 0px 28px 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+    .navLogo {
+        float: left;
+        color: white;
+        font-weight: bold;
+        font-size: 14pt;
+        margin-left: 10px;
+    }
+    .navLinks{
+        list-style: none;
+        float: right;
+    }
+    .navLinks li, .navLinks li a{
+        float: left;
+        color:white;
+        text-decoration: none;
+    }
+    .navLinks li {
+        margin-top: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 8pt;
+    }
+    .navLinks li:hover, .navLinks li a:hover {
+        color:grey;
+    }
