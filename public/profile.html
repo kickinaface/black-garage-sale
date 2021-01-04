@@ -30,6 +30,14 @@
                     link: '/messages',
                 },
                 {
+                    title: 'GARAGE',
+                    link: '/garage'
+                },
+                {
+                    title: 'SEARCH',
+                    link: '/search'
+                },
+                {
                     title: 'LOGOUT',
                     link: '/logout'
                 },
@@ -57,34 +65,88 @@
                 }
             });
         });
+
+        // change modal logic to be inside of superUtil later
+        function openModal(modalType) {
+            console.log('modalType: ', modalType);
+            if(modalType == 'avatar'){
+                document.querySelector('.changeAvatarModal').style.display = 'block';
+            } else if (modalType == 'changeName') {
+                document.querySelector('.changeName').style.display = 'block';
+            } else if(modalType == 'changePassword') {
+                document.querySelector('.changePassword').style.display = 'block';
+            } else if(modalType == 'garage') {
+                window.location = '/garage';
+            } else if(modalType == 'messages') {
+                window.location = '/messages';
+            } else if(modalType == 'search') {
+                window.location = '/search';
+            }
+        }
+
+        function closeModal(sClass) {
+            document.querySelector(sClass).style.display = 'none';
+        }
 	
 	</script>
 </head>
 <body>
+    <!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
+	<div class="modalWrapper changeAvatarModal">
+		<div class="modal">
+			<p>
+				Change Avatar
+			</p>
+			<button onclick="closeModal('.changeAvatarModal');">Okay</button>
+		</div>
+	</div>
+    <!-- end modal-->
+    <!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
+	<div class="modalWrapper changeName">
+		<div class="modal">
+			<p>
+				Change First and last Name
+			</p>
+			<button onclick="closeModal('.changeName');">Okay</button>
+		</div>
+	</div>
+    <!-- end modal-->
+    <!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
+	<div class="modalWrapper changePassword">
+		<div class="modal">
+			<p>
+				Change Password
+			</p>
+			<button onclick="closeModal('.changePassword');">Okay</button>
+		</div>
+	</div>
+	<!-- end modal-->
 	<div class="navigation">
-		<div class="navLogo">Super Util</div>
+		<div class="navLogo"><i>Black</i> Garage Sale</div>
 		<ul class="navLinks"></ul>
 	</div>
 	<div class="mainContent">
-		<h2>Welcome to SuperUtil JS </h2>
+		<h2>Welcome </br>First Name Last Name</h2>
 
-		<div class="blueBox">
-			<p>My Profile</p>
+		<div class="profileWrapper">
             <br>
             <img src="img/default-profile-icon-16.png" width="80px" alt="Profile Picture">
-            <h2>First Name Last Name</h2>
+            
             <br>
             
-            <button type="button" title="change avatar">Update Avatar Photo</button>
-            <button type="button" title="change name">Change Name</button>
-            <button type="button" title="change password">Change Password</button>
+            <button type="button" title="change avatar" onclick="openModal('avatar');">Update Avatar Photo</button>
+            <button type="button" title="change name" onclick="openModal('changeName');">Change Name</button>
+            <button type="button" title="change password" onclick="openModal('changePassword');">Change Password</button>
+            <button type="button" title="garage" onclick="openModal('garage');">Garage</button>
+            <button type="button" title="messages" onclick="openModal('messages');">Messages</button>
+            <button type="button" title="search" onclick="openModal('search');">Search</button>
             <br>
             <div class="adminControls">
                 <h4>Admin Controls:</h4>
-                <button type="button" title="remove user">Remove Basic User</button>
-                <button type="button" title="remove admin user">Remove Admin User</button>
-                <button type="button" title="remove user">Get Admins</button>
-                <button type="button" title="create admin">Create Admin</button>
+                <button type="button" title="remove user" onclick="openModal('removeUser');">Remove Basic User</button>
+                <button type="button" title="remove admin user" onclick="openModal('removeAdmin');">Remove Admin User</button>
+                <button type="button" title="remove user" onclick="openModal('getAdmins');">Get Admins</button>
+                <button type="button" title="create admin" onclick="openModal('createAdmin');">Create Admin</button>
             </div>
 		</div>
 	</div>
