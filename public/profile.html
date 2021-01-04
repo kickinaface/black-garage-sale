@@ -40,11 +40,7 @@
                 {
                     title: 'LOGOUT',
                     link: '/logout'
-                },
-                // {
-                //     title: 'SERVICES',
-                //     link:'/services'
-                // }
+                }
             ];
 
             superUtil.initNavigation('navigation', navigationLinks);
@@ -81,6 +77,14 @@
                 window.location = '/messages';
             } else if(modalType == 'search') {
                 window.location = '/search';
+            } else if(modalType == 'removeUser') {
+                document.querySelector('.removeUser').style.display = 'block';
+            } else if(modalType == 'removeAdmin') {
+                document.querySelector('.removeAdmin').style.display = 'block';
+            } else if(modalType == 'getAdmins') {
+                document.querySelector('.getAdmins').style.display = 'block';
+            } else if(modalType == 'createAdmin') {
+                document.querySelector('.createAdmin').style.display = 'block';
             }
         }
 
@@ -120,7 +124,42 @@
 			<button onclick="closeModal('.changePassword');">Okay</button>
 		</div>
 	</div>
-	<!-- end modal-->
+    <!-- end modal-->
+    
+    <!-- Admin Modals-->
+    <div class="modalWrapper removeUser">
+		<div class="modal">
+			<p>
+				Remove Basic User
+			</p>
+			<button onclick="closeModal('.removeUser');">Okay</button>
+		</div>
+    </div>
+    <div class="modalWrapper removeAdmin">
+		<div class="modal">
+			<p>
+				Remove Admin User
+			</p>
+			<button onclick="closeModal('.removeAdmin');">Okay</button>
+		</div>
+    </div>
+    <div class="modalWrapper getAdmins">
+		<div class="modal">
+			<p>
+				Get Admin User
+			</p>
+			<button onclick="closeModal('.getAdmins');">Okay</button>
+		</div>
+    </div>
+    <div class="modalWrapper createAdmin">
+		<div class="modal">
+			<p>
+				Create Admin User
+			</p>
+			<button onclick="closeModal('.createAdmin');">Okay</button>
+		</div>
+    </div>
+    
 	<div class="navigation">
 		<div class="navLogo"><i>Black</i> Garage Sale</div>
 		<ul class="navLinks"></ul>
@@ -130,10 +169,8 @@
 
 		<div class="profileWrapper">
             <br>
-            <img src="img/default-profile-icon-16.png" width="80px" alt="Profile Picture">
-            
+            <img src="img/default-profile-icon-16.png" width="100px" alt="Profile Picture">
             <br>
-            
             <button type="button" title="change avatar" onclick="openModal('avatar');">Update Avatar Photo</button>
             <button type="button" title="change name" onclick="openModal('changeName');">Change Name</button>
             <button type="button" title="change password" onclick="openModal('changePassword');">Change Password</button>

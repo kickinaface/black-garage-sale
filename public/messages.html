@@ -4,7 +4,8 @@
     <title>SuperUtil -PROFILE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/navigation.css">
-	<link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/messages.css">
 	<script type="text/javascript" src="js/superUtil.js"> </script>
 	<!-- <script type="text/javascript" src="js/main.js"></script> -->
 
@@ -29,13 +30,17 @@
                     link: '/messages',
                 },
                 {
+                    title: 'GARAGE',
+                    link: '/garage'
+                },
+                {
+                    title: 'SEARCH',
+                    link: '/search'
+                },
+                {
                     title: 'LOGOUT',
                     link: '/logout'
-                },
-                // {
-                //     title: 'SERVICES',
-                //     link:'/services'
-                // }
+                }
             ];
 
             superUtil.initNavigation('navigation', navigationLinks);
@@ -61,11 +66,11 @@
 </head>
 <body>
 	<div class="navigation">
-		<div class="navLogo">Super Util</div>
+		<div class="navLogo"><i>Black</i> Garage Sale</div>
 		<ul class="navLinks"></ul>
 	</div>
 	<div class="mainContent">
-		<h2>Welcome to SuperUtil JS </h2>
+		<h2>Messages</h2>
         <br>
         <br>
 		<div class="blueBox">
