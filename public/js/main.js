@@ -38,6 +38,9 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = '/';
     });
 
+    // start app timer 
+    appTimer();
+
 });
 
 function getData(){
@@ -75,4 +78,27 @@ function getSecuredRequest() {
 			//localStorage.removeItem('token');
 		}
     });
+}
+
+function appTimer() {
+    var minuteCount = 1;
+    var timeMinuteSet = 10;
+    var appTimer = setInterval(function(){
+        
+        minuteCount ++;
+        console.log('interval ', minuteCount);
+        if(minuteCount == timeMinuteSet) {
+            minuteCount = 1;
+            console.log('interval ', minuteCount);
+            superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+                if(status != 200 && data.authenticated != true){
+                    //console.log('go to profile');
+                    window.location = '/logout';
+                    //localStorage.removeItem('token');
+                }
+            });
+        }
+    },(1000* 60));
+
+    console.log('later clear interval: ', appTimer);
 }
