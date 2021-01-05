@@ -1,16 +1,10 @@
 var superUtil = new SuperUtil();
-// Check Token, Go to the Login if there is an invalid token.
 var token = localStorage.getItem('token');
-
 document.addEventListener("DOMContentLoaded", function(){
     // begin
     superUtil.init(document);
     // Build Navigation bar controls
     var navigationLinks = [
-        {
-            title: 'HOME',
-            link:'/'
-        },
         {
             title: 'PROFILE',
             link: '/profile'

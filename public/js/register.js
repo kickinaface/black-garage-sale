@@ -1,5 +1,5 @@
 var superUtil = new SuperUtil();
-
+var token = localStorage.getItem('token');
 document.addEventListener("DOMContentLoaded", function(){
 	//superUtil.init(document);
 	var registerBtn = superUtil.grabElement('registerBtn');
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	});
 
 	// Check Token, Go to the profile if there is a valid token. There is no need to register if there is a valid token.
-	var token = localStorage.getItem('token');
+	//var token = localStorage.getItem('token');
     superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
 		if(status == 200 && data.authenticated == true){
 			console.log('go to profile');

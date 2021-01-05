@@ -1,5 +1,5 @@
 var superUtil = new SuperUtil();
-		
+var token = localStorage.getItem('token');	
 document.addEventListener("DOMContentLoaded", function(){
     // begin
     superUtil.init(document);
@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = '/';
     });
 
+    getSecuredRequest();
     // start app timer 
     appTimer();
 
@@ -67,9 +68,7 @@ function sendData(){
     });
 };
 
-function getSecuredRequest() {
-    var token = 'get from local storage';
-    
+function getSecuredRequest() {    
     superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
         console.log('authenticated: ', status, data);
         if(status == 200 && data.authenticated == true){
@@ -78,7 +77,7 @@ function getSecuredRequest() {
 			//localStorage.removeItem('token');
 		}
     });
-}
+};
 
 function appTimer() {
     var minuteCount = 1;

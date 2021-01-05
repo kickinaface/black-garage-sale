@@ -10,6 +10,7 @@
         font-weight: bold;
         font-size: 14pt;
         margin-left: 10px;
+        cursor: pointer;
     }
     .navLinks{
         list-style: none;
