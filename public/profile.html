@@ -14,9 +14,15 @@
 	<div class="modalWrapper changeAvatarModal">
 		<div class="modal">
 			<p>
-				Change Avatar
+				<h2>Change Avatar</h2>
 			</p>
-			<button onclick="closeModal('.changeAvatarModal');">Okay</button>
+			<form>
+				<label for="avatarUpload"> Choose a photo:</label>
+				<input type="file" id="avatarUpload" accept="image/png, image/jpeg" />
+				<button type="button">Upload image</button>
+			</form>
+			
+			<button onclick="closeModal('.changeAvatarModal');">Cancel</button>
 		</div>
 	</div>
     <!-- end modal-->
@@ -24,9 +30,21 @@
 	<div class="modalWrapper changeName">
 		<div class="modal">
 			<p>
-				Change First and last Name
+				<h2>Change Name</h2>
 			</p>
-			<button onclick="closeModal('.changeName');">Okay</button>
+			<br>
+			<form>
+				<p>
+					<label for="changeFirstName">First name</label>
+					<input type="text" class="changeFirstName" placeholder="First Name">
+				</p>
+				<p>
+					<label for="changeLastName">Last name</label>
+					<input type="text" class="changeLastName" placeholder="Last Name">
+				</p>
+				<button type="button">Save</button>
+			</form>
+			<button onclick="closeModal('.changeName');">Cancel</button>
 		</div>
 	</div>
     <!-- end modal-->
@@ -34,9 +52,30 @@
 	<div class="modalWrapper changePassword">
 		<div class="modal">
 			<p>
-				Change Password
+				<h2>Change Password</h2>
 			</p>
-			<button onclick="closeModal('.changePassword');">Okay</button>
+			<br>
+			<form>
+				<p>
+					<label for="updatePassword1">Enter new password</label>
+					<input type="password" class="updatePassword1" placeholder="password">
+				</p>
+				<p>
+					<label for="updatePassword2">Enter password again</label>
+					<input type="password" class="updatePassword2" placeholder="password">
+				</p>
+				<p>
+					<label for="enterCurrentPassword">Enter old Password</label>
+					<input type="text" class="enterCurrentPassword" placeholder="password">
+				</p>
+				<p>
+					<i>* Please be sure you wish to change your password. 
+						<br>
+						* This cannot be undone. </i>
+				</p>
+				<button type="button">Change password</button>
+			</form>
+			<button onclick="closeModal('.changePassword');">Cancel</button>
 		</div>
 	</div>
     <!-- end modal-->
@@ -45,33 +84,80 @@
     <div class="modalWrapper removeUser">
 		<div class="modal">
 			<p>
-				Remove Basic User
+				<h2>Remove Basic User</h2>
 			</p>
-			<button onclick="closeModal('.removeUser');">Okay</button>
+			<br>
+			<form>
+				<p>
+					<label for="removeBasicUser">Enter user id</label>
+					<input type="text" class="removeBasicUser" placeholder="user id">
+				</p>
+				<p>
+					<i>* Please be sure you wish to remove this user 
+						<br>
+						* This cannot be undone. </i>
+				</p>
+				<button type="button">Remove User</button>
+			</form>
+			<button onclick="closeModal('.removeUser');">Cancel</button>
 		</div>
     </div>
     <div class="modalWrapper removeAdmin">
 		<div class="modal">
 			<p>
-				Remove Admin User
+				<h2>Remove Admin User</h2>
 			</p>
-			<button onclick="closeModal('.removeAdmin');">Okay</button>
+			<br>
+			<form>
+				<p>
+					<label for="removeAdminUser">Enter user id</label>
+					<input type="text" class="removeAdminUser" placeholder="user id">
+				</p>
+				<p>
+					<i>* Please be sure you wish to remove this user 
+						<br>
+						* This cannot be undone. </i>
+				</p>
+				<button type="button">Remove User</button>
+			</form>
+			<button onclick="closeModal('.removeAdmin');">Cancel</button>
 		</div>
     </div>
     <div class="modalWrapper getAdmins">
 		<div class="modal">
 			<p>
-				Get Admin User
+				<h2>Get Admin User</h2>
 			</p>
-			<button onclick="closeModal('.getAdmins');">Okay</button>
+			<br>
+			<form>
+				<p>
+					<label for="getAdminUser">Enter user email</label>
+					<input type="text" class="getAdminUser" placeholder="user email">
+				</p>
+				
+				<button type="button">Get User Details</button>
+			</form>
+			<button onclick="closeModal('.getAdmins');">Cancel</button>
 		</div>
     </div>
     <div class="modalWrapper createAdmin">
 		<div class="modal">
 			<p>
-				Create Admin User
+				<h2>Create Admin User</h2>
 			</p>
-			<button onclick="closeModal('.createAdmin');">Okay</button>
+			<br>
+			<form>
+				<p>
+					<label for="adminEmail">Enter admin email</label>
+					<input type="text" class="adminEmail" placeholder="email address">
+				</p>
+				<p>
+					<label for="adminPassword">Enter admin password</label>
+					<input type="password" class="adminPassword" placeholder="new password">
+				</p>
+				<button type="button">Create Admin</button>
+			</form>
+			<button onclick="closeModal('.createAdmin');">Cancel</button>
 		</div>
     </div>
     
