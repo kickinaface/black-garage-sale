@@ -9,14 +9,53 @@ body {
 }
 
 .mainContent {
-    width: 50%;
+    width: 100%;
     margin: 10px;
     font-family: Arial, Helvetica, sans-serif;
     min-height: 800px;
     cursor: crosshair;
     margin: 0 auto;
     text-align: center;
-    padding-top:10%;
+    padding-top:5%;
+}
+.messageWrapper {
+    border: 1px solid black;
+    padding: 10px;
+    height: 50px;
+    background-color: white;
+    cursor: pointer;
+    margin-bottom:10px;
+}
+.messageWrapper:hover {
+    background:black;
+    color:white;
+}
+    .messageicon{
+        width: 50px;
+        height: 50px;
+        /* background-color: rgba(0, 0, 0, 0.5); */
+        background-color: black;
+        margin-right:10px;
+        float: left;
+        border: 1px solid black;
+    }
+    .messageFromUser {
+        font-style: italic;
+        font-weight: bold;
+    }
+    .messagePreview {
+        width: 70%;
+        text-align: left;
+    }
+.messageRead{
+    background-color: #efefef;
+    opacity: .5;
+}
+
+@media screen and (min-width: 992px) {
+    .mainContent {
+        width: 75%;
+    }
 }
 
 .navLogo i {
@@ -40,7 +79,58 @@ body {
     padding: 10px;
     border: 1px solid black;
 }
-
+/* .messages{
+    width: 100%;
+} */
+.leftMessagesTab {
+    float: left;
+    width: 30%;
+    background:#ccc;
+    padding:10px;
+}
+.chatMessagesTab {
+    float:left;
+    width: 60%;
+    background: #666; 
+    height: auto;
+    padding:10px;
+}
+    .chatDetails {
+        position: relative;
+        padding: 10px;
+        background: #efefef;
+        height: 500px;
+        padding-bottom: 0;
+        /* overflow: scroll; */
+        
+    }
+    .responseInputField {
+        width: 70%;
+    }
+    .chatText {
+        position: absolute;
+        bottom: 4%;
+        height: 470px;
+        overflow-y: scroll;
+    }
+    .chatText div {
+        min-height: 40px;
+        padding: 5px;
+        text-align: left;
+    }
+    .userResponse {
+        float: right;
+        min-height: 40px;
+        padding: 5px;
+        font-style: italic;
+    }
+    .chatText div p {
+        /* float: left; */
+        /* padding-left:3px; */
+    }
+        .chatAvatar {
+            float: left;
+        }
 /*modal styles */
 .modalWrapper {
     position: fixed;

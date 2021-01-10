@@ -18,13 +18,13 @@ document.addEventListener("DOMContentLoaded", function(){
             link: '/garage'
         },
         {
+            title: 'SEARCH',
+            link: '/search'
+        },
+        {
             title: 'LOGOUT',
             link: '/logout'
-        },
-        // {
-        //     title: 'SERVICES',
-        //     link:'/services'
-        // }
+        }
     ];
 
     superUtil.initNavigation('navigation', navigationLinks);

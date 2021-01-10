@@ -35,7 +35,7 @@ body {
     margin-left: 5px;
 }
 
-.adminControls {
+.adminControls, .garageControls {
     margin: 20px;
     padding: 10px;
     border: 1px solid black;
