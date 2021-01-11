@@ -99,3 +99,7 @@ function appTimer() {
     //console.log('later clear interval: ', appTimer);
 };
 appTimer();
+
+// function uploadAvatar(){
+    
+// }

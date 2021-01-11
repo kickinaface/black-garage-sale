@@ -16,10 +16,10 @@
 			<p>
 				<h2>Change Avatar</h2>
 			</p>
-			<form>
+			<form action="/api/uploadAvatar" method="post" enctype="multipart/form-data">
 				<label for="avatarUpload"> Choose a photo:</label>
-				<input type="file" id="avatarUpload" accept="image/png, image/jpeg" />
-				<button type="button">Upload image</button>
+				<input type="file" id="avatarUpload" accept="image/png, image/jpeg" name="avatarImage"/>
+				<button type="submit">Upload image</button>
 			</form>
 			
 			<button onclick="closeModal('.changeAvatarModal');">Cancel</button>
