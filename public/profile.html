@@ -16,9 +16,10 @@
 			<p>
 				<h2>Change Avatar</h2>
 			</p>
-			<form action="/api/uploadAvatar" method="post" enctype="multipart/form-data">
+			<form action="/api/uploadAvatar" method="post" enctype="multipart/form-data" class="updateAvatarForm">
 				<label for="avatarUpload"> Choose a photo:</label>
 				<input type="file" id="avatarUpload" accept="image/png, image/jpeg" name="avatarImage"/>
+				<input type="hidden" id="avatarUploadUserToken" name="avatarUploadUserToken">
 				<button type="submit">Upload image</button>
 			</form>
 			
@@ -170,7 +171,7 @@
 
 		<div class="profileWrapper">
             <br>
-            <img src="img/default-profile-icon-16.png" width="100px" alt="Profile Picture">
+            <img src="img/default-profile-icon-16.png" width="200px" alt="Profile Picture" class="userImageAvatar">
             <br>
             <button type="button" title="change avatar" onclick="openModal('avatar');">Update Avatar Photo</button>
             <button type="button" title="change name" onclick="openModal('changeName');">Change Name</button>

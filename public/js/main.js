@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     getSecuredRequest();
     // start app timer 
-    appTimer();
+   // appTimer();
 
 });
 
@@ -48,23 +48,6 @@ function getData(){
     // grab JSON
     superUtil.grabJSON('api/test', function(status, data) {
         console.log(status, data);
-    });
-};
-
-function sendData(){
-    // put JSON
-    var postData = {
-        name:'Christopher W Carter Jr',
-        address: '4499 Wrangell Place',
-        city: 'Columbus',
-        state: 'Ohio',
-        zip: '43230',
-        status: 'single',
-        email: 'kickinaface@gmail.com'
-    };
-
-    superUtil.sendJSON(postData, 'api/test', function (status, response){
-        console.log(status, response);
     });
 };
 
@@ -79,25 +62,25 @@ function getSecuredRequest() {
     });
 };
 
-function appTimer() {
-    var minuteCount = 1;
-    var timeMinuteSet = 10;
-    var appTimer = setInterval(function(){
+// function appTimer() {
+//     var minuteCount = 1;
+//     var timeMinuteSet = 10;
+//     var appTimer = setInterval(function(){
         
-        minuteCount ++;
-        console.log('interval ', minuteCount);
-        if(minuteCount == timeMinuteSet) {
-            minuteCount = 1;
-            console.log('interval ', minuteCount);
-            superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
-                if(status != 200 && data.authenticated != true){
-                    //console.log('go to profile');
-                    window.location = '/logout';
-                    //localStorage.removeItem('token');
-                }
-            });
-        }
-    },(1000* 60));
+//         minuteCount ++;
+//         console.log('interval ', minuteCount);
+//         if(minuteCount == timeMinuteSet) {
+//             minuteCount = 1;
+//             console.log('interval ', minuteCount);
+//             superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+//                 if(status != 200 && data.authenticated != true){
+//                     //console.log('go to profile');
+//                     window.location = '/logout';
+//                     //localStorage.removeItem('token');
+//                 }
+//             });
+//         }
+//     },(1000* 60));
 
-    console.log('later clear interval: ', appTimer);
-}
+//     console.log('later clear interval: ', appTimer);
+// }

@@ -1,5 +1,6 @@
 var superUtil = new SuperUtil();
 var token = localStorage.getItem('token');
+var userId = localStorage.getItem('userId');
 document.addEventListener("DOMContentLoaded", function(){
     // begin
     superUtil.init(document);
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function(){
             window.location = '/login';
         }
     });
+    loadAvatarPhoto();
 });
 
 // change modal logic to be inside of superUtil later
@@ -74,32 +76,51 @@ function closeModal(sClass) {
     document.querySelector(sClass).style.display = 'none';
 }
 function appTimer() {
-    var minuteCount = 1;
-    var timeMinuteSet = 13;
-    var appTimer = setInterval(function(){
+    setInterval(function(){
         
-        minuteCount ++;
-        console.log('interval ', minuteCount);
-        if(minuteCount == timeMinuteSet) {
-            minuteCount = 1;
-            console.log('interval ', minuteCount);
-            superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
-                if(status == 200 && data.authenticated == true){
-                    // User is logged in and authenticated
-                } else {
-                    //console.log('go to profile');
-                    window.location = '/logout';
-                    //localStorage.removeItem('token');
-                }
+        superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+            if(status == 200 && data.authenticated == true){
+                // User is logged in and authenticated
+                console.log('valid token');
+            } else {
+                //console.log('go to profile');
+                window.location = '/logout';
+                //localStorage.removeItem('token');
+            }
 
-            });
-        }
+        });
     },(1000* 60));
 
     //console.log('later clear interval: ', appTimer);
 };
 appTimer();
 
-// function uploadAvatar(){
+function loadAvatarPhoto(){
+    var avatarUploadUserToken = document.querySelector('#avatarUploadUserToken');
+    avatarUploadUserToken.value = token;
     
-// }
+    var avatarPhoto = document.querySelector('.userImageAvatar');
+
+    if(userId != 'undefined'){
+        var imageUrl = ('/avatar/'+userId+'/avatarImage.jpg');
+        
+        urlExists(imageUrl, function (exists) {
+            if(!exists) {
+                // Do nothing continue loading default photo
+            } else {
+                avatarPhoto.src = imageUrl;
+            }
+        });
+    }
+};
+
+function urlExists(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        callback(xhr.status < 400);
+      }
+    };
+    xhr.open('HEAD', url);
+    xhr.send();
+}

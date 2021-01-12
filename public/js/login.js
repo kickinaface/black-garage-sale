@@ -16,11 +16,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		superUtil.sendJSON(postData, 'api/login', function (status, response){
 			console.log(status, response.message);
 			//message = response;
-			//console.log(responsMessages);
+			console.log(response);
 			
 			if(status != 200){
 				responsMessages.innerHTML = response.message;
 			} else if(status == 200) {
+				localStorage.setItem('userId', response.userId);
 				localStorage.setItem('token', response.token);
 				responsMessages.innerHTML = 'Success!! You are logged in. (Redirecting you to your profile)';
 				window.location = '/profile';

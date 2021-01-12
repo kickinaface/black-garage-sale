@@ -54,9 +54,9 @@ router.use(function (req, res, next) {
 });
 
 //test route to make sure everything is working
-router.get('/', function (req, res) {
-	res.json({ message: 'Welcome to the node api' });
-});
+// router.get('/', function (req, res) {
+// 	res.json({ message: 'Welcome to the node api' });
+// });
 
 //more routes for the api will happen here
 // router.route('/destory')
@@ -80,44 +80,50 @@ loginRouteController.init(Admin, User, router, tokenMethods);
 //file upload routes turn into controllers later
 router.route("/uploadAvatar")
 	.post(function(req, res) {
-		var clientIp = req.connection.remoteAddress;
 		var userID = null;
 
 		if (!req.files || Object.keys(req.files).length === 0) {
 			return res.status(400).send('No files were uploaded.');
 		}
-		// The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+		//The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
 		let avatarImage = req.files.avatarImage;
 
-		searchIp(clientIp, function(data, u) {
-			//console.log(clientIp, data);
-			if(data == true) {
-				//res.sendFile(path.join(__dirname+'/public/profile.html'));
-				// Use the mv() method to place the file somewhere on your server
+		searchToken(req.body.avatarUploadUserToken, function (data, u) {
+			if(data == true){
 				userID = u._id;
 				var imagePath = (__dirname+'/avatar/'+userID+'/avatarImage.jpg');
-				fs.mkdir("./avatar/"+userID, function (err) {
-					if (err) {
-						res.status(500).send(err);
-					} else {
-						avatarImage.mv(imagePath, function(err) {
-							if (err) {
-								return res.status(500).send(err);
-							} else {
-								res.redirect('/profile');
-								//res.send('File uploaded!');
-								
-							}
-						});
-					}
-				});
-				
+				if(fs.existsSync(imagePath)) {
+					console.log('path exists');
+					avatarImage.mv(imagePath, function(err) {
+						if (err) {
+							return res.status(500).send(err);
+						} else {
+							console.log('succesfully updated');
+							res.redirect('/profile');
+							//res.send('File uploaded!');
+						}
+					});
+				} else {
+					console.log('path does not exist');
+					fs.mkdir("./avatar/"+userID, function (err) {
+						if (err) {
+							res.status(500).send(err);
+						} else {
+							avatarImage.mv(imagePath, function(err) {
+								if (err) {
+									return res.status(500).send(err);
+								} else {
+									res.redirect('/profile');
+									//res.send('File uploaded!');
+								}
+							});
+						}
+					});
+				}
 			} else {
 				res.sendStatus(403);
 			}
 		});
-
-		
 	});
 
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
@@ -128,8 +134,19 @@ router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, 
 //REGISTER OUR ROUTES ---------------------------------
 //all of the routes will be prefixed with /api
 app.use('/api', router);
-
 app.use(express.static(__dirname + '/public'));
+
+app.get('/avatar/:userId/:image', function (req, res) {
+	console.log('requesting image');
+	var imagePath = (__dirname+'/avatar/'+req.params.userId+'/'+req.params.image);
+	if(fs.existsSync(imagePath)){
+		console.log('image exists, show it');
+		res.sendFile(path.join(imagePath));
+	} else {
+		res.sendStatus(404);
+		//console.log('image does not exist');
+	}
+});
 
 // Handle page routing
 app.get('/login', function (req, res){
@@ -221,6 +238,26 @@ function searchIp(ip, callback){
 		} else {
 			//callback(false);
 			User.findOne({clientIpAddress: ip}, function (err, user) {
+				if(user) {
+					callback(true, user);
+					//res.sendFile(path.join(__dirname+'/public/profile.html'));
+				} else {
+					callback(false);
+					//res.sendStatus(403);
+				}
+			});
+		}
+	});
+};
+
+function searchToken(inputToken, callback){
+	Admin.findOne({token: inputToken}, function (err, admin){
+		if(admin) {
+			callback(true, admin);
+			//res.sendFile(path.join(__dirname+'/public/profile.html'));
+		} else {
+			//callback(false);
+			User.findOne({token: inputToken}, function (err, user) {
 				if(user) {
 					callback(true, user);
 					//res.sendFile(path.join(__dirname+'/public/profile.html'));

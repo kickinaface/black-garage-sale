@@ -26,7 +26,11 @@ function LoginRouteController() {
                                     user.userAgent = clientUserAgent;
                                     user.clientIpAddress = clientIp;
                                     user.save();
-                                    res.json({ token: token });
+                                    //console.log('user: ', user);
+                                    res.json({ 
+                                        token: token,
+                                        userId:user._id
+                                    });
                                 } else {
                                     // Passwords don't match
                                     res.status(404).send({message: errorMessage});
@@ -42,7 +46,10 @@ function LoginRouteController() {
                             admin.userAgent = clientUserAgent;
                             admin.clientIpAddress = clientIp;
                             admin.save();
-                            res.json({ token: token });
+                            res.json({ 
+                                token: token,
+                                userId:admin._id
+                            });
                         } else {
                             // Passwords don't match
                             res.status(404).send({message: errorMessage});
