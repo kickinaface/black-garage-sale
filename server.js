@@ -14,6 +14,7 @@ const adminRoutes = require('./routes/adminRoutes/adminRoutes');
 const messageRoutes = require('./routes/messageRoutes/messageRoutes');
 const userRoutes = require('./routes/userRoutes/userRoutes');
 const loginRouteController = require('./routes/loginRouteController/loginRouteController');
+const uploadRouteController = require('./routes/uploadRoutes/uploadRoutes');
 //
 const tokenMethods = require('./app/methods/tokenMethods/tokenMethods');
 //
@@ -76,56 +77,9 @@ userRoutes.init(User, Admin, router, tokenMethods);
 messageRoutes.init(msgModel, router);
 // Set Login Route Controller
 loginRouteController.init(Admin, User, router, tokenMethods);
-
-//file upload routes turn into controllers later
-router.route("/uploadAvatar")
-	.post(function(req, res) {
-		var userID = null;
-
-		if (!req.files || Object.keys(req.files).length === 0) {
-			return res.status(400).send('No files were uploaded.');
-		}
-		//The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-		let avatarImage = req.files.avatarImage;
-
-		searchToken(req.body.avatarUploadUserToken, function (data, u) {
-			if(data == true){
-				userID = u._id;
-				var imagePath = (__dirname+'/avatar/'+userID+'/avatarImage.jpg');
-				if(fs.existsSync(imagePath)) {
-					console.log('path exists');
-					avatarImage.mv(imagePath, function(err) {
-						if (err) {
-							return res.status(500).send(err);
-						} else {
-							console.log('succesfully updated');
-							res.redirect('/profile');
-							//res.send('File uploaded!');
-						}
-					});
-				} else {
-					console.log('path does not exist');
-					fs.mkdir("./avatar/"+userID, function (err) {
-						if (err) {
-							res.status(500).send(err);
-						} else {
-							avatarImage.mv(imagePath, function(err) {
-								if (err) {
-									return res.status(500).send(err);
-								} else {
-									res.redirect('/profile');
-									//res.send('File uploaded!');
-								}
-							});
-						}
-					});
-				}
-			} else {
-				res.sendStatus(403);
-			}
-		});
-	});
-
+//file upload routes
+uploadRouteController.init(Admin, User, router, fs);
+//
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
 	console.log('requesting authenticated token response.');
 	res.json({authenticated: true});
@@ -238,26 +192,6 @@ function searchIp(ip, callback){
 		} else {
 			//callback(false);
 			User.findOne({clientIpAddress: ip}, function (err, user) {
-				if(user) {
-					callback(true, user);
-					//res.sendFile(path.join(__dirname+'/public/profile.html'));
-				} else {
-					callback(false);
-					//res.sendStatus(403);
-				}
-			});
-		}
-	});
-};
-
-function searchToken(inputToken, callback){
-	Admin.findOne({token: inputToken}, function (err, admin){
-		if(admin) {
-			callback(true, admin);
-			//res.sendFile(path.join(__dirname+'/public/profile.html'));
-		} else {
-			//callback(false);
-			User.findOne({token: inputToken}, function (err, user) {
 				if(user) {
 					callback(true, user);
 					//res.sendFile(path.join(__dirname+'/public/profile.html'));
