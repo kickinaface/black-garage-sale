@@ -76,11 +76,18 @@ function UserRoutes() {
                         User.deleteMany({
                             _id: req.params.user_id
                         }, function (err, data) {
-                            //console.log(data);
-                            if (err) {
+                            console.log(data);
+                            if (err || data == undefined) {
                                 res.send(err);
+                            } else if(data.n == 1) {
+                                res.json({ message:'Successfully deleted' });
+                            } else if(data.n == 0) {
+                                res.status(404).send({message: 'There is no user by that ID'});
+                            } else {
+                                res.status(404).send({message: 'There is no user by that ID'});
                             }
-                            res.json({ message:'Successfully deleted' });
+                            
+                            
                         });
                     }
                 });

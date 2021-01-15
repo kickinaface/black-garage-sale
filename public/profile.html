@@ -98,9 +98,18 @@
 						<br>
 						* This cannot be undone. </i>
 				</p>
-				<button type="button">Remove User</button>
+				
+				<button type="button" onclick="removeBasicUser();">Remove User</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
 			</form>
-			<button onclick="closeModal('.removeUser');">Cancel</button>
+			<button onclick="closeModal('.removeUser');">Close</button>
 		</div>
     </div>
     <div class="modalWrapper removeAdmin">

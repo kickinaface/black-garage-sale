@@ -72,6 +72,40 @@ function openModal(modalType) {
     }
 }
 
+function removeBasicUser() {
+    // console.log('admin must remove');
+    var removeBasicUserText = document.querySelector('.removeBasicUser').value;
+    var errorMessages = document.querySelector('.errorMessages p');
+    var responseMessages = document.querySelector('.responseMessages p');
+    // console.log('userId text: ', removeBasicUserText);
+
+    superUtil.authPostRequest(null, ('api/users/'+removeBasicUserText), function(status, res) {
+        console.log(status, res.message);
+        //message = response;
+        console.log(res);
+        
+        if(status != 200){
+            //responsMessages.innerHTML = response.message;
+            // console.log('message', res.message);
+            // console.log('status', res.status);
+            // responseMessages.innerHTML = res.message;
+            errorMessages.innerHTML = 'There is no user by that ID';
+            responseMessages.innerHTML = '';
+        } else if(status == 200) {
+            //console.log(res.message);
+            
+            if(res.status == undefined && res.message == undefined) {
+                console.log('error message,');
+                errorMessages.innerHTML = 'There is no user by that ID';
+                responseMessages.innerHTML = '';
+            } else {
+                responseMessages.innerHTML = res.message;
+                errorMessages.innerHTML = '';
+            }
+        }
+    },'DELETE');
+}
+
 function closeModal(sClass) {
     document.querySelector(sClass).style.display = 'none';
 }

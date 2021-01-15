@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     responsMessages.innerHTML = response.message;
                     //window.location = '/login';
                 }
-            });
+            }, 'POST');
         }
 
 	});

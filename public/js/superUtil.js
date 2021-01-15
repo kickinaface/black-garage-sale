@@ -63,13 +63,40 @@ function SuperUtil(){
 	}
 
 	// Send JSON to server
-	this.sendJSON = function sendJSON(postData, address, callback){
+	this.sendJSON = function sendJSON(postData, address, callback, postType){
 		var xhr = new XMLHttpRequest();
 		var url = address;
-		xhr.open("POST", url, true);
+		xhr.open(postType, url, true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		xhr.onreadystatechange = function () { 
 			var json = JSON.parse(xhr.responseText);
+		    if (xhr.readyState == 4 && xhr.status == 200) {
+				console.log(xhr.response);
+				callback(xhr.status,json);
+		    } else {
+				callback(xhr.status, json);
+			}
+		}
+		var data = JSON.stringify(postData);
+		xhr.send(data);
+		// if(postType == 'DELETE') {
+		// 	xhr.send(null);
+		// } else {
+		// 	xhr.send(data);
+		// }
+		
+	};
+
+	this.authPostRequest = function authPostRequest(postData, address, callback, postType) {
+		var xhr = new XMLHttpRequest();
+		var url = address;
+		xhr.open(postType, url, true);
+		xhr.setRequestHeader('Authorization', 'Bearer '+(token));
+		xhr.reponseType = 'json';
+		//xhr.setRequestHeader("Content-type", "application/json");
+		xhr.onreadystatechange = function () { 
+			var json = JSON.parse(xhr.responseText);
+			console.log(json);
 		    if (xhr.readyState == 4 && xhr.status == 200) {
 		        
 				console.log(xhr.response);
@@ -79,7 +106,12 @@ function SuperUtil(){
 			}
 		}
 		var data = JSON.stringify(postData);
-		xhr.send(data)
+
+		if(postType == 'DELETE') {
+			xhr.send(null);
+		} else {
+			xhr.send(data);
+		}
 	};
 
 	function privateMethod() {

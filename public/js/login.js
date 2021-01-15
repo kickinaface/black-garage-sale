@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function(){
 				responsMessages.innerHTML = 'Success!! You are logged in. (Redirecting you to your profile)';
 				window.location = '/profile';
 			}
-		});
+		}, 'POST');
 	});
 
 	// Check Token, Go to the profile if there is a valid token. There is no need to login if there is a valid token.
