@@ -86,8 +86,6 @@ function UserRoutes() {
                             } else {
                                 res.status(404).send({message: 'There is no user by that ID'});
                             }
-                            
-                            
                         });
                     }
                 });

@@ -81,19 +81,29 @@ function AdminRoutes() {
             .delete(tokenMethods.authenticateToken, function (req, res) {
                 var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
                 // check if valid admin token
-                Admin.findOne({token: verifiedToken}, function (err, validAdmin ){
+                Admin.findOne({token: verifiedToken}, function (err, validAdmin){
                     if(err) {
                         res.send(err)
                     } else {
-                        Admin.remove({
-                            _id: req.params.admin_id
-                        }, function (err, data) {
-                            //console.log(data);
-                            if (err) {
-                                res.send(err);
-                            }
-                            res.json({ message:'Successfully deleted' });
-                        });
+                        if(validAdmin == null){
+                            res.status(404).send({message: 'Only admins can remove users'});
+                        } else {
+                            Admin.remove({
+                                _id: req.params.admin_id
+                            }, function (err, data) {
+                                console.log(data);
+                                if (err || data == undefined) {
+                                    res.send(err);
+                                } else if(data.n == 1) {
+                                    res.json({ message:'Successfully deleted' });
+                                } else if(data.n == 0) {
+                                    res.status(404).send({message: 'There is no user by that ID'});
+                                } else {
+                                    res.status(404).send({message: 'There is no user by that ID'});
+                                }
+                            });
+                        }
+                        
                     }
                 });
                 
