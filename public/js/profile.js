@@ -78,8 +78,8 @@ function removeBasicUser() {
     var responseMessages = document.querySelector('.responseMessages p');
 
     superUtil.authPostRequest(null, ('api/users/'+removeBasicUserText), function(status, res) {
-        console.log(status, res.message);
-        console.log(res);
+        // console.log(status, res.message);
+        // console.log(res);
         
         if(status != 200){
             errorMessages.innerHTML = 'There is no user by that ID';
@@ -104,8 +104,8 @@ function removeAdminUser(){
     var responseMessages = document.querySelector('.removeAdmin .responseMessages p');
 
     superUtil.authPostRequest(null, ('api/admin/'+removeAdminUserText), function(status, res) {
-        console.log(status, res.message);
-        console.log(res);
+        // console.log(status, res.message);
+        // console.log(res);
         if(status != 200){
             errorMessages.innerHTML = 'There is no user by that ID';
             responseMessages.innerHTML = '';
@@ -121,6 +121,29 @@ function removeAdminUser(){
             }
         }
     },'DELETE');
+}
+
+function getAdmins(){
+    var getAdminsText = document.querySelector('.getAdminUsers').value;
+    var errorMessages = document.querySelector('.getAdmins .errorMessages p');
+    var responseMessages = document.querySelector('.getAdmins .responseMessages p');
+
+    superUtil.getAuthenticatedRequest(token, ('api/admin?username='+getAdminsText), function(status, data){
+        // console.log('status: ', status);
+        // console.log('data: ', data);
+        if(status != 200){
+            errorMessages.innerHTML = data.message;
+            responseMessages.innerHTML = '';
+        } else {
+            errorMessages.innerHTML = '';
+            responseMessages.innerHTML = '';
+            for(var a = 0; a<= data.length-1; a++){
+                //responseMessages.innerHTML = data;
+                responseMessages.innerHTML += "<div><p><b>Email: </b>"+data[a].username+"</p><p><b>Role: </b>"+data[a].role+"</p></div><br/>"
+            }
+            
+        }
+    });
 }
 
 function closeModal(sClass) {

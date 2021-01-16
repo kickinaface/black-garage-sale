@@ -2,7 +2,7 @@ function AdminRoutes() {
     this.init = function init(Admin, User, router, tokenMethods) {
         const bcrypt = require('bcrypt');
         router.route('/admin')
-            .post(function (req, res) {
+            .post(tokenMethods.authenticateToken, function (req, res) {
                 var admin = new Admin();
                 var username = req.body.username;
                 var password = req.body.password;

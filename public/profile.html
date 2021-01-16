@@ -144,18 +144,26 @@
     <div class="modalWrapper getAdmins">
 		<div class="modal">
 			<p>
-				<h2>Get Admin User</h2>
+				<h2>Get Admin Users</h2>
 			</p>
 			<br>
 			<form>
 				<p>
-					<label for="getAdminUser">Enter user email</label>
-					<input type="text" class="getAdminUser" placeholder="user email">
+					<label for="getAdminUser">Enter your email</label>
+					<input type="text" class="getAdminUsers" placeholder="user email">
 				</p>
 				
-				<button type="button">Get User Details</button>
+				<button type="button" onclick="getAdmins();">Get Admins</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
 			</form>
-			<button onclick="closeModal('.getAdmins');">Cancel</button>
+			<button onclick="closeModal('.getAdmins');">Close</button>
 		</div>
     </div>
     <div class="modalWrapper createAdmin">
@@ -174,8 +182,16 @@
 					<input type="password" class="adminPassword" placeholder="new password">
 				</p>
 				<button type="button">Create Admin</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
 			</form>
-			<button onclick="closeModal('.createAdmin');">Cancel</button>
+			<button onclick="closeModal('.createAdmin');">Close</button>
 		</div>
     </div>
     <!-- end modal content-->
@@ -202,7 +218,7 @@
                 <button type="button" title="remove user" onclick="openModal('removeUser');">Remove Basic User</button>
                 <button type="button" title="remove admin user" onclick="openModal('removeAdmin');">Remove Admin User</button>
                 <button type="button" title="remove user" onclick="openModal('getAdmins');">Get Admins</button>
-                <button type="button" title="create admin" onclick="openModal('createAdmin');">Create Admin</button>
+                <button type="button" title="create admin" onclick="openModal('createAdmin');">Create Admins</button>
             </div>
 		</div>
 	</div>
