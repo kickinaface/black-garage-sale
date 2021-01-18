@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SuperUtil -PROFILE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/profile.css">
+	<script type="text/javascript" src="js/superUtil.js"> </script>
+    <script type="text/javascript" src="js/profile.js"> </script>
+</head>
+<body>
+    <!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
+	<div class="modalWrapper changeAvatarModal">
+		<div class="modal">
+			<p>
+				<h2>Change Avatar</h2>
+			</p>
+			<form action="/api/uploadAvatar" method="post" enctype="multipart/form-data" class="updateAvatarForm">
+				<label for="avatarUpload"> Choose a photo:</label>
+				<input type="file" id="avatarUpload" accept="image/png, image/jpeg" name="avatarImage"/>
+				<input type="hidden" id="avatarUploadUserToken" name="avatarUploadUserToken">
+				<button type="submit">Upload image</button>
+			</form>
+			
+			<button onclick="closeModal('.changeAvatarModal');">Cancel</button>
+		</div>
+	</div>
+    <!-- end modal-->
+    <!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
+	<div class="modalWrapper changeName">
+		<div class="modal">
+			<p>
+				<h2>Change Name</h2>
+			</p>
+			<br>
+			<form>
+				<p>
+					<label for="changeFirstName">First name</label>
+					<input type="text" class="changeFirstName" placeholder="First Name">
+				</p>
+				<p>
+					<label for="changeLastName">Last name</label>
+					<input type="text" class="changeLastName" placeholder="Last Name">
+				</p>
+				<button type="button">Save</button>
+			</form>
+			<button onclick="closeModal('.changeName');">Cancel</button>
+		</div>
+	</div>
+    <!-- end modal-->
+    <!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
+	<div class="modalWrapper changePassword">
+		<div class="modal">
+			<p>
+				<h2>Change Password</h2>
+			</p>
+			<br>
+			<form>
+				<p>
+					<label for="updatePassword1">Enter new password</label>
+					<input type="password" class="updatePassword1" placeholder="password">
+				</p>
+				<p>
+					<label for="updatePassword2">Enter password again</label>
+					<input type="password" class="updatePassword2" placeholder="password">
+				</p>
+				<p>
+					<label for="enterCurrentPassword">Enter old Password</label>
+					<input type="text" class="enterCurrentPassword" placeholder="password">
+				</p>
+				<p>
+					<i>* Please be sure you wish to change your password. 
+						<br>
+						* This cannot be undone. </i>
+				</p>
+				<button type="button">Change password</button>
+			</form>
+			<button onclick="closeModal('.changePassword');">Cancel</button>
+		</div>
+	</div>
+    <!-- end modal-->
+
+	<div class="navigation">
+		<div class="navLogo"><i>Black</i> Garage Sale</div>
+		<ul class="navLinks"></ul>
+	</div>
+	<div class="mainContent">
+		<h2>Welcome </br>First Name Last Name</h2>
+
+		<div class="profileWrapper">
+            <br>
+            <img src="img/default-profile-icon-16.png" width="200px" alt="Profile Picture" class="userImageAvatar">
+            <br>
+            <button type="button" title="change avatar" onclick="openModal('avatar');">Update Avatar Photo</button>
+            <button type="button" title="change name" onclick="openModal('changeName');">Change Name</button>
+            <button type="button" title="change password" onclick="openModal('changePassword');">Change Password</button>
+            <button type="button" title="garage" onclick="openModal('garage');">Garage</button>
+            <button type="button" title="messages" onclick="openModal('messages');">Messages</button>
+            <button type="button" title="search" onclick="openModal('search');">Search</button>
+            
+		</div>
+	</div>
+</body>
+
+</html>

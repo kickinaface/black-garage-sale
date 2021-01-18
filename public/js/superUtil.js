@@ -53,16 +53,17 @@ function SuperUtil(){
 		xhr.reponseType = 'json';
 		xhr.onload = function () {
 			var status = xhr.status;
-			console.log(xhr.response)
+			//console.log(xhr.response)
 			// if(status === 200){
 			// 	callback(status, JSON.parse(xhr.response));
 			// }else {
 			// 	callback(status, xhr.response);
 			// }
 			if(status === 200){
-				callback(status, JSON.parse(xhr.response));
+				console.log(xhr.response);
+				callback(status, JSON.parse(xhr.responseText));
 			}else {
-				callback(status, JSON.parse(xhr.response));
+				callback(status, JSON.parse(xhr.responseText));
 			}
 		}
 		xhr.send();

@@ -16,7 +16,8 @@ function TokenMethods() {
     
         jwt.verify(token, process.env.TOKEN_SECRET, function (err, user) {
             if (err){
-                return res.sendStatus(403)
+                return res.status(403).send({message: false});
+                //return res.redirect('/login');
             } else {
                 // Check for valid token and ip address
                 searchTokenWithAgent(token, clientUserAgent, function(data) {
@@ -26,12 +27,26 @@ function TokenMethods() {
                         next(); // pass the execution off to whatever request the client intended
                     }else {
                         //console.log('false:', data);
-                        return res.sendStatus(403);
+                        return res.status(403).send({message: false});
+                        //return res.redirect('/login');
                     }
                 }); 
             }
         });
     };
+
+    this.verifyToken = function verifyToken(token){
+        return jwt.verify(token, process.env.TOKEN_SECRET, function (err, user) {
+            //console.log('user: ', user);
+            if (err){
+                //console.log('jwt false')
+                return false;
+            } else {
+                //console.log('jwt true')
+                return true; 
+            }
+        });
+    }
 
     function searchTokenWithAgent (token, userAgent, callback){
         //console.log('useragent: ', userAgent);

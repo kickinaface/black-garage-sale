@@ -1,5 +1,5 @@
 function UploadRoutes(){
-    this.init = function init(Admin, User, router, fs) {
+    this.init = function init(Admin, User, router, fs, tokenMethods) {
         //file upload routes turn into controllers later
         router.route("/uploadAvatar")
             .post(function(req, res) {

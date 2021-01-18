@@ -48,7 +48,8 @@ router.use(function (req, res, next) {
 	//do logging
 	//console.log('Something is happening');
 	//console.log('A person has origin from: ', req);
-	console.log('Request was made: User-Agent: ', req.headers['user-agent']);
+	//console.log('Request was made: User-Agent: ', req.headers['user-agent']);
+	//console.log('Request was made: token: ', req.headers['token']);
 	//console.log(require('crypto').randomBytes(64).toString('hex'));
 	//console.log('reasdfasdf params: ', req.query.username)
 	next();//make sure we go to the next routes and dont stop here
@@ -81,8 +82,18 @@ loginRouteController.init(Admin, User, router, tokenMethods);
 uploadRouteController.init(Admin, User, router, fs);
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
-	console.log('requesting authenticated token response.');
-	res.json({authenticated: true});
+	var clientIp = req.connection.remoteAddress;
+	var userAgent = req.headers['user-agent'];
+	//console.log('requesting authenticated token response.', req.headers['user-agent']);
+	//
+	searchIp(clientIp, userAgent, function(data) {
+		//console.log(clientIp, data);
+		if(data == true) {
+			res.json({authenticated: true});
+		} else {
+			res.redirect('/logout');
+		}
+	});
 });
 
 //REGISTER OUR ROUTES ---------------------------------
@@ -110,13 +121,19 @@ app.get('/login', function (req, res){
 app.get('/profile', function (req, res) {
 	//console.log('token: ', req.body);
 	var clientIp = req.connection.remoteAddress;
-	//var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, function(data) {
-		//console.log(clientIp, data);
-		if(data == true) {
-			res.sendFile(path.join(__dirname+'/public/profile.html'));
+	//console.log(clientIp);	
+	var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, userAgent, function(data, user) {		
+		if(data == true && clientIp == user.clientIpAddress && user.userAgent == userAgent) {
+			if(user.role == 'admin'){
+				res.sendFile(path.join(__dirname+'/app/pages/adminProfile.html'));
+			}else if(user.role == 'basic'){
+				res.sendFile(path.join(__dirname+'/app/pages/basicProfile.html'));
+			}
+			
 		} else {
-			res.sendStatus(403);
+			//res.sendStatus(404);
+			res.redirect('/logout');
 		}
 	});
 });
@@ -124,47 +141,47 @@ app.get('/profile', function (req, res) {
 app.get('/garage', function (req, res) {
 	//console.log('token: ', req.body);
 	var clientIp = req.connection.remoteAddress;
-	//var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, function(data) {
+	var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, userAgent, function(data) {
 		//console.log(clientIp, data);
 		if(data == true) {
 			res.sendFile(path.join(__dirname+'/public/garage.html'));
 		} else {
-			res.sendStatus(403);
+			res.redirect('/logout');
 		}
 	});
 });
 
 app.get('/search', function (req, res) {
 	var clientIp = req.connection.remoteAddress;
-	//var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, function(data) {
+	var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, userAgent, function(data) {
 		//console.log(clientIp, data);
 		if(data == true) {
 			res.sendFile(path.join(__dirname+'/public/search.html'));
 		} else {
-			res.sendStatus(403);
+			res.redirect('/logout');
 		}
 	});
 });
 
 app.get('/messages', function (req, res) {
 	var clientIp = req.connection.remoteAddress;
-	//var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, function(data) {
+	var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, userAgent, function(data) {
 		//console.log(clientIp, data);
 		if(data == true) {
 			res.sendFile(path.join(__dirname+'/public/messages.html'));
 		} else {
-			res.sendStatus(403);
+			res.redirect('/logout');
 		}
 	});
 });
 
-app.get('/logout', function (req, res) {
+app.get('/logout', function (req, res) { 
 	var clientIp = req.connection.remoteAddress;
-	//var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, function(data, u) {
+	var userAgent = req.headers['user-agent'];
+	searchIp(clientIp, userAgent, function(data, u) {
 		//console.log(clientIp, data, u);
 		if(data == true) {
 			u.token = null;
@@ -172,9 +189,11 @@ app.get('/logout', function (req, res) {
 			u.clientIpAddress = null;
 			u.save();
 			//console.log('u: ', u);
-			res.sendFile(path.join(__dirname+'/public/login.html'));
+			//res.sendFile(path.join(__dirname+'/public/login.html'));
+			res.redirect('/login');
 		} else {
-			res.sendStatus(403);
+			res.redirect('/login');
+			//res.sendStatus(403);
 		}
 	});
 	//res.sendFile(path.join(__dirname+'/public/logout.html'));
@@ -184,17 +203,15 @@ app.get('/register', function (req, res) {
 	res.sendFile(path.join(__dirname+'/public/register.html'));
 });
 
-function searchIp(ip, callback){
-	Admin.findOne({clientIpAddress: ip}, function (err, admin){
+function searchIp(ip, userAgent, callback){
+	Admin.findOne({clientIpAddress: ip, userAgent: userAgent}, function (err, admin){
 		if(admin) {
-			callback(true, admin);
-			//res.sendFile(path.join(__dirname+'/public/profile.html'));
+			callback(tokenMethods.verifyToken(admin.token), admin);
 		} else {
 			//callback(false);
-			User.findOne({clientIpAddress: ip}, function (err, user) {
+			User.findOne({clientIpAddress: ip, userAgent:userAgent}, function (err, user) {
 				if(user) {
-					callback(true, user);
-					//res.sendFile(path.join(__dirname+'/public/profile.html'));
+					callback(tokenMethods.verifyToken(user.token), user);
 				} else {
 					callback(false);
 					//res.sendStatus(403);

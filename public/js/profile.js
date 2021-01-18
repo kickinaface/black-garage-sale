@@ -1,6 +1,7 @@
 var superUtil = new SuperUtil();
 var token = localStorage.getItem('token');
 var userId = localStorage.getItem('userId');
+
 document.addEventListener("DOMContentLoaded", function(){
     // begin
     superUtil.init(document);
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
     loadAvatarPhoto();
+    appTimer();
 });
 
 // change modal logic to be inside of superUtil later
@@ -78,11 +80,9 @@ function removeBasicUser() {
     var responseMessages = document.querySelector('.responseMessages p');
 
     superUtil.authPostRequest(null, ('api/users/'+removeBasicUserText), function(status, res) {
-        // console.log(status, res.message);
-        // console.log(res);
-        
         if(status != 200){
-            errorMessages.innerHTML = 'There is no user by that ID';
+            //console.log('message: ', res.message);
+            errorMessages.innerHTML = res.message;
             responseMessages.innerHTML = '';
         } else if(status == 200) {
             
@@ -107,7 +107,7 @@ function removeAdminUser(){
         // console.log(status, res.message);
         // console.log(res);
         if(status != 200){
-            errorMessages.innerHTML = 'There is no user by that ID';
+            errorMessages.innerHTML = res.message;
             responseMessages.innerHTML = '';
         } else if(status == 200) {
             
@@ -139,7 +139,7 @@ function getAdmins(){
             responseMessages.innerHTML = '';
             for(var a = 0; a<= data.length-1; a++){
                 //responseMessages.innerHTML = data;
-                responseMessages.innerHTML += "<div><p><b>Email: </b>"+data[a].username+"</p><p><b>Role: </b>"+data[a].role+"</p></div><br/>"
+                responseMessages.innerHTML += "<div><p><b>Email: </b>"+data[a].username+"</p><p><b>Role: </b>"+data[a].role+"</p></div><br/>";
             }
             
         }
@@ -151,15 +151,14 @@ function closeModal(sClass) {
 }
 function appTimer() {
     setInterval(function(){
-        
         superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
             if(status == 200 && data.authenticated == true){
                 // User is logged in and authenticated
                 console.log('valid token');
             } else {
-                //console.log('go to profile');
+                //logout
+                localStorage.removeItem('token');
                 window.location = '/logout';
-                //localStorage.removeItem('token');
             }
 
         });
@@ -167,7 +166,6 @@ function appTimer() {
 
     //console.log('later clear interval: ', appTimer);
 };
-appTimer();
 
 function loadAvatarPhoto(){
     var avatarUploadUserToken = document.querySelector('#avatarUploadUserToken');
