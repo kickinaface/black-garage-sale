@@ -7,41 +7,54 @@ function AdminRoutes() {
                 var username = req.body.username;
                 var password = req.body.password;
                 var alreadyExistMessage = 'This user already exists, please sign in.';
+                var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
 
                 if (username === undefined || password === undefined || username === '' || password === '') {
                     res.json({ message: 'ERROR: You must define a username and password'});
                 }else if(ValidateEmail(username) == false){
                     res.json({ message: 'ERROR: You must enter a valid email address'});
                 } else {
-                    User.findOne({username:username}, function (err, user) {
-                        if(user == null) {
-                            //no user found, create admin
-                            // Look for a user by the posted username, if it doesn't exist, add new user
-                            // Otherwise, do not allow user to add the same username.
-                            Admin.findOne({username:username}, function(err, administrator) {
-                                //console.log(administrator);
-                                if (administrator == null) {
-                                    // Add user
-                                    admin.username = username;
-                                    admin.password = bcrypt.hashSync(password, 10);
-                                    admin.role = 'admin';
-                                    //
-                                    admin.save(function (err) {
-                                        if (err){
-                                            res.send(err);
-                                        } else {
-                                            console.log('Created new administrator');
-                                            res.json({ message: 'Admin Created!' });
+                    // Find out which administrator is creating a new admin
+                    Admin.findOne({token:verifiedToken}, function (err, adminRequesting){
+                        //console.log('err: ', err);
+                        //console.log('adminRequesting: ', adminRequesting);
+                        if (err) {
+                            res.send(err);
+                        } else if (adminRequesting != null){
+                            //res.json(adminRequesting);
+                            User.findOne({username:username}, function (err, user) {
+                                if(user == null) {
+                                    //no user found, create admin
+                                    // Look for a user by the posted username, if it doesn't exist, add new user
+                                    // Otherwise, do not allow user to add the same username.
+                                    Admin.findOne({username:username}, function(err, administrator) {
+                                        //console.log(administrator);
+                                        if (administrator == null) {
+                                            // Add user
+                                            admin.username = username;
+                                            admin.password = bcrypt.hashSync(password, 10);
+                                            admin.role = 'admin';
+                                            //
+                                            admin.save(function (err) {
+                                                if (err){
+                                                    res.send(err);
+                                                } else {
+                                                    console.log('Created new administrator');
+                                                    res.json({ message: 'Admin Created!' });
+                                                }
+                                            });
+                                        } else if(administrator.username == username) {
+                                            //console.log('found user already: ', administrator);
+                                            res.status(404).send({message: alreadyExistMessage});
                                         }
                                     });
-                                } else if(administrator.username == username) {
-                                    //console.log('found user already: ', administrator);
-                                    res.status(404).send({message: alreadyExistMessage});
+                                } else {
+                                    // user found do not create another one.
+                                    res.status(403).send({message: alreadyExistMessage});
                                 }
                             });
-                        } else {
-                            // user found do not create another one.
-                            res.status(403).send({message: alreadyExistMessage});
+                        } else if(adminRequesting == null){
+                            res.status(404).send({message: 'Only administrators can view'});
                         }
                     });
                    
