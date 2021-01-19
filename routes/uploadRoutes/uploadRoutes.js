@@ -45,29 +45,34 @@ function UploadRoutes(){
                             });
                         }
                     } else {
-                        res.sendStatus(403);
+                        res.redirect('/login');
                     }
                 });
             });
      
             function searchToken(inputToken, callback){
-                Admin.findOne({token: inputToken}, function (err, admin){
-                    if(admin) {
-                        callback(true, admin);
-                        //res.sendFile(path.join(__dirname+'/public/profile.html'));
-                    } else {
-                        //callback(false);
-                        User.findOne({token: inputToken}, function (err, user) {
-                            if(user) {
-                                callback(true, user);
-                                //res.sendFile(path.join(__dirname+'/public/profile.html'));
-                            } else {
-                                callback(false);
-                                //res.sendStatus(403);
-                            }
-                        });
-                    }
-                });
+                if(tokenMethods.verifyToken(inputToken)){
+                    Admin.findOne({token: inputToken}, function (err, admin){
+                        if(admin) {
+                            callback(true, admin);
+                            //res.sendFile(path.join(__dirname+'/public/profile.html'));
+                        } else {
+                            //callback(false);
+                            User.findOne({token: inputToken}, function (err, user) {
+                                if(user) {
+                                    callback(true, user);
+                                    //res.sendFile(path.join(__dirname+'/public/profile.html'));
+                                } else {
+                                    callback(false);
+                                    //res.sendStatus(403);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    callback(false);
+                }
+                
             };
     };
 };

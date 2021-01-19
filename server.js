@@ -79,7 +79,7 @@ messageRoutes.init(msgModel, router);
 // Set Login Route Controller
 loginRouteController.init(Admin, User, router, tokenMethods);
 //file upload routes
-uploadRouteController.init(Admin, User, router, fs);
+uploadRouteController.init(Admin, User, router, fs, tokenMethods);
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
 	var clientIp = req.connection.remoteAddress;
