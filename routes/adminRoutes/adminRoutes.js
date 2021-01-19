@@ -4,15 +4,19 @@ function AdminRoutes() {
         router.route('/admin')
             .post(tokenMethods.authenticateToken, function (req, res) {
                 var admin = new Admin();
+               // console.log('req.body, ',req.body)
                 var username = req.body.username;
                 var password = req.body.password;
                 var alreadyExistMessage = 'This user already exists, please sign in.';
                 var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
 
+                console.log('username: ', username);
+                console.log('password: ', password);
+
                 if (username === undefined || password === undefined || username === '' || password === '') {
-                    res.json({ message: 'ERROR: You must define a username and password'});
+                    res.status(403).json({ message: 'ERROR: You must define a username and password'});
                 }else if(ValidateEmail(username) == false){
-                    res.json({ message: 'ERROR: You must enter a valid email address'});
+                    res.status(403).json({ message: 'ERROR: You must enter a valid email address'});
                 } else {
                     // Find out which administrator is creating a new admin
                     Admin.findOne({token:verifiedToken}, function (err, adminRequesting){

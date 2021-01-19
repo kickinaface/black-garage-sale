@@ -146,6 +146,37 @@ function getAdmins(){
     });
 }
 
+function createNewAdminUser() {
+    var adminEmail = superUtil.grabElement('adminEmail');
+    var adminPassword = superUtil.grabElement('adminPassword');
+    var errorMessages = document.querySelector('.createAdmin .errorMessages p');
+    var responseMessages = document.querySelector('.createAdmin .responseMessages p');
+
+    if(adminEmail == '' || adminPassword == ''){
+        errorMessages.innerHTML = 'You must fill in all fields';
+        responseMessages.innerHTML = '';
+    } else {
+        var postData = {
+			username: adminEmail.value,
+			password: adminPassword.value
+        };
+        //Create a new admin POST request
+        superUtil.authPostRequest(postData, 'api/admin', function (status, response){
+            console.log(status, response.message);
+            //message = response;
+            //console.log(responsMessages);
+            
+            if(status != 200){
+                errorMessages.innerHTML = response.message;
+                responseMessages.innerHTML = '';
+            } else if(status == 200) {
+                responseMessages.innerHTML = response.message;
+                errorMessages.innerHTML = '';
+            }
+        }, 'POST');
+    }
+}
+
 function closeModal(sClass) {
     document.querySelector(sClass).style.display = 'none';
 }

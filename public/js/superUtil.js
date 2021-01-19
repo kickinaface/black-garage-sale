@@ -100,23 +100,25 @@ function SuperUtil(){
 		xhr.open(postType, url, true);
 		xhr.setRequestHeader('Authorization', 'Bearer '+(token));
 		xhr.reponseType = 'json';
-		//xhr.setRequestHeader("Content-type", "application/json");
+		
 		xhr.onreadystatechange = function () { 
 			var json = JSON.parse(xhr.responseText);
 			console.log(json);
 		    if (xhr.readyState == 4 && xhr.status == 200) {
-		        
 				console.log(xhr.response);
 				callback(xhr.status,json);
 		    } else {
 				callback(xhr.status, json);
 			}
 		}
-		var data = JSON.stringify(postData);
-
+		
+		//console.log(postType);
 		if(postType == 'DELETE') {
 			xhr.send(null);
-		} else {
+		} else if(postType == 'POST'){
+			//Format data and header for posting proper JSON
+			var data = JSON.stringify(postData);
+			xhr.setRequestHeader("Content-type", "application/json");
 			xhr.send(data);
 		}
 	};
