@@ -43,9 +43,9 @@
 					<label for="changeLastName">Last name</label>
 					<input type="text" class="changeLastName" placeholder="Last Name">
 				</p>
-				<button type="button">Save</button>
+				<button type="button" onclick="updateName();">Save</button>
 			</form>
-			<button onclick="closeModal('.changeName');">Cancel</button>
+			<button onclick="closeModal('.changeName');">Close</button>
 		</div>
 	</div>
     <!-- end modal-->
@@ -86,7 +86,9 @@
 		<ul class="navLinks"></ul>
 	</div>
 	<div class="mainContent">
-		<h2>Welcome </br>First Name Last Name</h2>
+		<h2>Welcome
+		<br>
+		<h2 class="displayname">First Name Last name</h2>
 
 		<div class="profileWrapper">
             <br>

@@ -45,6 +45,59 @@ function UserRoutes() {
                     });
                 }
             })
+
+        router.route('/updateName/:user_id',)
+            .post(tokenMethods.authenticateToken, function (req, res){
+                var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+                var changedFirstName = req.body.firstName;
+                var changedLastName = req.body.lastName;
+                var userID = req.params.user_id;
+                //What user wishes to change their name
+                Admin.findOne({_id: userID, token: verifiedToken}, function (err, admin) {
+                    if (err) { res.send(err) }
+
+                    if (admin == null){
+                        //console.log('no admin user, search for regular user')
+                        User.findOne({_id:userID, token: verifiedToken}, function (err, user) {
+                            // console.log(err);
+                            // console.log(user);
+                            if(err) {res.send(err)};
+                            if(user == null){
+                                res.sendStatus(403);
+                            } else {
+                                //User found change first or last names
+                                if(!changedFirstName){
+                                    console.log('firstName blank');
+                                } else {
+                                    user.firstName = changedFirstName;
+                                }
+                                if(!changedLastName){
+                                    console.log('lastName blank');
+                                } else {
+                                    user.lastName = changedLastName;
+                                }
+                                user.save();
+                                res.json({message:'Successfully Updated'});
+                            }
+                            
+                        });
+                    } else {
+                        // Admin found change first or last name
+                        if(!changedFirstName){
+                            console.log('firstName blank');
+                        } else {
+                            admin.firstName = changedFirstName;
+                        }
+                        if(!changedLastName){
+                            console.log('lastName blank');
+                        } else {
+                            admin.lastName = changedLastName;
+                        }
+                        admin.save();
+                        res.json({message: 'Successfully Updated'});
+                    }
+                });
+            });
         
         router.route('/users')
             .get(tokenMethods.authenticateToken, function (req, res) {
@@ -61,6 +114,32 @@ function UserRoutes() {
                         preparedUsers.push(userObject);
                     }
                     res.json(preparedUsers);
+                });
+            });
+
+        router.route('/displayName/:user_id')
+            .get(tokenMethods.authenticateToken, function (req, res) {
+                var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+                var userID = req.params.user_id;
+                // console.log('userId: ', req.params.user_id);
+                // console.log('verifiedToken: ', verifiedToken);
+                Admin.findOne({_id:userID, token: verifiedToken}, function (err, admin){
+                    if (err) {res.send(err) };
+                    // console.log(admin);
+                    if(admin == null) {
+                        //res.status(403).send({message: ''})
+                        // No admin, look for basic user
+                        User.findOne({_id:userID, token:verifiedToken}, function(err, user) {
+                            if(err){res.send(err)};
+                            if(user == null) {
+                                res.sendStatus(403);
+                            } else {
+                                res.json({firstName:user.firstName, lastName: user.lastName});
+                            }
+                        });
+                    } else {
+                        res.json({firstName:admin.firstName, lastName: admin.lastName});
+                    }
                 });
             });
 

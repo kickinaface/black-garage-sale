@@ -48,7 +48,7 @@ function LoginRouteController() {
                             admin.save();
                             res.json({ 
                                 token: token,
-                                userId:admin._id
+                                userId:admin._id,
                             });
                         } else {
                             // Passwords don't match

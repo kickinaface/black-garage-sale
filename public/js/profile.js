@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     loadAvatarPhoto();
     appTimer();
+    getFirstLastName();
 });
 
 // change modal logic to be inside of superUtil later
@@ -98,6 +99,8 @@ function removeBasicUser() {
     },'DELETE');
 }
 
+
+// Admin Modal Methods
 function removeAdminUser(){
     var removeAdminUserText = document.querySelector('.removeAdminUser').value;
     var errorMessages = document.querySelector('.removeAdmin .errorMessages p');
@@ -198,6 +201,14 @@ function appTimer() {
     //console.log('later clear interval: ', appTimer);
 };
 
+//Basic user modal methods
+function updateName(){
+    var adminEmail = superUtil.grabElement('adminEmail');
+    var adminPassword = superUtil.grabElement('adminPassword');
+    var errorMessages = document.querySelector('.createAdmin .errorMessages p');
+    var responseMessages = document.querySelector('.createAdmin .responseMessages p');
+};
+
 function loadAvatarPhoto(){
     var avatarUploadUserToken = document.querySelector('#avatarUploadUserToken');
     avatarUploadUserToken.value = token;
@@ -216,6 +227,17 @@ function loadAvatarPhoto(){
         });
     }
 };
+
+function getFirstLastName() {
+    var displaynameText = document.querySelector('.displayname');
+    superUtil.getAuthenticatedRequest(token,'api/displayName/'+(userId), function (status, data){
+        if(status == 200) {
+            displaynameText.innerHTML = (data.firstName + ' ' + data.lastName);
+        } else {
+            console.log(status, data);
+        }
+    });
+}
 
 function urlExists(url, callback) {
     var xhr = new XMLHttpRequest();
