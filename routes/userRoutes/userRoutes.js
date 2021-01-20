@@ -152,6 +152,54 @@ function UserRoutes() {
                 });
             });
 
+        router.route('/changePassword/:user_id')
+            .post(tokenMethods.authenticateToken, function(req, res) {
+                var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+                var userID = req.params.user_id;
+                var newPassword = req.body.newPassword;
+                var oldPassword = req.body.oldPassword;
+
+                if(newPassword == '' || oldPassword == '') {
+                    res.status(403).send({message: 'You must fill out all fields'});
+                } else {
+                    Admin.findOne({_id:userID, token: verifiedToken}, function (err, admin){
+                        if(err){res.sendStatus(403)};
+                        if(admin != null){
+                            //console.log(admin);
+                            if(bcrypt.compareSync(oldPassword, admin.password)) {
+                                // Passwords match send user the token
+                                admin.password = bcrypt.hashSync(newPassword, 10);
+                                admin.save();
+                                //console.log('user: ', user);
+                                res.redirect('/logout');
+                            } else {
+                                // Passwords don't match
+                                res.status(404).send({message: 'You must enter the correct old password'});
+                            }
+                        } else {
+                            User.findOne({_id:userID, token: verifiedToken}, function (err, user) {
+                                if(err) {res.sendStatus(403)};
+                                if(user != null) {
+                                    //console.log(user);
+                                    if(bcrypt.compareSync(oldPassword, user.password)) {
+                                        // Passwords match send user the token
+                                        user.password = bcrypt.hashSync(newPassword, 10);
+                                        user.save();
+                                        //console.log('user: ', user);
+                                        res.redirect('/logout');
+                                    } else {
+                                        // Passwords don't match
+                                        res.status(404).send({message: 'You must enter the correct old password'});
+                                    }
+                                } else {
+                                    res.sendStatus(403);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
         router.route('/users/:user_id')
             .delete(tokenMethods.authenticateToken, function (req, res) {
                 var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
