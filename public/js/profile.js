@@ -203,10 +203,31 @@ function appTimer() {
 
 //Basic user modal methods
 function updateName(){
-    var adminEmail = superUtil.grabElement('adminEmail');
-    var adminPassword = superUtil.grabElement('adminPassword');
-    var errorMessages = document.querySelector('.createAdmin .errorMessages p');
-    var responseMessages = document.querySelector('.createAdmin .responseMessages p');
+    var changeFirstName = superUtil.grabElement('changeFirstName');
+    var changeLastName = superUtil.grabElement('changeLastName');
+    var errorMessages = document.querySelector('.changeName .errorMessages p');
+    var responseMessages = document.querySelector('.changeName .responseMessages p');
+    var postData = {
+        firstName: changeFirstName.value,
+        lastName: changeLastName.value
+    };
+    console.log('postData: ', postData);
+    superUtil.authPostRequest(postData, 'api/updateName/'+(userId), function (status, response){
+        console.log(status, response.message);
+        //message = response;
+        //console.log(responsMessages);
+        
+        if(status != 200){
+            errorMessages.innerHTML = response.message;
+            responseMessages.innerHTML = '';
+            
+        } else if(status == 200) {
+            responseMessages.innerHTML = response.message;
+            errorMessages.innerHTML = '';
+            getFirstLastName();
+            //closeModal();
+        }
+    }, 'POST');
 };
 
 function loadAvatarPhoto(){

@@ -76,8 +76,13 @@ function UserRoutes() {
                                 } else {
                                     user.lastName = changedLastName;
                                 }
-                                user.save();
-                                res.json({message:'Successfully Updated'});
+                                if(!changedFirstName && !changedLastName){
+                                    res.status(403).json({message:'fields must not be empty'});
+                                } else {
+                                    user.save();
+                                    res.json({message:'Successfully Updated'});
+                                }
+                                
                             }
                             
                         });
@@ -93,8 +98,12 @@ function UserRoutes() {
                         } else {
                             admin.lastName = changedLastName;
                         }
-                        admin.save();
-                        res.json({message: 'Successfully Updated'});
+                        if(!changedFirstName && !changedLastName){
+                            res.status(403).json({message:'fields must not be empty'});
+                        } else {
+                            admin.save();
+                            res.json({message:'Successfully Updated'});
+                        }
                     }
                 });
             });
