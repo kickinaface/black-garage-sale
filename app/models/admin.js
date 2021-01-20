@@ -9,7 +9,8 @@ var AdminSchema	= new Schema({
 	role: String,
 	token: String,
 	userAgent:String,
-	clientIpAddress:String
+	clientIpAddress:String,
+	forgotPass:String
 });
 
 module.exports = mongoose.model('Admin', AdminSchema);

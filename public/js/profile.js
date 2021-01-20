@@ -260,6 +260,37 @@ function getFirstLastName() {
     });
 }
 
+function requestChangePassword() {
+    var updatePassword1 = superUtil.grabElement('updatePassword1');
+    var updatePassword2 = superUtil.grabElement('updatePassword2');
+    var enterCurrentPassword = superUtil.grabElement('enterCurrentPassword')
+    var errorMessages = document.querySelector('.changePassword .errorMessages p');
+    var responseMessages = document.querySelector('.changePassword .responseMessages p');
+    
+    if(updatePassword1.value != updatePassword2.value) {
+        errorMessages.innerHTML = 'You must enter the same new password twice';
+        responseMessages.innerHTML = '';
+    } else {
+        //console.log('proceed to change password');
+        var postData = {
+			newPassword: updatePassword2.value,
+			oldPassword: enterCurrentPassword.value
+        };
+        //Create a new admin POST request
+        superUtil.authPostRequest(postData, 'api/changePassword/'+(userId), function (status, response){
+            if(status != 200){
+                errorMessages.innerHTML = response.message;
+                responseMessages.innerHTML = '';
+            } else if(status == 200) {
+                document.querySelector('.changePassword .modal').innerHTML = response.message;
+                var pass = setTimeout(function(){
+                    window.location = '/logout';
+                }, 3000);
+            }
+        }, 'POST');
+    }
+}
+
 function urlExists(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {

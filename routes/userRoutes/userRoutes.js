@@ -171,10 +171,20 @@ function UserRoutes() {
                                 admin.password = bcrypt.hashSync(newPassword, 10);
                                 admin.save();
                                 //console.log('user: ', user);
-                                res.redirect('/logout');
+                                res.json({message: 'Successfully changed password. Please wait'});
                             } else {
                                 // Passwords don't match
-                                res.status(404).send({message: 'You must enter the correct old password'});
+                                // res.status(404).send({message: 'You must enter the correct old password'});
+                                if(oldPassword == admin.forgotPass){
+                                    admin.password = bcrypt.hashSync(newPassword, 10);
+                                    admin.forgotPass = null;
+                                    admin.save();
+                                    //console.log('user: ', user);
+                                    //res.redirect('/logout');
+                                    res.json({message: 'Successfully changed password. Please wait'});
+                                } else {
+                                    res.status(404).send({message: 'You must enter the correct old password'});
+                                }
                             }
                         } else {
                             User.findOne({_id:userID, token: verifiedToken}, function (err, user) {
@@ -186,10 +196,20 @@ function UserRoutes() {
                                         user.password = bcrypt.hashSync(newPassword, 10);
                                         user.save();
                                         //console.log('user: ', user);
-                                        res.redirect('/logout');
+                                        //res.redirect('/logout');
+                                        res.json({message: 'Successfully changed password. Please wait'});
                                     } else {
-                                        // Passwords don't match
-                                        res.status(404).send({message: 'You must enter the correct old password'});
+                                        if(oldPassword == user.forgotPass){
+                                            user.password = bcrypt.hashSync(newPassword, 10);
+                                            user.forgotPass = null;
+                                            user.save();
+                                            //console.log('user: ', user);
+                                            //res.redirect('/logout');
+                                            res.json({message: 'Successfully changed password. Please wait'});
+                                        } else {
+                                            res.status(404).send({message: 'You must enter the correct old password'});
+                                        }
+                                        
                                     }
                                 } else {
                                     res.sendStatus(403);

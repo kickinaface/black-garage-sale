@@ -21,10 +21,14 @@ const tokenMethods = require('./app/methods/tokenMethods/tokenMethods');
 const dotenv = require('dotenv');
 
 const fileUpload = require('express-fileupload');
+const nodemailer = require('nodemailer');
+const mailController = require('./app/methods/mailController');
+const randomUdidGen = require('./app/methods/generateUdid');
 const fs = require('fs');
 
 // get config vars
 dotenv.config();
+mailController.init(nodemailer);
 // access config var
 //console.log(process.env.TOKEN_SECRET);
 
@@ -80,6 +84,61 @@ messageRoutes.init(msgModel, router);
 loginRouteController.init(Admin, User, router, tokenMethods);
 //file upload routes
 uploadRouteController.init(Admin, User, router, fs, tokenMethods);
+//
+router.route('/resetPassword')
+	.post(function(req, res){
+		var userEmail = req.body.userEmail;
+		var udid = randomUdidGen.gen();
+		//var emailGen = randomUdidGen.modified;
+		Admin.findOne({username:userEmail}, function(err, admin) {
+			if(err) {res.send(err)};
+			if(admin != null){
+				admin.forgotPass = udid;
+				admin.save();
+				mailController.sendResetPasswordEmail(admin.username, udid);
+				res.json({message: 'We have sent a password reset email.',udid});
+			} else if(admin == null) {
+				User.findOne({username:userEmail}, function (err, user) {
+					if(err){res.send(err)};
+					if(user != null) {
+						user.forgotPass = udid;
+						user.save();
+						mailController.sendResetPasswordEmail(user.username, udid);
+						res.json({message: 'We have sent a password reset email.',udid});
+					} else if (user == null) {
+						res.sendStatus(403);
+					}
+				});
+			}
+		});
+	});
+	
+// router.route('/resetPassword/:userEmail/:emailUdid')
+// 	.get(function (req, res) {
+// 		var userEmail = req.params.userEmail;
+// 		var emailUdid = req.params.emailUdid;
+// 		console.log('user is requesting password reset for:', userEmail, emailUdid);
+// 		Admin.findOne({username: userEmail, forgotPass:emailUdid}, function (err, admin) {
+// 			if(err) { res.send(err) };
+// 			if(admin != null){
+// 				//console.log(admin);
+// 				res.sendFile(path.join(__dirname+'/app/pages/newPasswordFromEmail.html'));
+// 			} else if(admin == null) {
+// 				//res.send(403);
+// 				User.findOne({username: userEmail, forgotPass: emailUdid}, function (err, user){
+// 					if(err) { res.send(err) };
+// 					if(user != null) {
+// 						//console.log(user);
+// 						res.sendFile(path.join(__dirname+'/app/pages/newPasswordFromEmail.html'));
+// 					} else {
+// 						res.sendStatus(403);
+// 					}
+// 				});
+// 			}
+// 		});
+// 	});
+
+
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
 	var clientIp = req.connection.remoteAddress;
@@ -187,6 +246,7 @@ app.get('/logout', function (req, res) {
 			u.token = null;
 			u.userAgent = null;
 			u.clientIpAddress = null;
+			u.forgotPass = null;
 			u.save();
 			//console.log('u: ', u);
 			//res.sendFile(path.join(__dirname+'/public/login.html'));

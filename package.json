@@ -9,6 +9,7 @@
     "express-fileupload": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.27",
+    "nodemailer": "^6.4.17",
     "nodemon": "^2.0.4"
   }
 }

@@ -75,3 +75,13 @@ button:active{
 .responseMessages {
     color: green;
 }
+
+a{
+    color:rgb(71, 71, 71);
+}
+a:hover{
+    color:black;
+}
+.forgotPasswordLink {
+    font-size: 11pt;
+}

@@ -97,9 +97,9 @@ function SuperUtil(){
 		
 		xhr.onreadystatechange = function () { 
 			var json = JSON.parse(xhr.responseText);
-			console.log(json);
+			//console.log(json);
 		    if (xhr.readyState == 4 && xhr.status == 200) {
-				console.log(xhr.response);
+				//console.log(xhr.response);
 				callback(xhr.status,json);
 		    } else {
 				callback(xhr.status, json);

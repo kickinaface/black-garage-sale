@@ -13,23 +13,37 @@
 	<script>
 		function openModal(modalType){
 			console.log('modalType: ', modalType);
-			document.querySelector('.modalWrapper').style.display = 'block';
+			document.querySelector(modalType).style.display = 'block';
 		}
 
-		function closeModal(){
-			document.querySelector('.modalWrapper').style.display = 'none';
+		function closeModal(modalType){
+			document.querySelector(modalType).style.display = 'none';
 		}
 	
 	</script>
 </head>
 <body>
 	<!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
-	<div class="modalWrapper">
+	<div class="modalWrapper about">
 		<div class="modal">
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum ut odio sit amet rhoncus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin gravida sagittis mauris, nec sagittis mauris pellentesque at. Donec vehicula, massa nec volutpat commodo, nulla odio pellentesque est, sit amet accumsan metus lacus ac libero. Suspendisse sollicitudin eget neque porta bibendum. Morbi tristique tellus et hendrerit consectetur. Nulla facilisi. Vestibulum at tincidunt quam, et viverra orci. Ut iaculis neque est, et interdum mauris lacinia viverra. Integer a sapien congue libero ultrices cursus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin quis quam urna. Mauris ligula mauris, porttitor in arcu ac, fringilla sagittis odio. Morbi dignissim dapibus risus egestas viverra. Morbi nec enim eget nisi aliquet iaculis. In iaculis magna ac metus pretium, sed ullamcorper velit fermentum.
 			</p>
-			<button onclick="closeModal();">Okay</button>
+			<button onclick="closeModal('.about');">Okay</button>
+		</div>
+	</div>
+	<div class="modalWrapper forgotPasswordModal">
+		<div class="modal">
+			<p>
+				<h2>Forgot Password</h2>
+				<br>
+				<b><i>Please enter your email address to reset your password. <br><br>We will send you a reset link.</i></b>
+				<form>
+					<input type="text" placeholder="Email Address">
+					<button type="text">Reset Password</button>
+				</form>
+			</p>
+			<button onclick="closeModal('.forgotPasswordModal');">Close</button>
 		</div>
 	</div>
 	<!-- end modal-->
@@ -51,6 +65,8 @@
 					<br />
 					<p>Enter your password</p>
 					<input type="password" class="loginPasswordInput" placeholder="password" name="loginPassword"></input>
+
+					<p><a href="#" class="forgotPasswordLink" onclick="openModal('.forgotPasswordModal')">I forgot my password</a></p>
 				</form>
 			</div>
 			
@@ -59,7 +75,7 @@
 
 			<br>
 			<div class="serverMessages"></div>
-			<h1 class="aboutLink" onclick="openModal('about');">What is this?</h1>
+			<h1 class="aboutLink" onclick="openModal('.about');">What is this?</h1>
 		</div>
 	</div>
 </body>

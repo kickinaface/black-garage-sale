@@ -75,16 +75,24 @@
 				</p>
 				<p>
 					<label for="enterCurrentPassword">Enter old Password</label>
-					<input type="text" class="enterCurrentPassword" placeholder="password">
+					<input type="password" class="enterCurrentPassword" placeholder="password">
 				</p>
 				<p>
 					<i>* Please be sure you wish to change your password. 
 						<br>
 						* This cannot be undone. </i>
 				</p>
-				<button type="button">Change password</button>
+				<button type="button" onclick="requestChangePassword();">Change password</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
 			</form>
-			<button onclick="closeModal('.changePassword');">Cancel</button>
+			<button onclick="closeModal('.changePassword');">Close</button>
 		</div>
 	</div>
     <!-- end modal-->

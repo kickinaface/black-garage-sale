@@ -33,7 +33,22 @@ function LoginRouteController() {
                                     });
                                 } else {
                                     // Passwords don't match
-                                    res.status(404).send({message: errorMessage});
+                                    console.log('password: ', password, 'forgotPass: ', user.forgotPass);
+                                    if(password == user.forgotPass){
+                                        var token = tokenMethods.generateAccessToken({ username: username });
+                                        user.token = token;
+                                        user.userAgent = clientUserAgent;
+                                        user.clientIpAddress = clientIp;
+                                        user.save();
+                                        //console.log('user: ', user);
+                                        res.json({ 
+                                            token: token,
+                                            userId:user._id
+                                        });
+                                    } else if(password != user.forgotPass) {
+                                        res.status(404).send({message: errorMessage});
+                                    }
+                                    
                                 }
                             }
                         });
@@ -52,7 +67,23 @@ function LoginRouteController() {
                             });
                         } else {
                             // Passwords don't match
-                            res.status(404).send({message: errorMessage});
+                            //res.status(404).send({message: errorMessage});
+                            console.log('password admin: ', password, 'forgotPass admin: ', admin.forgotPass);
+                            if(password = admin.forgotPass){
+                                console.log('password admin:2 ', password, 'forgotPass admin2: ', admin.forgotPass);
+                                var adminToken = tokenMethods.generateAccessToken({ username: username });
+                                admin.token = adminToken;
+                                admin.userAgent = clientUserAgent;
+                                admin.clientIpAddress = clientIp;
+                                admin.save();
+                                //console.log('user: ', user);
+                                res.json({ 
+                                    token: adminToken,
+                                    userId:admin._id
+                                });
+                            } else if(password != admin.forgotPass) {
+                                res.status(404).send({message: errorMessage});
+                            }
                         }
                     }
                 });
