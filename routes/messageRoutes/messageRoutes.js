@@ -1,24 +1,33 @@
 function MessageRoutes() {
-    this.init = function init(msgModel, router) {
+    this.init = function init(msgModel, router, tokenMethods) {
         //get messages
         router.route('/messages')
-            .post(function (req, res) {
+            .post(tokenMethods.authenticateToken, function (req, res) {
                 var mModel = new msgModel();	//create a new instance of the ncMsg model
-                mModel.username = req.body.username;	//set the ncMsgs name (comes from the request)
-                mModel.message = req.body.message;
+                var toUserKey = req.body.toUser;
+                var fromUserKey = req.body.fromUser;
+                var messageKey = req.body.message;
 
-                //save the ncMsg and check for errors
-                mModel.save(function (err) {
-                    if (err){
-                        res.send(err);
-                    } else {
-                        res.json({ message: 'Message Created!' });
-                    }
-                });
+                if(!toUserKey || !fromUserKey || !messageKey) {
+                    res.status(404).send({message:'You must fill in all fields. '});
+                } else {
+                    mModel.toUser = toUserKey;	//set the ncMsgs name (comes from the request)
+                    mModel.fromUser = fromUserKey;
+                    mModel.message = messageKey;
 
+                    //save the ncMsg and check for errors
+                    mModel.save(function (err) {
+                        if (err){
+                            res.send(err);
+                        } else {
+                            res.json({ message: 'Message Created!' });
+                        }
+                    });
+                }
             })
-            //get all the ncMsgs (accessed at GET http://localhost:8080/api/ncMsgs)
-            .get(function (req, res) {
+            //get all the messages (accessed at GET http://localhost:8080/api/ncMsgs)
+            /// change comment style layout
+            .get(tokenMethods.authenticateToken, function (req, res) {
                 msgModel.find(function (err, msgs) {
                     if (err) {
                         res.send(err);
@@ -29,9 +38,9 @@ function MessageRoutes() {
             });
             //on routes that end in /ncMsgs/:ncMsg_id
             //-----------------------------------------------------
-            router.route('/messages/:msg_id')
+        router.route('/messages/:msg_id')
             //get the ncMsg with that id
-            .get(function (req, res) {
+            .get(tokenMethods.authenticateToken, function (req, res) {
                 msgModel.findById(req.params.msg_id, function (err, msg) {
                     if (err){
                         res.send(err);
@@ -41,15 +50,13 @@ function MessageRoutes() {
                 });
             })
             //update the ncMsg with this id
-            .put(function (req, res) {
+            .put(tokenMethods.authenticateToken, function (req, res) {
                 msgModel.findById(req.params.msg_id, function (err, msg) {
                     if (err) {
                         res.send(err);
                     } else {
-                        msgModel.username = req.body.username;
-                        msgModel.message = req.body.message;
-
-                        msgModel.save(function (err) {
+                        msg.message = req.body.message;
+                        msg.save(function (err) {
                             if (err) {
                                 res.send(err);
                             } else {
@@ -60,7 +67,7 @@ function MessageRoutes() {
                 });
             })
 
-            .delete(function (req, res) {
+            .delete(tokenMethods.authenticateToken, function (req, res) {
                 msgModel.remove({
                     _id: req.params.msg_id
                 }, function (err, msg) {

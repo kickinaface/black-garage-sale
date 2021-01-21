@@ -6,7 +6,7 @@ const path 			= require('path');
 const mongoose	= require('mongoose');
 const dbUrl		= 'mongodb://localhost:27017/nifty-chat-old';//'//mongodb://<Carter>:<supertroopermongo32>@ds139817.mlab.com:39817/heroku_0b6l1bdm
 mongoose.connect(dbUrl);
-const msgModel	= require('./app/models/ncMsg');
+const msgModel	= require('./app/models/messages');
 const Admin       = require('./app/models/admin');
 const User = require('./app/models/user');
 //
@@ -79,39 +79,11 @@ adminRoutes.init(Admin, User, router, tokenMethods);
 // Set User routes
 userRoutes.init(User, Admin, router, tokenMethods);
 // Set Message Routes
-messageRoutes.init(msgModel, router);
+messageRoutes.init(msgModel, router, tokenMethods);
 // Set Login Route Controller
 loginRouteController.init(Admin, User, router, tokenMethods);
 //file upload routes
 uploadRouteController.init(Admin, User, router, fs, tokenMethods);
-//
-router.route('/resetPassword')
-	.post(function(req, res){
-		var userEmail = req.body.userEmail;
-		var udid = randomUdidGen.gen();
-		//var emailGen = randomUdidGen.modified;
-		Admin.findOne({username:userEmail}, function(err, admin) {
-			if(err) {res.send(err)};
-			if(admin != null){
-				admin.forgotPass = udid;
-				admin.save();
-				mailController.sendResetPasswordEmail(admin.username, udid);
-				res.json({message: 'We have sent a password reset email.'});
-			} else if(admin == null) {
-				User.findOne({username:userEmail}, function (err, user) {
-					if(err){res.send(err)};
-					if(user != null) {
-						user.forgotPass = udid;
-						user.save();
-						mailController.sendResetPasswordEmail(user.username, udid);
-						res.json({message: 'We have sent a password reset email.'});
-					} else if (user == null) {
-						res.status(403).send({message: 'That does not exist.'});
-					}
-				});
-			}
-		});
-	});
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
 	var clientIp = req.connection.remoteAddress;

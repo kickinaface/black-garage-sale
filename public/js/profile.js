@@ -76,9 +76,9 @@ function openModal(modalType) {
 }
 
 function removeBasicUser() {
-    var removeBasicUserText = document.querySelector('.removeBasicUser').value;
-    var errorMessages = document.querySelector('.errorMessages p');
-    var responseMessages = document.querySelector('.responseMessages p');
+    var removeBasicUserText = document.querySelector('.removeUser .removeBasicUser').value;
+    var errorMessages = document.querySelector('.removeUser .errorMessages p');
+    var responseMessages = document.querySelector('.removeUser .responseMessages p');
 
     superUtil.authPostRequest(null, ('api/users/'+removeBasicUserText), function(status, res) {
         if(status != 200){

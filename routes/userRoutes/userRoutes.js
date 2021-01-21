@@ -219,6 +219,40 @@ function UserRoutes() {
                     });
                 }
             });
+        //
+        router.route('/resetPassword')
+            .post(function(req, res){
+                const nodemailer = require('nodemailer');
+                const randomUdidGen = require("../../app/methods/generateUdid");
+                const mailController = require('../../app/methods/mailController');
+
+                mailController.init(nodemailer);
+
+                var userEmail = req.body.userEmail;
+                var udid = randomUdidGen.gen();
+                
+                Admin.findOne({username:userEmail}, function(err, admin) {
+                    if(err) {res.send(err)};
+                    if(admin != null){
+                        admin.forgotPass = udid;
+                        admin.save();
+                        mailController.sendResetPasswordEmail(admin.username, udid);
+                        res.json({message: 'We have sent a password reset email.'});
+                    } else if(admin == null) {
+                        User.findOne({username:userEmail}, function (err, user) {
+                            if(err){res.send(err)};
+                            if(user != null) {
+                                user.forgotPass = udid;
+                                user.save();
+                                mailController.sendResetPasswordEmail(user.username, udid);
+                                res.json({message: 'We have sent a password reset email.'});
+                            } else if (user == null) {
+                                res.status(403).send({message: 'That does not exist.'});
+                            }
+                        });
+                    }
+                });
+            });
 
         router.route('/users/:user_id')
             .delete(tokenMethods.authenticateToken, function (req, res) {
