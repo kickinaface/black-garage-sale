@@ -79,7 +79,7 @@ adminRoutes.init(Admin, User, router, tokenMethods);
 // Set User routes
 userRoutes.init(User, Admin, router, tokenMethods);
 // Set Message Routes
-messageRoutes.init(msgModel, router, tokenMethods);
+messageRoutes.init(msgModel, router, tokenMethods, Admin, User);
 // Set Login Route Controller
 loginRouteController.init(Admin, User, router, tokenMethods);
 //file upload routes
