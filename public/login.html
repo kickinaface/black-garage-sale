@@ -9,18 +9,6 @@
 	<script type="text/javascript" src="js/superUtil.js"> </script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
-
-	<script>
-		function openModal(modalType){
-			console.log('modalType: ', modalType);
-			document.querySelector(modalType).style.display = 'block';
-		}
-
-		function closeModal(modalType){
-			document.querySelector(modalType).style.display = 'none';
-		}
-	
-	</script>
 </head>
 <body>
 	<!-- Later, add to js and append to innerHTML or something dynamic for later modals-->
@@ -39,8 +27,16 @@
 				<br>
 				<b><i>Please enter your email address to reset your password. <br><br>We will send you a reset link.</i></b>
 				<form>
-					<input type="text" placeholder="Email Address">
-					<button type="text">Reset Password</button>
+					<input type="text" placeholder="Email Address" class="updatePassEmail">
+					<button type="text" onclick="resetPasswordRequest();">Reset Password</button>
+					<br>
+					<br>
+					<div class="responseMessages">
+						<p></p>
+					</div>
+					<div class="errorMessages">
+						<p></p>
+					</div>
 				</form>
 			</p>
 			<button onclick="closeModal('.forgotPasswordModal');">Close</button>

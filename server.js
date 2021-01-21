@@ -96,7 +96,7 @@ router.route('/resetPassword')
 				admin.forgotPass = udid;
 				admin.save();
 				mailController.sendResetPasswordEmail(admin.username, udid);
-				res.json({message: 'We have sent a password reset email.',udid});
+				res.json({message: 'We have sent a password reset email.'});
 			} else if(admin == null) {
 				User.findOne({username:userEmail}, function (err, user) {
 					if(err){res.send(err)};
@@ -104,41 +104,14 @@ router.route('/resetPassword')
 						user.forgotPass = udid;
 						user.save();
 						mailController.sendResetPasswordEmail(user.username, udid);
-						res.json({message: 'We have sent a password reset email.',udid});
+						res.json({message: 'We have sent a password reset email.'});
 					} else if (user == null) {
-						res.sendStatus(403);
+						res.status(403).send({message: 'That does not exist.'});
 					}
 				});
 			}
 		});
 	});
-	
-// router.route('/resetPassword/:userEmail/:emailUdid')
-// 	.get(function (req, res) {
-// 		var userEmail = req.params.userEmail;
-// 		var emailUdid = req.params.emailUdid;
-// 		console.log('user is requesting password reset for:', userEmail, emailUdid);
-// 		Admin.findOne({username: userEmail, forgotPass:emailUdid}, function (err, admin) {
-// 			if(err) { res.send(err) };
-// 			if(admin != null){
-// 				//console.log(admin);
-// 				res.sendFile(path.join(__dirname+'/app/pages/newPasswordFromEmail.html'));
-// 			} else if(admin == null) {
-// 				//res.send(403);
-// 				User.findOne({username: userEmail, forgotPass: emailUdid}, function (err, user){
-// 					if(err) { res.send(err) };
-// 					if(user != null) {
-// 						//console.log(user);
-// 						res.sendFile(path.join(__dirname+'/app/pages/newPasswordFromEmail.html'));
-// 					} else {
-// 						res.sendStatus(403);
-// 					}
-// 				});
-// 			}
-// 		});
-// 	});
-
-
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
 	var clientIp = req.connection.remoteAddress;

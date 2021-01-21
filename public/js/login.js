@@ -40,3 +40,36 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 	
 });
+
+function openModal(modalType){
+	console.log('modalType: ', modalType);
+	document.querySelector(modalType).style.display = 'block';
+}
+
+function closeModal(modalType){
+	document.querySelector(modalType).style.display = 'none';
+}
+
+function resetPasswordRequest(){
+	var updatePassEmailText = document.querySelector('.updatePassEmail').value;
+	var errorMessages = document.querySelector('.forgotPasswordModal .errorMessages p');
+	var responseMessages = document.querySelector('.forgotPasswordModal .responseMessages p');
+	
+	var postData = {
+		userEmail: updatePassEmailText
+	}
+
+	superUtil.sendJSON(postData, 'api/resetPassword', function (status, response){
+		console.log(status, response.message);
+		//message = response;
+		console.log(response);
+		
+		if(status != 200){
+			errorMessages.innerHTML = response.message;
+			responseMessages.innerHTML = '';
+		} else if(status == 200) {
+			responseMessages.innerHTML = response.message;
+			errorMessages.innerHTML = '';
+		}
+	}, 'POST');
+}

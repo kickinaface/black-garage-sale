@@ -34,7 +34,7 @@ function LoginRouteController() {
                                 } else {
                                     // Passwords don't match
                                     console.log('password: ', password, 'forgotPass: ', user.forgotPass);
-                                    if(password == user.forgotPass){
+                                    if(password = user.forgotPass){
                                         var token = tokenMethods.generateAccessToken({ username: username });
                                         user.token = token;
                                         user.userAgent = clientUserAgent;
@@ -45,7 +45,7 @@ function LoginRouteController() {
                                             token: token,
                                             userId:user._id
                                         });
-                                    } else if(password != user.forgotPass) {
+                                    } else if(password != user.forgotPass || user.forgotPass == null) {
                                         res.status(404).send({message: errorMessage});
                                     }
                                     
@@ -81,7 +81,7 @@ function LoginRouteController() {
                                     token: adminToken,
                                     userId:admin._id
                                 });
-                            } else if(password != admin.forgotPass) {
+                            } else if(password != admin.forgotPass || admin.forgotPass == null) {
                                 res.status(404).send({message: errorMessage});
                             }
                         }
