@@ -33,7 +33,7 @@ function LoginRouteController() {
                                     });
                                 } else {
                                     // Passwords don't match
-                                    console.log('password: ', password, 'forgotPass: ', user.forgotPass);
+                                    //console.log('password: ', password, 'forgotPass: ', user.forgotPass);
                                     if(password = user.forgotPass){
                                         var token = tokenMethods.generateAccessToken({ username: username });
                                         user.token = token;

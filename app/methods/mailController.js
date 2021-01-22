@@ -3,7 +3,7 @@ function MailController() {
     this.init = function(nodemailer){
         _this.nodemailer = nodemailer;
     }
-    this.sendResetPasswordEmail = function(toEmail, udid){
+    this.sendResetPasswordEmail = function sendResetPasswordEmail(toEmail, udid){
         var transporter = _this.nodemailer.createTransport({
             service:'gmail',
             auth: {
@@ -31,6 +31,31 @@ function MailController() {
     //     console.log('send reset password email ', toEmail);
     //     console.log(_this.nodemailer);
     }
+
+    this.sendNewAccountEmail = function sendResetPasswordEmail(toEmail){
+        var transporter = _this.nodemailer.createTransport({
+            service:'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+        //var formmattedUrl = ('http://localhost:3000/api/resetPassword/'+(toEmail)+'/'+udid+'/');
+        var mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: toEmail,
+            subject: 'Welcome: Black Garage Sale <Do Not Reply>',
+            html:"Welcome to Black Garage Sale! Thank you for registering with us."
+        };
+        
+        return transporter.sendMail(mailOptions, function (err, data) {
+            if(err) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+    } 
 }
 
 var mailController = new MailController();

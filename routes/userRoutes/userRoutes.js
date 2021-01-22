@@ -31,7 +31,11 @@ function UserRoutes() {
                                         if (err){
                                             res.send(err);
                                         } else {
-                                            console.log('Created new User. Please log in.');
+                                            //console.log('Created new User. Please log in.');
+                                            var nodemailer = require('nodemailer');
+                                            var mailController = require('../../app/methods/mailController');
+                                            mailController.init(nodemailer);
+                                            mailController.sendNewAccountEmail(username);
                                             res.json({ message: 'User Created!' });
                                         }
                                     });

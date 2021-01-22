@@ -111,6 +111,54 @@ function MessageRoutes() {
                     res.json({ message:'Successfully deleted:'});
                 });
             });
+        
+            router.route('/messages/forUser/:userId')
+                .get(tokenMethods.authenticateToken, function (req, res) {
+                    var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+                    var userId = req.params.userId;
+                    Admin.findOne({_id:userId, token: verifiedToken}, function (err, admin){
+                        if(err) {
+                            res.status(403).send({message:'No such ID'})
+                        } else {
+                            if(admin != null) {
+                                //res.json({message:'User wishes to find mesages for admin'});
+                                findAllMessagesForUser(admin);
+                            } else if(admin == null){
+                                User.findOne({_id:userId, token: verifiedToken}, function(err, user){
+                                    if(err) {res.send(err)};
+                                    if(user != null){
+                                        //res.json({message:'User wishes to find mesages for user'});
+                                        findAllMessagesForUser(user);
+                                    } else {
+                                        res.sendStatus(403);
+                                    }
+                                });
+                            }
+                        }
+                        
+                    });
+                    function findAllMessagesForUser(u){
+                        var preparedMessages = [];
+                        msgModel.find(function (err, msgs) {
+                            if (err) {
+                                res.send(err);
+                            } else {
+                                // res.json(msgs);
+                                for(var m = 0; m<= msgs.length-1; m++){
+                                    // console.log(msgs[m].toUser);
+                                    // console.log(u.username);
+                                    if(msgs[m].toUser == u.username){
+                                        //preparedMessages.push(msgs[m]);
+                                        //console.log(msgs[m]);
+                                        preparedMessages.push(msgs[m]);
+                                    }
+                                }
+                                res.send(preparedMessages);
+                            }
+                        });
+                    }
+                    
+                });
     };
 };
 
