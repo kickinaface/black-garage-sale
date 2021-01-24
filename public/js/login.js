@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function(){
 			} else if(status == 200) {
 				localStorage.setItem('userId', response.userId);
 				localStorage.setItem('token', response.token);
+				localStorage.setItem('username', response.email);
 				responsMessages.innerHTML = 'Success!! You are logged in. (Redirecting you to your profile)';
 				window.location = '/profile';
 			}
@@ -35,7 +36,10 @@ document.addEventListener("DOMContentLoaded", function(){
 		if(status == 200 && data.authenticated == true){
 			console.log('go to profile');
 			window.location = '/profile';
-			//localStorage.removeItem('token');
+			
+		} else {
+			localStorage.removeItem('token');
+			//window.location = '/login';
 		}
     });
 	

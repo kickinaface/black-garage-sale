@@ -4,7 +4,7 @@ function TokenMethods() {
     const User = require('../../models/user');
 
     this.generateAccessToken = function generateAccessToken(username) {
-        return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '10m' });
+        return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '3m' });
     };
     
     this.authenticateToken = function authenticateToken(req, res, next) {

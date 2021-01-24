@@ -6,10 +6,41 @@
 	<link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/messages.css">
-	<script type="text/javascript" src="js/superUtil.js"> </script>
-	<script type="text/javascript" src="js/messages.js"></script>
+    <script type="text/javascript" src="js/lodash.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/superUtil.js"> </script>
+    <script type="text/javascript" src="js/messages.js"></script>
+    
 </head>
 <body>
+    <div class="modalWrapper sendUserMessageModal">
+		<div class="modal">
+			<p>
+				<h2>Send Message</h2>
+			</p>
+			<br>
+			<form>
+				<p>
+					<label for="toUser">Email address:</label>
+					<input type="text" class="toEmailAddress" placeholder="user email">
+				</p>
+				<p>
+                    <label for="messageToUser">Message</label>
+					<textarea name="messageToUser" id="" cols="30" rows="10" placeholder="Send a short message"></textarea>
+				</p>
+				<button type="button" onclick="sendMessageToUser();">Send</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+			</form>
+			<button onclick="closeModal('.sendUserMessageModal');">Close</button>
+		</div>
+	</div>
 	<div class="navigation">
 		<div class="navLogo"><i>Black</i> Garage Sale</div>
 		<ul class="navLinks"></ul>
@@ -21,116 +52,24 @@
 		<div class="blueBox">
             <div class="messages">
                 <div class="leftMessagesTab">
-                    <p>My Messages</p>
-                    <div class="messageWrapper">
+                    <h4>My Messages</h4>
+                    <br>
+                    <button class="sendMessageButton" onclick="openSendMessageModal('.sendUserMessageModal');">Send A Message</button>
+                    <!-- <div class="messageWrapper">
                         <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
                         <div class="messagePreview">
                             <div class="messageFromUser">username</div>
                             This is a preview of the message...
                         </div>
-                    </div>
-                    <div class="messageWrapper">
-                        <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
-                        <div class="messagePreview">
-                            <div class="messageFromUser">username</div>
-                            This is a preview of the message...
-                        </div>
-                    </div>
-                    <div class="messageWrapper messageRead">
-                        <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
-                        <div class="messagePreview">
-                            <div class="messageFromUser">username</div>
-                            This is a preview of the message...
-                        </div>
-                    </div>
-                    <div class="messageWrapper messageRead">
-                        <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
-                        <div class="messagePreview">
-                            <div class="messageFromUser">username</div>
-                            This is a preview of the message...
-                        </div>
-                    </div>
-                    <div class="messageWrapper messageRead">
-                        <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
-                        <div class="messagePreview">
-                            <div class="messageFromUser">username</div>
-                            This is a preview of the message...
-                        </div>
-                    </div>
+                    </div> -->
                     
                 </div>
                 <div class="chatMessagesTab">
-                    <p>Chat</p>
+                    <h4>Chat</h4>
                     <div class="chatDetails">
                         <div class="chatText">
+                            <!-- Previous UL -->
                             <ul>
-                                <li>
-                                    <div class="userMessage">
-                                        <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div>
-                                        <p>This is my super long message to you. Can you read it? Do you know how many messages that you can 
-                                            put on this thing?
-                                        </p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userMessage">
-                                        <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div>
-                                        <p>This is my super long message to you. Can you read it? Do you know how many messages that you can 
-                                            put on this thing?
-                                        </p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userMessage"> 
-                                        <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div>
-                                        <p>Im still testing this thing out.</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userMessage">
-                                        <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div>
-                                        <p>Can you see my message?</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userResponse">
-                                        <!-- <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div> -->
-                                        <p>Im still testing this thing out.</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userMessage">
-                                        <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div>
-                                        <p>Oh okay well I guess that means you got my messages?</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userResponse">
-                                        <!-- <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div> -->
-                                        <p>Yeah I got your message. It looks like you sent a ton of them</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userResponse">
-                                        <!-- <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div> -->
-                                        <p>Maybe next time you should consolidate your messages?</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="userResponse">
-                                        <!-- <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div> -->
-                                        <p>Maybe next time you should consolidate your messages?</p>
-                                    </div>
-                                </li>
-                                <!-- <li>
-                                    <div class="userMessage">
-                                        <div class="chatAvatar"><img src="img/default-profile-icon-16.png" width="30px;"></div>
-                                        <p>This is my super long message to you. Can you read it? Do you know how many messages that you can 
-                                            put on this thing?
-                                        </p>
-                                    </div>
-                                </li> -->
-                                
                             </ul>
                             <input type="text" class="responseInputField">
                             <button type="button">Send</button>

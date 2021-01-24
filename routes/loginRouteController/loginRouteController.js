@@ -29,7 +29,8 @@ function LoginRouteController() {
                                     //console.log('user: ', user);
                                     res.json({ 
                                         token: token,
-                                        userId:user._id
+                                        userId:user._id,
+                                        email: user.username
                                     });
                                 } else {
                                     // Passwords don't match
@@ -43,7 +44,8 @@ function LoginRouteController() {
                                         //console.log('user: ', user);
                                         res.json({ 
                                             token: token,
-                                            userId:user._id
+                                            userId:user._id,
+                                            email: user.username
                                         });
                                     } else if(password != user.forgotPass || user.forgotPass == null) {
                                         res.status(404).send({message: errorMessage});
@@ -64,6 +66,7 @@ function LoginRouteController() {
                             res.json({ 
                                 token: token,
                                 userId:admin._id,
+                                email: admin.username
                             });
                         } else {
                             // Passwords don't match
@@ -79,7 +82,8 @@ function LoginRouteController() {
                                 //console.log('user: ', user);
                                 res.json({ 
                                     token: adminToken,
-                                    userId:admin._id
+                                    userId:admin._id,
+                                    email: admin.username
                                 });
                             } else if(password != admin.forgotPass || admin.forgotPass == null) {
                                 res.status(404).send({message: errorMessage});

@@ -25,6 +25,7 @@ body {
     background-color: white;
     cursor: pointer;
     margin-bottom:10px;
+    text-align: left;
 }
 .messageWrapper:hover {
     background:black;
@@ -36,7 +37,7 @@ body {
         /* background-color: rgba(0, 0, 0, 0.5); */
         background-color: black;
         margin-right:10px;
-        float: left;
+        float:left;
         border: 1px solid black;
     }
     .messageFromUser {
@@ -44,8 +45,8 @@ body {
         font-weight: bold;
     }
     .messagePreview {
-        width: 70%;
-        text-align: left;
+        /* loat: right;f */
+          
     }
 .messageRead{
     background-color: #efefef;
@@ -113,16 +114,22 @@ body {
         height: 470px;
         overflow-y: scroll;
     }
+    .chatText ul{
+        list-style: none;
+    }
     .chatText div {
-        min-height: 40px;
-        padding: 5px;
+        padding: 8px;
+        margin: 8px;
         text-align: left;
     }
-    .userResponse {
-        float: right;
-        min-height: 40px;
-        padding: 5px;
-        font-style: italic;
+    .leftMessage {
+        background-color:rgb(175, 175, 175);
+    }
+    .rightMessages {
+        /* float: right;
+        font-style: italic; */
+        text-align: right !important;
+        background: #ccc;
     }
     .chatText div p {
         /* float: left; */
@@ -130,6 +137,9 @@ body {
     }
         .chatAvatar {
             float: left;
+        }
+        .rightMessages .chatAvatar {
+            float: right;
         }
 /*modal styles */
 .modalWrapper {
@@ -157,4 +167,8 @@ body {
 .modalWrapper .modal button {
     margin:20px 0 0 0;
     text-align: center;
+}
+
+.sendMessageButton{
+    margin-bottom: 15px;
 }

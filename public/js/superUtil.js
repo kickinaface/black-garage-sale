@@ -54,10 +54,10 @@ function SuperUtil(){
 		xhr.onload = function () {
 			var status = xhr.status;
 			if(status === 200){
-				console.log(xhr.response);
-				callback(status, JSON.parse(xhr.responseText));
+				//console.log(xhr.response);
+				callback(status, JSON.parse(xhr.response));
 			}else {
-				callback(status, JSON.parse(xhr.responseText));
+				callback(status, JSON.parse(xhr.response));
 			}
 		}
 		xhr.send();

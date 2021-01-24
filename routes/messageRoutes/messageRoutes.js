@@ -20,6 +20,8 @@ function MessageRoutes() {
                             if(toUserKey == admin.username){
                                 //res.sendStatus(403);
                                 res.status(403).send({message: 'You cant send a message to yourself.'});
+                            } else if(fromUserKey != admin.username){
+                                res.sendStatus(403);
                             } else {
                                 //res.json({message:'send a message to: ', toUserKey});
                                 sendMessage();
@@ -32,6 +34,8 @@ function MessageRoutes() {
                                     if(toUserKey == user.username){
                                         //res.sendStatus(403);
                                         res.status(403).send({message: 'You cant send a message to yourself.'});
+                                    } else if(fromUserKey != user.username){
+                                        res.sendStatus(403);
                                     } else {
                                         //res.json({message:'send a message to: ', toUserKey});
                                         sendMessage();
@@ -48,6 +52,7 @@ function MessageRoutes() {
                         mModel.message = messageKey;
                         mModel.date = moment().format();
 
+                        // CHANGE SOON! AS LAST STEP CHECK FOR ROGUE EMAIL ADDRESSES TO FALSE USERS
                         //save the ncMsg and check for errors
                         mModel.save(function (err) {
                             if (err){
@@ -139,25 +144,29 @@ function MessageRoutes() {
                     });
                     function findAllMessagesForUser(u){
                         var preparedMessages = [];
+                        var _ = require('lodash');
+
                         msgModel.find(function (err, msgs) {
                             if (err) {
                                 res.send(err);
                             } else {
-                                // res.json(msgs);
+                                // Loop through all messages and place all associated messages together by user
                                 for(var m = 0; m<= msgs.length-1; m++){
-                                    // console.log(msgs[m].toUser);
-                                    // console.log(u.username);
-                                    if(msgs[m].toUser == u.username){
-                                        //preparedMessages.push(msgs[m]);
-                                        //console.log(msgs[m]);
+                                    // Put all messages with users name both to and from in array
+                                    if(msgs[m].toUser == u.username || msgs[m].fromUser == u.username){
                                         preparedMessages.push(msgs[m]);
                                     }
                                 }
-                                res.send(preparedMessages);
+                                // Create new Object that is grouped by fromUser
+                                var groupedMessages = _.groupBy(preparedMessages, function(m){
+                                    return m.fromUser;
+                                });
+
+                                res.send(groupedMessages);
                             }
                         });
                     }
-                    
+               
                 });
     };
 };
