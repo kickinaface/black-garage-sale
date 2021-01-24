@@ -113,6 +113,8 @@ body {
         bottom: 4%;
         height: 470px;
         overflow-y: scroll;
+        display: flex;
+        flex-direction: column-reverse;
     }
     .chatText ul{
         list-style: none;

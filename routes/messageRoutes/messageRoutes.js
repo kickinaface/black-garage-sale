@@ -47,20 +47,59 @@ function MessageRoutes() {
                         }
                     });
                     function sendMessage(){
-                        mModel.toUser = toUserKey;	//set the ncMsgs name (comes from the request)
-                        mModel.fromUser = fromUserKey;
-                        mModel.message = messageKey;
-                        mModel.date = moment().format();
-
-                        // CHANGE SOON! AS LAST STEP CHECK FOR ROGUE EMAIL ADDRESSES TO FALSE USERS
-                        //save the ncMsg and check for errors
-                        mModel.save(function (err) {
-                            if (err){
+                        console.log('toUserKey: ', toUserKey);
+                        console.log('fromUserKey: ', fromUserKey);
+                        Admin.findOne({username: toUserKey}, function (err, admin) {
+                            if(err){
                                 res.send(err);
                             } else {
-                                res.json({ message: 'Message Created!' });
+                                if(admin != null) {
+                                    // its this user
+                                    mModel.toUser = toUserKey;	//set the ncMsgs name (comes from the request)
+                                    mModel.fromUser = fromUserKey;
+                                    mModel.message = messageKey;
+                                    mModel.date = moment().format();
+
+                                    // CHANGE SOON! AS LAST STEP CHECK FOR ROGUE EMAIL ADDRESSES TO FALSE USERS
+                                    //save the ncMsg and check for errors
+                                    mModel.save(function (err) {
+                                        if (err){
+                                            res.send(err);
+                                        } else {
+                                            res.json({ message: 'Message Created!' });
+                                        }
+                                    });
+                                } else {
+                                    // try user table
+                                    User.findOne({username: toUserKey}, function (err, user) {
+                                        if(err){
+                                            res.send(err);
+                                        } else {
+                                            if(user != null) {
+                                                mModel.toUser = toUserKey;	//set the ncMsgs name (comes from the request)
+                                                mModel.fromUser = fromUserKey;
+                                                mModel.message = messageKey;
+                                                mModel.date = moment().format();
+
+                                                // CHANGE SOON! AS LAST STEP CHECK FOR ROGUE EMAIL ADDRESSES TO FALSE USERS
+                                                //save the ncMsg and check for errors
+                                                mModel.save(function (err) {
+                                                    if (err){
+                                                        res.send(err);
+                                                    } else {
+                                                        res.json({ message: 'Message Created!' });
+                                                    }
+                                                });
+                                            } else {
+                                                res.send(err);
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         });
+
+                        
                     }
                 }
             })

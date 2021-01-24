@@ -26,9 +26,9 @@
 				</p>
 				<p>
                     <label for="messageToUser">Message</label>
-					<textarea name="messageToUser" id="" cols="30" rows="10" placeholder="Send a short message"></textarea>
+					<textarea class="messageToUser" name="messageToUser" id="" cols="30" rows="10" placeholder="Send a short message"></textarea>
 				</p>
-				<button type="button" onclick="sendMessageToUser();">Send</button>
+				<button type="button" onclick="sendMessageToUser('modal');">Send</button>
 				<br>
 				<br>
 				<div class="responseMessages">
@@ -48,20 +48,24 @@
 	<div class="mainContent">
 		<h2>Messages</h2>
         <br>
-        <br>
 		<div class="blueBox">
+            <h2 class="displayname">First Name Last name</h2>
+            <img src="img/default-profile-icon-16.png" width="100px" alt="Profile Picture" class="userImageAvatar">
             <div class="messages">
                 <div class="leftMessagesTab">
                     <h4>My Messages</h4>
                     <br>
                     <button class="sendMessageButton" onclick="openSendMessageModal('.sendUserMessageModal');">Send A Message</button>
-                    <!-- <div class="messageWrapper">
-                        <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
-                        <div class="messagePreview">
-                            <div class="messageFromUser">username</div>
-                            This is a preview of the message...
-                        </div>
-                    </div> -->
+                    <div class="userMessagePreviewWrapper">
+                        <!-- <div class="messageWrapper">
+                            <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
+                            <div class="messagePreview">
+                                <div class="messageFromUser">username</div>
+                                This is a preview of the message...
+                            </div>
+                        </div> -->
+                    </div>
+                    
                     
                 </div>
                 <div class="chatMessagesTab">
@@ -71,8 +75,7 @@
                             <!-- Previous UL -->
                             <ul>
                             </ul>
-                            <input type="text" class="responseInputField">
-                            <button type="button">Send</button>
+                            
                         </div>
                     </div>
                 </div>
