@@ -131,8 +131,10 @@ function sendMessageToUser(methodType){
             responseMessages.innerHTML = '';
             
         } else if(status == 200) {
-            responseMessages.innerHTML = response.message;
+            responseMessages.innerHTML = '';
             errorMessages.innerHTML = '';
+            messageToUserText.value = '';
+
         }
     }, 'POST');
 
@@ -178,6 +180,11 @@ function urlExists(url, callback) {
     xhr.send();
 }
 
+function gotoBottom(id){
+    var element = document.querySelector(id);
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+ }
+
 function getMessagesForUser(userId, token){
     superUtil.getAuthenticatedRequest(token, 'api/messages/forUser/'+(userId), function (status, data){
         //console.log(status);
@@ -189,6 +196,8 @@ function getMessagesForUser(userId, token){
             var numConversations = newData.length;
             var allCombinedMessages = [];
             var leftPanel = document.querySelector('.userMessagePreviewWrapper');
+            // empty previous array of messages
+            reformmatedCombinedMessages = [];
 
             leftPanel.innerHTML = '';
 
@@ -224,19 +233,28 @@ function getMessagesForUser(userId, token){
                     reformmatedCombinedMessages.push(allCombinedMessages[l][n]);
                 }
             }
+            loadMessagesWithUser(null);
         }
         
     });
 }
 
 function loadMessagesWithUser(e) {
-    isChatPanelOpen = true;
-    var withUser = e.currentTarget.querySelector('.messagePreview .messageFromUser').innerHTML;
+    var withUser = null;
+
+    if(e != null) {
+        isChatPanelOpen = true;
+        withUser = e.currentTarget.querySelector('.messagePreview .messageFromUser').innerHTML;
+    } else if (e == null && isChatPanelOpen == true){
+        withUser = document.querySelector('.sendMessageContentWrapper .sendMessageToUser').innerHTML;
+    }
+    
+    var chatText = document.querySelector('.chatText ul');
     var conversationWithUser = [];
     //
     // Loop through reformatted combined messages and create conversation array per user matching clicked conversation address
     for(var c = 0; c<=reformmatedCombinedMessages.length-1; c++){
-        // Place all TO and FROM messages of the user
+        // Place all TO and FROM messages of the user into conversation array.
         if(reformmatedCombinedMessages[c].toUser == withUser) {
             conversationWithUser.push(reformmatedCombinedMessages[c]);
         }
@@ -248,12 +266,12 @@ function loadMessagesWithUser(e) {
     // Format the conversation by date
     var sortedArray = _.sortBy(conversationWithUser, function(o) { return new moment(o.date); });//.reverse();
     var sendMessageToUser = null;
-    var chatText = document.querySelector('.chatText ul');
+    
     // clear out chat text before loading new conversation
     chatText.innerHTML =  '';
     // Append the conversation to the chat element
     for(convo = 0; convo <= sortedArray.length-1; convo++) {
-        var formattedDate = moment(sortedArray[convo].date).format('MMMM d, YYYY');
+        var formattedDate = moment(sortedArray[convo].date).format('MMMM DD, YYYY');
         //
         if(sortedArray[convo].toUser == savedUsername) {
             sendMessageToUser = sortedArray[convo].fromUser;
@@ -283,15 +301,9 @@ function loadMessagesWithUser(e) {
                             "</li>";
         }
     }
-    chatText.innerHTML +="<div class='sendMessageContentWrapper'>"+
-                            "Send message to: <span class='sendMessageToUser'>"+sendMessageToUser+"</span>"+    
-                            "<input type='text' class='responseInputField' placeholder='Send message'>"+
-                            "<button type='button' onclick='sendMessageToUser(2)'>Send</button>"+
-                            "<div class='responseMessages'>"+
-                                "<p></p>"+
-                            "</div>"+
-                            "<div class='errorMessages'>"+
-                                "<p></p>"+
-                            "</div>"+
-                        "</div>";
+    // Set message to user 
+    document.querySelector('.sendMessageContentWrapper .sendMessageToUser').innerHTML = sendMessageToUser;
+
+    gotoBottom('.chatText');
+    
 }

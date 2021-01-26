@@ -99,6 +99,7 @@ body {
     .chatDetails {
         position: relative;
         padding: 10px;
+        padding-bottom:200px;
         background: #efefef;
         height: 500px;
         padding-bottom: 0;
@@ -111,10 +112,11 @@ body {
     .chatText {
         position: absolute;
         bottom: 4%;
-        height: 470px;
+        height: 369px;
         overflow-y: scroll;
         display: flex;
         flex-direction: column-reverse;
+        padding-bottom:120px;
     }
     .chatText ul{
         list-style: none;
@@ -173,4 +175,9 @@ body {
 
 .sendMessageButton{
     margin-bottom: 15px;
+}
+.sendMessageContentWrapper{
+    position: absolute;
+    bottom: 0;
+    background: white;
 }
