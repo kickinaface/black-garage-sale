@@ -8,9 +8,10 @@ function MessageRoutes() {
                 var toUserKey = req.body.toUser;
                 var fromUserKey = req.body.fromUser;
                 var messageKey = req.body.message;
+                var fromUserId = req.body.fromAvatarId;
                 var moment = require('moment');
-                //console.log(moment().format());
-                if(!toUserKey || !fromUserKey || !messageKey) {
+                //
+                if(!toUserKey || !fromUserKey || !messageKey || !fromUserId) {
                     res.status(404).send({message:'You must fill in all fields. '});
                 } else {
                     Admin.findOne({token:verifiedToken, username:fromUserKey}, function (err, admin) {
@@ -24,7 +25,7 @@ function MessageRoutes() {
                                 res.sendStatus(403);
                             } else {
                                 //res.json({message:'send a message to: ', toUserKey});
-                                sendMessage();
+                                sendMessage(fromUserId);
                             }
                         } else if(admin == null) {
                             User.findOne({token:verifiedToken, username:fromUserKey}, function(err, user) {
@@ -38,7 +39,7 @@ function MessageRoutes() {
                                         res.sendStatus(403);
                                     } else {
                                         //res.json({message:'send a message to: ', toUserKey});
-                                        sendMessage();
+                                        sendMessage(fromUserId);
                                     }
                                 } else {
                                     res.sendStatus(403);
@@ -46,9 +47,7 @@ function MessageRoutes() {
                             });
                         }
                     });
-                    function sendMessage(){
-                        console.log('toUserKey: ', toUserKey);
-                        console.log('fromUserKey: ', fromUserKey);
+                    function sendMessage(fromUserId){
                         Admin.findOne({username: toUserKey}, function (err, admin) {
                             if(err){
                                 res.send(err);
@@ -59,8 +58,8 @@ function MessageRoutes() {
                                     mModel.fromUser = fromUserKey;
                                     mModel.message = messageKey;
                                     mModel.date = moment().format();
-
-                                    // CHANGE SOON! AS LAST STEP CHECK FOR ROGUE EMAIL ADDRESSES TO FALSE USERS
+                                    mModel.fromAvatarId = fromUserId;
+                                    
                                     //save the ncMsg and check for errors
                                     mModel.save(function (err) {
                                         if (err){
@@ -80,8 +79,8 @@ function MessageRoutes() {
                                                 mModel.fromUser = fromUserKey;
                                                 mModel.message = messageKey;
                                                 mModel.date = moment().format();
+                                                mModel.fromAvatarId = fromUserId;
 
-                                                // CHANGE SOON! AS LAST STEP CHECK FOR ROGUE EMAIL ADDRESSES TO FALSE USERS
                                                 //save the ncMsg and check for errors
                                                 mModel.save(function (err) {
                                                     if (err){
@@ -197,7 +196,7 @@ function MessageRoutes() {
                                     }
                                 }
                                 // Create new Object that is grouped by fromUser
-                                var groupedMessages = _.groupBy(preparedMessages, function(m){
+                                var groupedMessages = _.groupBy(preparedMessages, function(m){                
                                     return m.fromUser;
                                 });
 

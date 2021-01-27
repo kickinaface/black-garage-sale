@@ -105,8 +105,10 @@ function sendMessageToUser(methodType){
         var postData = {
             toUser:toEmailAddressText.value,
             fromUser:savedUsername,
-            message: messageToUserText.value
+            message: messageToUserText.value,
+            fromAvatarId: userId
         };
+        
     } else if(methodType == 2){
         var toEmailAddressText = document.querySelector('.sendMessageContentWrapper .sendMessageToUser');
         var messageToUserText = document.querySelector('.sendMessageContentWrapper .responseInputField');
@@ -115,11 +117,10 @@ function sendMessageToUser(methodType){
         var postData = {
             toUser:toEmailAddressText.innerHTML,
             fromUser:savedUsername,
-            message: messageToUserText.value
+            message: messageToUserText.value,
+            fromAvatarId: userId
         };
-
     }
-    
     //
     superUtil.authPostRequest(postData, 'api/messages/', function (status, response){
         console.log(status, response.message);
@@ -277,7 +278,7 @@ function loadMessagesWithUser(e) {
             sendMessageToUser = sortedArray[convo].fromUser;
             chatText.innerHTML+= "<li>"+
                                 "<div class='leftMessage'>"+
-                                    "<div class='chatAvatar'><img src='img/default-profile-icon-16.png' width='50px;'></div>"+
+                                    "<div class='chatAvatar'><img src='/avatar/"+sortedArray[convo].fromAvatarId+"/avatarImage.jpg' width='50px;'></div>"+
                                     "To: "+sortedArray[convo].toUser+
                                     "<br/> From: "+sortedArray[convo].fromUser+
                                     "<br/>"+
@@ -290,7 +291,7 @@ function loadMessagesWithUser(e) {
             sendMessageToUser = sortedArray[convo].toUser;
             chatText.innerHTML+= "<li>"+
                                 "<div class='rightMessages'>"+
-                                    "<div class='chatAvatar'><img src='img/default-profile-icon-16.png' width='50px;'></div>"+
+                                    "<div class='chatAvatar'><img src='/avatar/"+sortedArray[convo].fromAvatarId+"/avatarImage.jpg' width='50px;'></div>"+
                                     "To: "+sortedArray[convo].toUser+
                                     "<br/> From: "+sortedArray[convo].fromUser+
                                     "<br/>"+

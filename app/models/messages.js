@@ -5,7 +5,8 @@ var MessageSchema	= new Schema({
 	fromUser: String,
 	toUser: String,
 	date: Date,
-	message: String
+	message: String,
+	fromAvatarId: String
 });
 
 module.exports = mongoose.model('Messages', MessageSchema);
