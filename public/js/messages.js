@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 function messageChatTimer(inSeconds){
     var chatTimer = setInterval(function(){
-        console.log('update messages');
         getMessagesForUser(userId, token);
     },(inSeconds * 1000));
 }
@@ -219,11 +218,12 @@ function getMessagesForUser(userId, token){
                     
                         leftPanel.innerHTML += '<div class="messageWrapper" onclick="loadMessagesWithUser(event);">'+
                                                 '<div class="messageicon">'+
-                                                    '<img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>'+
+                                                    '<img class="leftPanelAvatar" src="img/default-profile-icon-16.png" width="50px;" alt="">'+
                                                         '<div class="messagePreview">'+
                                                             '<div class="messageFromUser">'+userEmailAddress+'</div>'+
                                                         '</div>'+
-                                                    '</div>';
+                                                '</div>'+
+                                                '</div>';
                 }
             }
             // Loop through the allCombinedMessages and refomat array for later use.
@@ -235,6 +235,21 @@ function getMessagesForUser(userId, token){
                 }
             }
             loadMessagesWithUser(null);
+            // Add in left panel profile images
+            var leftPanelConversations = document.querySelectorAll('.messageWrapper');
+
+            for(var lpc = 0; lpc<= leftPanelConversations.length-1; lpc++){
+                var leftPanelConvoUser = leftPanelConversations[lpc].querySelector('.messagePreview .messageFromUser').innerHTML;
+                var leftPanelConvoUserImage = leftPanelConversations[lpc].querySelector('.leftPanelAvatar');
+
+                // search all messages for users avatar id and use it
+                for(var am = 0; am<=reformmatedCombinedMessages.length-1; am++){
+                    if(reformmatedCombinedMessages[am].fromUser == leftPanelConvoUser){
+                        var leftPanelAvatarId= reformmatedCombinedMessages[am].fromAvatarId;
+                        leftPanelConvoUserImage.src = ('avatar/'+leftPanelAvatarId+'/avatarImage.jpg');
+                    }
+                }
+            }
         }
         
     });

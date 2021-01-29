@@ -40,11 +40,15 @@ body {
         float:left;
         border: 1px solid black;
     }
+    .leftPanelAvatar {
+        float: left;
+    }
     .messageFromUser {
         font-style: italic;
         font-weight: bold;
-        float: left;
-        width: 10px;
+        position: absolute;
+        margin-left: 60px;
+        /* font-size: 80%; */
     }
     .messagePreview {
         /* loat: right;f */
