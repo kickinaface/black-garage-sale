@@ -127,33 +127,33 @@ function MessageRoutes() {
                 });
             })
             //update the ncMsg with this id
-            .put(tokenMethods.authenticateToken, function (req, res) {
-                msgModel.findById(req.params.msg_id, function (err, msg) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        msg.message = req.body.message;
-                        msg.save(function (err) {
-                            if (err) {
-                                res.send(err);
-                            } else {
-                                res.json({ message: 'message Updated!' })
-                            }
-                        });
-                    }
-                });
-            })
+            // .put(tokenMethods.authenticateToken, function (req, res) {
+            //     msgModel.findById(req.params.msg_id, function (err, msg) {
+            //         if (err) {
+            //             res.send(err);
+            //         } else {
+            //             msg.message = req.body.message;
+            //             msg.save(function (err) {
+            //                 if (err) {
+            //                     res.send(err);
+            //                 } else {
+            //                     res.json({ message: 'message Updated!' })
+            //                 }
+            //             });
+            //         }
+            //     });
+            // })
 
-            .delete(tokenMethods.authenticateToken, function (req, res) {
-                msgModel.remove({
-                    _id: req.params.msg_id
-                }, function (err, msg) {
-                    if (err) {
-                        res.send(err);
-                    }
-                    res.json({ message:'Successfully deleted:'});
-                });
-            });
+            // .delete(tokenMethods.authenticateToken, function (req, res) {
+            //     msgModel.remove({
+            //         _id: req.params.msg_id
+            //     }, function (err, msg) {
+            //         if (err) {
+            //             res.send(err);
+            //         }
+            //         res.json({ message:'Successfully deleted:'});
+            //     });
+            // });
         
             router.route('/messages/forUser/:userId')
                 .get(tokenMethods.authenticateToken, function (req, res) {

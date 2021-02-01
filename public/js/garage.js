@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", function(){
             window.location = '/login';
         }
     });
+
+    appTimer();
 });
 
 function appTimer() {
@@ -71,4 +73,11 @@ function appTimer() {
 
     //console.log('later clear interval: ', appTimer);
 };
-appTimer();
+
+function closeModal(sClass) {
+    document.querySelector(sClass).style.display = 'none';
+};
+
+function openModal(modalType) {
+    document.querySelector(modalType).style.display = 'block';
+};

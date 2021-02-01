@@ -10,6 +10,186 @@
 	<script type="text/javascript" src="js/garage.js"></script>
 </head>
 <body>
+	<!-- Modals-->
+	<!-- End Modals-->
+	<div class="modalWrapper addItemModal">
+		<div class="modal">
+			<p>
+				<h2>Add New Item</h2>
+			</p>
+			<br>
+			<form>
+				<p>
+					<p><label for="itemTitle">Enter an Item Title</label></p>
+					<input type="text" class="itemTitle" placeholder="Item Title">
+				</p>
+				<br>
+				<p>
+					<p><label for="itemDescription">Enter a Description</label></p>
+					<textarea name="itemDescription" class="itemDescription" cols="30" rows="10" placeholder="Item Description"></textarea>
+				</p>
+				<br>
+				<br>
+				<p>
+					<label for="itemCategory">Select a Category: </label>
+					<select name="itemCategory" class="itemCategory">
+						<option value="Automotive">Automotive</option>
+						<option value="Books">Books</option>
+						<option value="Crafts">Crafts</option>
+						<option value="Construction">Construction</option>
+						<option value="Electronics">Electronics</option>
+						<option value="Garden">Garden</option>
+						<option value="Home">Home</option>
+						<option value="Jewelry">Jewelry</option>
+						<option value="Other">Other</option>
+					</select>
+				</p>
+				<br>
+				<br>
+				<p>
+					<p><label for="itemQty">Item Quantity</label></p>
+					<input type="number" class="itemQty" name="itemQty" min="1">
+				</p>
+				<br>
+				<p>
+					<p><label for="itemPrice">Item Price $</label></p>
+					<input type="text" class="itemPrice" name="itemPrice">
+				</p>
+				<br>
+				<!-- <p>
+					<i>* Please be sure you wish to remove this user 
+						<br>
+						* This cannot be undone. </i>
+				</p> -->
+				
+				<button type="button" onclick="removeBasicUser();">Add Item</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+			</form>
+			<button onclick="closeModal('.addItemModal');">Close</button>
+		</div>
+	</div>
+	<div class="modalWrapper editItemModal">
+		<div class="modal">
+			<p>
+				<h2>Edit Item</h2>
+			</p>
+			<br>
+				<p>
+					<label for="editItemIDText">Enter Item ID</label>
+					<input type="text" class="editItemIDText" placeholder="Item ID">
+					<button type="button">Get Item</button>
+				</p>
+				<p>
+					<label for="editItemImage1">Edit Image 1</label>
+					<input type="file" id="editItemImage1" accept="image/png, image/jpeg" name="editItemImage1"/>
+					<button type="submit" class="uploadImageButton">Upload Image 1</button>
+				</p>
+				<br>
+				<p>
+					<label for="editItemImage2">Edit Image 2</label>
+					<input type="file" id="editItemImage2" accept="image/png, image/jpeg" name="editItemImage2"/>
+					<button type="submit" class="uploadImageButton">Upload Image 2</button>
+				</p>
+				<br>
+				<p>
+					<label for="editItemImage3">Edit Image 3</label>
+					<input type="file" id="editItemImage3" accept="image/png, image/jpeg" name="editItemImage3"/>
+					<button type="submit" class="uploadImageButton">Upload Image 3</button>
+				</p>
+				<br>
+				<p>
+					<label for="editItemTitle">Edit Item Title</label>
+					<input type="text" class="editItemTitle" placeholder="Item Title">
+				</p>
+				<p>
+					<label for="editItemDescription">Edit Item Description</label>
+					<textarea name="editItemDescription" cols="30" rows="10" class="editItemDescription"></textarea>
+				</p>
+				<p>
+					<label for="editItemCategory">Edit Item Category</label>
+					<select name="editItemCategory" class="editItemCategory">
+						<option value="Automotive">Automotive</option>
+							<option value="Books">Books</option>
+							<option value="Crafts">Crafts</option>
+							<option value="Construction">Construction</option>
+							<option value="Electronics">Electronics</option>
+							<option value="Garden">Garden</option>
+							<option value="Home">Home</option>
+							<option value="Jewelry">Jewelry</option>
+							<option value="Other">Other</option>
+					</select>
+				</p>
+				<p>
+					<p><label for="editItemQty">Edit Item Quantity</label></p>
+					<input type="number" class="editItemQty" name="editItemQty" min="1">
+				</p>
+				<p>
+					<p><label for="editItemPrice">Edit Item Price $</label></p>
+					<input type="text" class="editItemPrice" name="editItemPrice">
+				</p>
+				<p>
+					<p><label for="editItemSoldStatus">Item is Sold</label></p>
+					<input type="checkbox" name="editItemSoldStatus" class="editItemSoldStatus" value="soldStatus">
+				</p>
+				<p>
+					<p><label for="editItemAvailableStatus">Item Un-Available (Out of Stock)</label></p>
+					<input type="checkbox" name="editItemAvailableStatus" class="editItemAvailableStatus" value="availableStatus">
+				</p>
+				<!-- <p>
+					<i>* Please be sure you wish to remove this user 
+						<br>
+						* This cannot be undone. </i>
+				</p> -->
+				
+				<button type="button" onclick="removeBasicUser();">Save Edit Item</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+			<button onclick="closeModal('.editItemModal');">Close</button>
+		</div>
+	</div>
+	<div class="modalWrapper removeItemModal">
+		<div class="modal">
+			<p>
+				<h2>Remove Item</h2>
+			</p>
+			<!-- <br>
+			<form>
+				<p>
+					<label for="removeBasicUser">Enter user id</label>
+					<input type="text" class="removeBasicUser" placeholder="user id">
+				</p>
+				<p>
+					<i>* Please be sure you wish to remove this user 
+						<br>
+						* This cannot be undone. </i>
+				</p>
+				
+				<button type="button" onclick="removeBasicUser();">Remove User</button>
+				<br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+			</form> -->
+			<button onclick="closeModal('.removeItemModal');">Close</button>
+		</div>
+    </div>
 	<div class="navigation">
 		<div class="navLogo"><i>Black</i> Garage Sale</div>
 		<ul class="navLinks"></ul>
@@ -22,7 +202,9 @@
             <div class="garageControls">
                 <h4>Garage Controls:</h4>
                 <br>
-                <button type="button" title="addItem">Add Item</button>
+				<button type="button" title="addItem" onclick="openModal('.addItemModal');">Add Item</button>
+				<button type="button" title="editItem" onclick="openModal('.editItemModal');">Edit Item</button>
+				<button type="button" title="removeItem" onclick="openModal('.removeItemModal');">Remove Item</button>
             </div>
 		</div>
 	</div>

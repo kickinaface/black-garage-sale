@@ -53,6 +53,7 @@ body {
     background:rgba(0, 0, 0, 0.5);
     z-index: 9;
     display: none;
+    overflow-y:auto;
 }
 
 .modalWrapper .modal{
@@ -67,4 +68,12 @@ body {
 .modalWrapper .modal button {
     margin:20px 0 0 0;
     text-align: center;
+}
+
+.addItemModal .modal, .editItemModal .modal {
+    margin-top:2%;
+}
+
+.uploadImageButton {
+    padding: 10px;
 }
