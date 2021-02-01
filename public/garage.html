@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/garage.css">
+	<link rel="stylesheet" href="css/garage.css">
+	<script type="text/javascript" src="js/lodash.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
 	<script type="text/javascript" src="js/superUtil.js"> </script>
 	<script type="text/javascript" src="js/garage.js"></script>
 </head>
@@ -213,7 +215,11 @@
 				<button type="button" title="addItem" onclick="openModal('.addItemModal');">Add Item</button>
 				<button type="button" title="editItem" onclick="openModal('.editItemModal');">Edit Item</button>
 				<button type="button" title="removeItem" onclick="openModal('.removeItemModal');">Remove Item</button>
-            </div>
+			</div>
+			
+			<div class="garageItems">
+				There are no garage items here. Click the: <i><b>Add Item</b></i> button to create items.
+			</div>
 		</div>
 	</div>
 </body>

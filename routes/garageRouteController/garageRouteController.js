@@ -96,6 +96,47 @@ function GarageRouteController() {
                 });
                 
             });
+        
+        router.route('/garage/items/:user_id')
+            .get(tokenMethods.authenticateToken, function(req, res) {
+                var token = req.headers['authorization'].replace('Bearer ', '');
+                Admin.findOne({_id:req.params.user_id,token:token}, function (err, admin){
+                    if(err){
+                        res.status(403).send({message:'There is no user by that ID'})
+                    } else if(admin != null) {
+                        //res.send({message:'admin wishes to see all garage items they own'})
+                        getAllGarageItemsForUser(admin._id);
+                    } else if(admin == null) {
+                        User.findOne({_id:req.params.user_id, token:token}, function (err, user){
+                            if(err){
+                                res.send(err);
+                            } else if(user != null){
+                               // res.send({message: 'user wishes to see all garage items they own'});
+                               getAllGarageItemsForUser(user._id);
+                            } else {
+                                res.sendStatus(403);
+                            }
+                        });
+                    }
+                });
+
+                function getAllGarageItemsForUser(gUser){
+                    var usersGarageItems = [];
+                    //
+                    Garage.find(function(err, userItems){
+                        if(err){
+                            res.send(err);
+                        } else {
+                            for(var g = 0; g<= userItems.length-1; g++){
+                                if(userItems[g].createdBy == gUser){
+                                    usersGarageItems.push(userItems[g]);
+                                }
+                            }
+                            res.send(usersGarageItems);
+                        }
+                    });
+                }
+            });
 
         // Delete garage item only if you are the owner of that item.
         router.route('/garage/item/:item_id')
