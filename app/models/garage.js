@@ -3,7 +3,10 @@ var Schema		= mongoose.Schema;
 
 var GarageItemSchema	= new Schema({
 	createdBy: String,
-	date: Date,
+    date: Date,
+    title: String,
+    description:String,
+    category:String,
 	rating: Number,
     comments: Array,
     price: Number,

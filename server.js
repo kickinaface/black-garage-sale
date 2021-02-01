@@ -5,16 +5,21 @@ const path 			= require('path');
 //
 const mongoose	= require('mongoose');
 const dbUrl		= 'mongodb://localhost:27017/nifty-chat-old';//'//mongodb://<Carter>:<supertroopermongo32>@ds139817.mlab.com:39817/heroku_0b6l1bdm
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useUnifiedTopology', true);
 mongoose.connect(dbUrl);
+
 const msgModel	= require('./app/models/messages');
 const Admin       = require('./app/models/admin');
 const User = require('./app/models/user');
+const Garage = require('./app/models/garage');
 //
 const adminRoutes = require('./routes/adminRoutes/adminRoutes');
 const messageRoutes = require('./routes/messageRoutes/messageRoutes');
 const userRoutes = require('./routes/userRoutes/userRoutes');
 const loginRouteController = require('./routes/loginRouteController/loginRouteController');
 const uploadRouteController = require('./routes/uploadRoutes/uploadRoutes');
+const garageRouteController = require('./routes/garageRouteController/garageRouteController');
 //
 const tokenMethods = require('./app/methods/tokenMethods/tokenMethods');
 //
@@ -84,6 +89,8 @@ messageRoutes.init(msgModel, router, tokenMethods, Admin, User);
 loginRouteController.init(Admin, User, router, tokenMethods);
 //file upload routes
 uploadRouteController.init(Admin, User, router, fs, tokenMethods);
+//Garage routes
+garageRouteController.init(Garage, Admin, User, router, fs, tokenMethods);
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
 	var clientIp = req.connection.remoteAddress;
