@@ -92,3 +92,6 @@ body {
     color: green;
     font-weight: bold;
 }
+.editItemDescription{
+    padding: 10px;
+}

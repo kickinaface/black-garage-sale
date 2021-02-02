@@ -113,10 +113,10 @@ app.use('/api', router);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/avatar/:userId/:image', function (req, res) {
-	console.log('requesting image');
+	//console.log('requesting image');
 	var imagePath = (__dirname+'/avatar/'+req.params.userId+'/'+req.params.image);
 	if(fs.existsSync(imagePath)){
-		console.log('image exists, show it');
+		//console.log('image exists, show it');
 		res.sendFile(path.join(imagePath));
 	} else {
 		res.sendStatus(404);

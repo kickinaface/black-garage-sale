@@ -138,21 +138,48 @@ function GarageRouteController() {
                 }
             });
 
-        // Delete garage item only if you are the owner of that item.
+        
         router.route('/garage/item/:item_id')
             .get(tokenMethods.authenticateToken, function (req, res) {
-                Garage.findOne({
-                    _id: req.params.item_id
-                }, function (err, item){
+                var token = req.headers['authorization'].replace('Bearer ', '');
+                Admin.findOne({token:token}, function (err, admin) {
                     if(err){
                         res.send(err);
-                    } else if(item != null){
-                        res.send(item);
-                    } else {
-                        res.sendStatus(403);
+                    } else if(admin != null){
+                        //deleteItem(admin._id);
+                        //console.log('admin wishes to proceed: ', admin);
+                        findItemInGarageByID(req.params.item_id, admin._id);
+                    } else if(admin == null) {
+                        User.findOne({token: token}, function (err, user){
+                            if(err){
+                                res.send(err);
+                            } else if(user != null) {
+                               // deleteItem(user._id);
+                               findItemInGarageByID(req.params.item_id, user._id);
+                               //console.log('user wishes to proceed: ', user);
+                            } else {
+                                res.status(403).send({message: 'You must be the creator of this item'});
+                            }
+                        });
                     }
-                })
+                });
+                function findItemInGarageByID(itemId, aId){
+                    Garage.findOne({
+                        _id: itemId,
+                        createdBy: aId
+                    }, function (err, item){
+                        if(err){
+                            res.status(403).send({message:'There is no item by that ID'});
+                        } else if(item != null){
+                            res.send(item);
+                        } else {
+                            res.status(403).send({message:'There is no item by that ID'});
+                        }
+                    })
+                }
+                
             })
+            // Delete garage item only if you are the owner of that item.
             .delete(tokenMethods.authenticateToken, function(req, res) {
                 var token = req.headers['authorization'].replace('Bearer ', '');
                 Admin.findOne({token:token}, function (err, admin) {

@@ -64,7 +64,7 @@
 						* This cannot be undone. </i>
 				</p> -->
 				
-				<button type="button" onclick="removeBasicUser();">Add Item</button>
+				<button type="button" onclick="addNewGarageItem();">Add Item</button>
 				<br>
 				<br>
 				<div class="responseMessages">
@@ -86,9 +86,19 @@
 				<p>
 					<label for="editItemIDText">Enter Item ID</label>
 					<input type="text" class="editItemIDText" placeholder="Item ID">
-					<button type="button">Get Item</button>
+					<button type="button" onclick="getGarageItemById();">Get Item</button>
 				</p>
-				<p>
+				<br>
+				<div class="editItemWrapperContent">
+
+				</div>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+				<!-- <p>
 					<label for="editItemImage1">Edit Image 1</label>
 					<input type="file" id="editItemImage1" accept="image/png, image/jpeg" name="editItemImage1"/>
 					<button type="submit" class="uploadImageButton">Upload Image 1</button>
@@ -151,16 +161,11 @@
 				<p>
 					<p><label for="editItemAvailableStatus">Item Un-Available (Out of Stock)</label></p>
 					<input type="checkbox" name="editItemAvailableStatus" class="editItemAvailableStatus" value="availableStatus">
-				</p>
-				<!-- <p>
-					<i>* Please be sure you wish to remove this user 
-						<br>
-						* This cannot be undone. </i>
-				</p> -->
+				</p> 
 				
 				<button type="button" onclick="removeBasicUser();">Save Edit Item</button>
 				<br>
-				<br>
+				<br> -->
 				<div class="responseMessages">
 					<p></p>
 				</div>
