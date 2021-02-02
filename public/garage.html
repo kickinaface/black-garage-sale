@@ -213,12 +213,13 @@
 		<h2>My Garage</h2>
         <br>
 		<div class="blueBox">
-            <br>
+			<h2 class="displayname">First Name Last name</h2>
+            <img src="img/default-profile-icon-16.png" width="100px" alt="Profile Picture" class="userImageAvatar">
             <div class="garageControls">
                 <h4>Garage Controls:</h4>
                 <br>
 				<button type="button" title="addItem" onclick="openModal('.addItemModal');">Add Item</button>
-				<button type="button" title="editItem" onclick="openModal('.editItemModal');">Edit Item</button>
+				<button type="button" title="editItem" onclick="openModal('.editItemModal', null);">Edit Item</button>
 				<button type="button" title="removeItem" onclick="openModal('.removeItemModal');">Remove Item</button>
 			</div>
 			

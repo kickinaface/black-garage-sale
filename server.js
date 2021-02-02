@@ -124,6 +124,19 @@ app.get('/avatar/:userId/:image', function (req, res) {
 	}
 });
 
+app.get('/garageImages/:itemId/:image', function (req, res){
+	var imagePath = (__dirname+'/garageImages/'+req.params.itemId+'/'+req.params.image);
+	var defaultImagePath= (__dirname+'/defaultPhotos/package-icon.png');
+
+	if(fs.existsSync(imagePath)){
+		//console.log('image exists, show it');
+		res.sendFile(path.join(imagePath));
+	} else {
+		res.sendFile(path.join(defaultImagePath));
+		//console.log('image does not exist');
+	}
+});
+
 // Handle page routing
 app.get('/login', function (req, res){
 	res.sendFile(path.join(__dirname+'/public/login.html'));
@@ -135,11 +148,7 @@ app.get('/profile', function (req, res) {
 	//console.log(clientIp);	
 	var userAgent = req.headers['user-agent'];
 	searchIp(clientIp, userAgent, function(data, user) {
-		console.log('data: ', data);
-		console.log('userIP: ', clientIp);
-		console.log('storedIP: ', user.clientIpAddress);
-		console.log('userAgent: ', userAgent);
-		console.log('stored User Agent: ', user.userAgent);		
+		//	
 		if(data == true && clientIp == user.clientIpAddress && user.userAgent == userAgent) {
 			if(user.role == 'admin'){
 				res.sendFile(path.join(__dirname+'/app/pages/adminProfile.html'));

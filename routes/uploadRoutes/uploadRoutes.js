@@ -80,8 +80,8 @@ function UploadRoutes(){
                                             return res.status(500).send(err);
                                         } else {
                                            // console.log('succesfully updated');
-                                            //res.redirect('/garage');
-                                            res.send('File uploaded!');
+                                            res.redirect('/garage');
+                                            //res.send('File uploaded!');
                                         }
                                     });
                                 } else {
@@ -94,8 +94,8 @@ function UploadRoutes(){
                                                 if (err) {
                                                     return res.status(500).send(err);
                                                 } else {
-                                                    //res.redirect('/garage');
-                                                    res.send('File uploaded!');
+                                                    res.redirect('/garage');
+                                                    //res.send('File uploaded!');
                                                 }
                                             });
                                         }

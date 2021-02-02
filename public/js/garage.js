@@ -50,6 +50,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
     appTimer();
     getGarageItemsForUser(token, userId);
+    getFirstLastName();
+    loadAvatarPhoto();
 });
 
 function appTimer() {
@@ -71,8 +73,13 @@ function closeModal(sClass) {
     document.querySelector(sClass).style.display = 'none';
 };
 
-function openModal(modalType) {
+function openModal(modalType, openFrom) {
     document.querySelector(modalType).style.display = 'block';
+    if(openFrom != null){
+        // User is choosing edit button from list. Populate ID and retrieve item.
+        document.querySelector('.editItemIDText').value = openFrom;
+        getGarageItemById();
+    }
 };
 
 function getGarageItemsForUser(token, userId){
@@ -99,17 +106,22 @@ function getGarageItemsForUser(token, userId){
                             "<br>"+
                             "<span class='itemPrice'>$"+ itemsSortedByDate[o].price +"</span>"+
                             "<br>"+
+                            
+                            "<img src='/garageImages/"+itemsSortedByDate[o]._id+"/garageItemImage_1.jpg' width='70px' /> &nbsp;"+
+                            "<img src='/garageImages/"+itemsSortedByDate[o]._id+"/garageItemImage_2.jpg' width='70px' /> &nbsp;"+
+                            "<img src='/garageImages/"+itemsSortedByDate[o]._id+"/garageItemImage_3.jpg' width='70px' /> &nbsp;"+
                             "<br>"+
                             "<span><b><i>"+ itemsSortedByDate[o].category +"</i></b></span>"+
-                            "<br>"+
+                            "<br/>"+
                             "<span><i>Posted: "+ moment(itemsSortedByDate[o].date).fromNow() +"</i></span>"+
                             "<br>"+
-                            "<button class='editItemInListButton'>Edit</button> <button class='editItemInListButton'>View</button> <button class='editItemInListButton'>Remove</button>"+
+                            "<button class='editItemInListButton' onclick=openModal('.editItemModal','"+itemsSortedByDate[o]._id+"');>Edit</button> <button class='editItemInListButton'>View</button> <button class='editItemInListButton'>Remove</button>"+
+                            
+                            
                         "</div>"+
                     "</li>";
                 }
             }
-
             
         } else {
             //console.log(status);
@@ -264,4 +276,42 @@ function getGarageItemById(){
             errorMessages.innerHTML = data.message;
         }
     });
-}
+};
+
+function getFirstLastName() {
+    var displaynameText = document.querySelector('.displayname');
+    superUtil.getAuthenticatedRequest(token,'api/displayName/'+(userId), function (status, data){
+        if(status == 200) {
+            displaynameText.innerHTML = (data.firstName + ' ' + data.lastName);
+        } else {
+            console.log(status, data);
+        }
+    });
+};
+
+function loadAvatarPhoto(){
+    var avatarPhoto = document.querySelector('.userImageAvatar');
+
+    if(userId != 'undefined'){
+        var imageUrl = ('/avatar/'+userId+'/avatarImage.jpg');
+        
+        urlExists(imageUrl, function (exists) {
+            if(!exists) {
+                // Do nothing continue loading default photo
+            } else {
+                avatarPhoto.src = imageUrl;
+            }
+        });
+    }
+};
+
+function urlExists(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        callback(xhr.status < 400);
+      }
+    };
+    xhr.open('HEAD', url);
+    xhr.send();
+};

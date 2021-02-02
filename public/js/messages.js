@@ -151,10 +151,7 @@ function getFirstLastName() {
     });
 }
 
-function loadAvatarPhoto(){
-    // var avatarUploadUserToken = document.querySelector('#avatarUploadUserToken');
-    // avatarUploadUserToken.value = token;
-    
+function loadAvatarPhoto(){    
     var avatarPhoto = document.querySelector('.userImageAvatar');
 
     if(userId != 'undefined'){
