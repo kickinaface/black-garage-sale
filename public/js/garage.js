@@ -162,24 +162,35 @@ function getGarageItemById(){
     superUtil.getAuthenticatedRequest(token, ('api/garage/item/'+editItemIDText.value), function (status, data) {
         if(status == 200) {
             //console.log('SUCCESS: ', status, data);
+            console.log(data._id);
             errorMessages.innerHTML = '';
+            editItemModal.innerHTML = '';
             editItemModal.innerHTML +=
             "<p>"+
-            "<label for='editItemImage1'>Edit Image 1</label>"+
-            "<input type='file' id='editItemImage1' accept='image/png, image/jpeg' name='editItemImage1'/>"+
-            "<button type='submit' class='uploadImageButton'>Upload Image 1</button>"+
+            "<form action='/api/upload/1/"+(data._id)+"' method='post' enctype='multipart/form-data' class='editItemImage1Form'>"+
+                "<label for='editItemImage1'>Edit Image 1</label>"+
+                "<input type='file' id='editItemImage1' accept='image/png, image/jpeg' name='itemImage'/>"+
+                "<input type='hidden' name='userUploadToken' id='userUploadToken' value='"+token+"'/>"+
+                "<button type='submit' class='uploadImageButton'>Upload Image 1</button>"+
+            "</form>"+
         "</p>"+
         "<br>"+
         "<p>"+
-            "<label for='editItemImage2'>Edit Image 2</label>"+
-            "<input type='file' id='editItemImage2' accept='image/png, image/jpeg' name='editItemImage2'/>"+
-            "<button type='submit' class='uploadImageButton'>Upload Image 2</button>"+
+            "<form action='/api/upload/2/"+(data._id)+"' method='post' enctype='multipart/form-data' class='editItemImage2Form'>"+
+                "<label for='editItemImage2'>Edit Image 2</label>"+
+                "<input type='file' id='editItemImage2' accept='image/png, image/jpeg' name='itemImage'/>"+
+                "<input type='hidden' name='userUploadToken' id='userUploadToken' value='"+token+"'/>"+
+                "<button type='submit' class='uploadImageButton'>Upload Image 2</button>"+
+            "</form>"+
         "</p>"+
         "<br>"+
         "<p>"+
-            "<label for='editItemImage3'>Edit Image 3</label>"+
-            "<input type='file' id='editItemImage3' accept='image/png, image/jpeg' name='editItemImage3'/>"+
-            "<button type='submit' class='uploadImageButton'>Upload Image 3</button>"+
+            "<form action='/api/upload/3/"+(data._id)+"' method='post' enctype='multipart/form-data' class='editItemImage3Form'>"+
+                "<label for='editItemImage3'>Edit Image 3</label>"+
+                "<input type='file' id='editItemImage3' accept='image/png, image/jpeg' name='itemImage'/>"+
+                "<input type='hidden' name='userUploadToken' id='userUploadToken' value='"+token+"'/>"+
+                "<button type='submit' class='uploadImageButton'>Upload Image 3</button>"+
+            "<form>"+
         "</p>"+
         "<br>"+
         "<p>"+
