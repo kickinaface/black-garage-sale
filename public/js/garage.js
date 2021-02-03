@@ -106,16 +106,17 @@ function getGarageItemsForUser(token, userId){
                             "<br>"+
                             "<span class='itemPrice'>$"+ itemsSortedByDate[o].price +"</span>"+
                             "<br>"+
-                            
+                            "<center>"+
                             "<img src='/garageImages/"+itemsSortedByDate[o]._id+"/garageItemImage_1.jpg' width='70px' /> &nbsp;"+
                             "<img src='/garageImages/"+itemsSortedByDate[o]._id+"/garageItemImage_2.jpg' width='70px' /> &nbsp;"+
                             "<img src='/garageImages/"+itemsSortedByDate[o]._id+"/garageItemImage_3.jpg' width='70px' /> &nbsp;"+
+                            "</center>"+
                             "<br>"+
                             "<span><b><i>"+ itemsSortedByDate[o].category +"</i></b></span>"+
                             "<br/>"+
                             "<span><i>Posted: "+ moment(itemsSortedByDate[o].date).fromNow() +"</i></span>"+
                             "<br>"+
-                            "<button class='editItemInListButton' onclick=openModal('.editItemModal','"+itemsSortedByDate[o]._id+"');>Edit</button> <button class='editItemInListButton'>View</button> <button class='editItemInListButton'>Remove</button>"+
+                            "<button class='editItemInListButton' onclick=openModal('.editItemModal','"+itemsSortedByDate[o]._id+"');>Edit</button> <button class='editItemInListButton'>View</button> <button class='editItemInListButton' onclick=openModal('.removeItemModal');>Remove</button>"+
                             
                             
                         "</div>"+
@@ -174,7 +175,7 @@ function getGarageItemById(){
     superUtil.getAuthenticatedRequest(token, ('api/garage/item/'+editItemIDText.value), function (status, data) {
         if(status == 200) {
             //console.log('SUCCESS: ', status, data);
-            console.log(data._id);
+            //console.log(data._id);
             errorMessages.innerHTML = '';
             editItemModal.innerHTML = '';
             editItemModal.innerHTML +=
@@ -182,7 +183,7 @@ function getGarageItemById(){
             "<form action='/api/upload/1/"+(data._id)+"' method='post' enctype='multipart/form-data' class='editItemImage1Form'>"+
                 "<label for='editItemImage1'>Edit Image 1</label>"+
                 "<input type='file' id='editItemImage1' accept='image/png, image/jpeg' name='itemImage'/>"+
-                "<input type='hidden' name='userUploadToken' id='userUploadToken' value='"+token+"'/>"+
+                "<input type='hidden' name='userUploadToken' value='"+token+"'/>"+
                 "<button type='submit' class='uploadImageButton'>Upload Image 1</button>"+
             "</form>"+
         "</p>"+
@@ -191,7 +192,7 @@ function getGarageItemById(){
             "<form action='/api/upload/2/"+(data._id)+"' method='post' enctype='multipart/form-data' class='editItemImage2Form'>"+
                 "<label for='editItemImage2'>Edit Image 2</label>"+
                 "<input type='file' id='editItemImage2' accept='image/png, image/jpeg' name='itemImage'/>"+
-                "<input type='hidden' name='userUploadToken' id='userUploadToken' value='"+token+"'/>"+
+                "<input type='hidden' name='userUploadToken' value='"+token+"'/>"+
                 "<button type='submit' class='uploadImageButton'>Upload Image 2</button>"+
             "</form>"+
         "</p>"+
@@ -200,7 +201,7 @@ function getGarageItemById(){
             "<form action='/api/upload/3/"+(data._id)+"' method='post' enctype='multipart/form-data' class='editItemImage3Form'>"+
                 "<label for='editItemImage3'>Edit Image 3</label>"+
                 "<input type='file' id='editItemImage3' accept='image/png, image/jpeg' name='itemImage'/>"+
-                "<input type='hidden' name='userUploadToken' id='userUploadToken' value='"+token+"'/>"+
+                "<input type='hidden' name='userUploadToken' value='"+token+"'/>"+
                 "<button type='submit' class='uploadImageButton'>Upload Image 3</button>"+
             "<form>"+
         "</p>"+
@@ -222,7 +223,7 @@ function getGarageItemById(){
             "Currently Selected Category: <i>"+data.category+"</i>"+
             "<br>"+
             "<select name='editItemCategory' class='editItemCategory'>"+
-                "<option value='Automotive'>Automotive</option>"+
+                    "<option value='Automotive'>Automotive</option>"+
                     "<option value='Books'>Books</option>"+
                     "<option value='Crafts'>Crafts</option>"+
                     "<option value='Construction'>Construction</option>"+
@@ -254,8 +255,10 @@ function getGarageItemById(){
             "<p><label for='editItemAvailableStatus'>Item Un-Available (Out of Stock)</label></p>"+
             "<input type='checkbox' name='editItemAvailableStatus' class='editItemAvailableStatus' value='availableStatus'>"+
         "</p>"+ 
-        
-        "<button type='button' onclick='removeBasicUser();'>Save Edit Item</button>"+
+        "<br>"+
+        "<i><b>***** Be sure you wish to actually save the item before clicking Save.<br/> Otherwise, please click Close to cancel.</b></i>"+
+        "<br/>"+
+        "<button type='button' onclick='saveEditItemDetails();'>Save Edit Item</button>"+
         "<br>"+
         "<br>";
             // Set isSold checkbox
@@ -315,3 +318,70 @@ function urlExists(url, callback) {
     xhr.open('HEAD', url);
     xhr.send();
 };
+
+function removeItemById(){
+    var removeItemText = document.querySelector('.removeItemText').value;
+    var responseMessages = document.querySelector('.removeItemModal .responseMessages');
+    var errorMessages = document.querySelector('.removeItemModal .errorMessages');
+
+    // console.log('removeItemText: ',removeItemText.value);
+    superUtil.authPostRequest(null, ('api/garage/item/'+removeItemText), function(status, res) {
+        if(status != 200){
+            //console.log('message: ', res.message);
+            errorMessages.innerHTML = res.message;
+            responseMessages.innerHTML = '';
+        } else if(status == 200) {
+            responseMessages.innerHTML = (res.message + 'Please wait...');
+            setTimeout(function(){
+                location.reload();
+            },3000);
+
+        //    console.log(res.status);
+        //    console.log(res.message);
+        }
+    },'DELETE');
+};
+
+function saveEditItemDetails () {
+    console.log('gItemID: ',gItemID);
+    var gItemID = document.querySelector('.editItemIDText').value;
+    var itemTitle = document.querySelector('.editItemTitle');
+    var itemDescription = document.querySelector('.editItemDescription');
+    var itemCategory = document.querySelector('.editItemCategory');
+    var itemQuantity = document.querySelector('.editItemQty');
+    var itemPrice = document.querySelector('.editItemPrice');
+    var isSold = document.querySelector('.editItemSoldStatus');
+    var isAvailable = document.querySelector('.editItemAvailableStatus');
+    var responseMessages = document.querySelector('.editItemModal .responseMessages');
+    var errorMessages = document.querySelector('.editItemModal .errorMessages');
+
+    console.log('itemTitle: ', itemTitle.value);
+    console.log('itemDescription: ', itemDescription.value);
+    console.log('itemCategory: ', itemCategory.value);
+    console.log('itemQuantity: ', itemQuantity.value);
+    console.log('itemPrice: ', itemPrice.value);
+    console.log('isSold: ', isSold.checked);
+    console.log('isAvailable: ', !isAvailable.checked);
+    var postData = {
+        itemTitle: itemTitle.value,
+        itemDescription: itemDescription.value,
+        itemCategory: itemCategory.value,
+        itemQuantity: itemQuantity.value,
+        itemPrice: itemPrice.value,
+        isSold: isSold.checked,
+        isAvailable: !isAvailable.checked
+    };
+    //
+    superUtil.authPostRequest(postData, ('api/garage/item/'+gItemID), function(status, data){
+        if(status != 200) {
+            console.log('status: ',status, 'data: ' , data);
+            responseMessages.innerHTML = '';
+            errorMessages.innerHTML = data;
+        } else if (status == 200) {
+            responseMessages.innerHTML = (data.message + 'Please wait...');
+            setTimeout(function(){
+                location.reload();
+            },2000);
+        }
+    }, 'PUT');
+}

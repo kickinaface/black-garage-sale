@@ -109,18 +109,13 @@ function SuperUtil(){
 		//console.log(postType);
 		if(postType == 'DELETE') {
 			xhr.send(null);
-		} else if(postType == 'POST'){
+		} else if(postType == 'POST' || postType == 'PUT'){
 			//Format data and header for posting proper JSON
 			var data = JSON.stringify(postData);
 			xhr.setRequestHeader("Content-type", "application/json");
 			xhr.send(data);
 		}
 	};
-
-	function privateMethod() {
-		console.log('run privateMethod');
-	}
-
 };
 
 function Navigation(){
