@@ -116,7 +116,7 @@ function getGarageItemsForUser(token, userId){
                             "<br/>"+
                             "<span><i>Posted: "+ moment(itemsSortedByDate[o].date).fromNow() +"</i></span>"+
                             "<br>"+
-                            "<button class='editItemInListButton' onclick=openModal('.editItemModal','"+itemsSortedByDate[o]._id+"');>Edit</button> <button class='editItemInListButton'>View</button> <button class='editItemInListButton' onclick=openModal('.removeItemModal');>Remove</button>"+
+                            "<button class='editItemInListButton' onclick=openModal('.editItemModal','"+itemsSortedByDate[o]._id+"');>Edit</button> <button class='editItemInListButton' onclick=viewItem('"+itemsSortedByDate[o]._id+"')>View</button> <button class='editItemInListButton' onclick=openModal('.removeItemModal');>Remove</button>"+
                             
                             
                         "</div>"+
@@ -354,14 +354,7 @@ function saveEditItemDetails () {
     var isAvailable = document.querySelector('.editItemAvailableStatus');
     var responseMessages = document.querySelector('.editItemModal .responseMessages');
     var errorMessages = document.querySelector('.editItemModal .errorMessages');
-
-    console.log('itemTitle: ', itemTitle.value);
-    console.log('itemDescription: ', itemDescription.value);
-    console.log('itemCategory: ', itemCategory.value);
-    console.log('itemQuantity: ', itemQuantity.value);
-    console.log('itemPrice: ', itemPrice.value);
-    console.log('isSold: ', isSold.checked);
-    console.log('isAvailable: ', !isAvailable.checked);
+    //
     var postData = {
         itemTitle: itemTitle.value,
         itemDescription: itemDescription.value,
@@ -380,8 +373,14 @@ function saveEditItemDetails () {
         } else if (status == 200) {
             responseMessages.innerHTML = (data.message + 'Please wait...');
             setTimeout(function(){
-                location.reload();
+                //location.reload();
+                window.location = ('/garage/item/'+gItemID);
             },2000);
         }
     }, 'PUT');
+};
+
+function viewItem(itemToView){
+    console.log('Got to Item; ', itemToView);
+    window.location = ('/garage/item/'+ itemToView);
 }

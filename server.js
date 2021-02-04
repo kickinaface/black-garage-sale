@@ -177,6 +177,56 @@ app.get('/garage', function (req, res) {
 	});
 });
 
+app.get('/garage/item/:itemID', function (req, res){
+	Garage.findOne({
+		_id: req.params.itemID
+	}, function (err, gItem){
+		if(err){
+			//res.send(err);
+			res.status(403).send({message: 'There is no item by that ID'});
+		} else if(gItem != null){
+			//console.log('gItem: ', gItem);
+			//res.sendFile(path.join(__dirname+'/public/itemPage.html'));
+			var preMadeDocument = "<html>"+
+									"<head>"+
+										"<title>SuperUtil -LOGIN</title>"+
+										"<meta name='viewport' content='width=device-width, initial-scale=1'>"+
+										"<style>"+
+											"* {padding: 0; margin:0}"+
+											".baseBoard{background:black; width: 100%; height:4%;}"+
+											"body{font-family: Arial, Helvetica, sans-serif;}"+
+										"</style>"+
+									"</head>"+
+									"<body>"+
+									
+									"<div class='baseBoard'></div>"+
+									"<img src='/garageImages/"+gItem._id+"/garageItemImage_1.jpg' width='20%;' /> &nbsp;&nbsp;"+
+									"<img src='/garageImages/"+gItem._id+"/garageItemImage_2.jpg' width='20%;' /> &nbsp;&nbsp;"+
+									"<img src='/garageImages/"+gItem._id+"/garageItemImage_3.jpg' width='20%;' /> &nbsp;&nbsp;"+
+									"<br/>"+
+									"<br/>"+
+									"<h2>"+gItem.title+"</h2>"+
+									"<p>"+
+										gItem.description+
+									"</p>"+
+									"<p><b>"+gItem.category+"</b></p>"+
+									"<br/>"+
+									"<p><b>Quantity</b><br/>"+gItem.quantity+" left</p>"+
+									"<br/>"+
+									"<p><b>Price: </b>$"+gItem.price+"</p>"+
+									"<br/>"+
+									"<a href='/login'>Buy this Item</a>"
+									"</body>"+
+								"</html>";
+			//res.send(gItem);
+			res.set('Content-Type', 'text/html');
+			res.send(Buffer.from(preMadeDocument));
+		} else {
+			res.status(403).send({message: 'There is no item by that ID'});
+		}
+	});
+});
+
 app.get('/search', function (req, res) {
 	var clientIp = req.connection.remoteAddress;
 	var userAgent = req.headers['user-agent'];
