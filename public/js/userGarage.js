@@ -88,16 +88,18 @@ function buildUserGarage(garageItemsByCat){
         garageItemWrapper.innerHTML +="<li>"+
                                             "<div class='garageCategoryWrapper gItemLabel_"+items[c][0]+"'><span class='catTitle'>"+items[c][0]+"</span></div>"+
                                       "</li>";
-        console.log('items: ', items[c][1]);
+        //console.log('items: ', items[c][1]);
         // then, add items within the box by group
         for(var i = 0; i<=items[c][1].length-1; i++){
             var cat = document.querySelector('.gItemLabel_'+items[c][0]);
+            var itemPath = ('/garage/item/'+items[c][1][i]._id);
+
             console.log('append each item: ', items[c][0]);
             console.log('append each item: ', items[c][1][i]);
             cat.innerHTML += "<br/><div class='garageItem'>"+
                             "<span>"+items[c][1][i].title+"</span>"+
-                                "<div class='imageBoxWrapper'>"+
-                                    "<img src='/garageImages/"+items[c][1][i]._id+"/garageItemImage_1.jpg' width='23%'/>&nbsp;"+
+                                "<div class='imageBoxWrapper' onclick=gotoLocation('"+items[c][1][i]._id+"');>"+
+                                    "<img src='/garageImages/"+items[c][1][i]._id+"/garageItemImage_1.jpg' width='23%'/>"+
                                     "<img src='/garageImages/"+items[c][1][i]._id+"/garageItemImage_2.jpg' width='23%'/>"+
                                     "<img src='/garageImages/"+items[c][1][i]._id+"/garageItemImage_3.jpg' width='23%'/>"+
                                 "</div>"+
@@ -105,3 +107,8 @@ function buildUserGarage(garageItemsByCat){
         }
     }
 };
+
+function gotoLocation(path) {
+    console.log(path);
+    window.location = '/garage/item/'+path;
+}
