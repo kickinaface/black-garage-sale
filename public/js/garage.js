@@ -384,3 +384,9 @@ function viewItem(itemToView){
     // console.log('Got to Item; ', itemToView);
     window.location = ('/garage/item/'+ itemToView);
 }
+
+function gotoLocation(path) {
+    if(path == 'myGarage'){
+        window.location = ('/garage/user/'+ userId);
+    }
+}
