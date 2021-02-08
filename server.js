@@ -177,6 +177,11 @@ app.get('/garage', function (req, res) {
 	});
 });
 
+app.get('/garage/user/:userID', function (req, res){
+	// BUILD STEP: Remove/change URL within this file for correct linkage.
+	res.sendFile(path.join(__dirname+'/public/userGarage.html'));
+});
+
 app.get('/garage/item/:itemID', function (req, res){
 	Garage.findOne({
 		_id: req.params.itemID
@@ -185,20 +190,23 @@ app.get('/garage/item/:itemID', function (req, res){
 			//res.send(err);
 			res.status(403).send({message: 'There is no item by that ID'});
 		} else if(gItem != null){
-			//console.log('gItem: ', gItem);
-			//res.sendFile(path.join(__dirname+'/public/itemPage.html'));
+			// BUILD STEP: Remove/change URL within this file for correct linkage.
 			var preMadeDocument = "<html>"+
 									"<head>"+
 										"<title>SuperUtil -LOGIN</title>"+
 										"<meta name='viewport' content='width=device-width, initial-scale=1'>"+
-										"<style>"+
-											"* {padding: 0; margin:0}"+
-											".baseBoard{background:black; width: 100%; height:4%;}"+
-											"body{font-family: Arial, Helvetica, sans-serif;}"+
-										"</style>"+
+										"<link rel='stylesheet' href='http://localhost:3000/css/navigation.css'>"+
+										"<link rel='stylesheet' href='http://localhost:3000/css/main.css'>"+
+										"<link rel='stylesheet' href='http://localhost:3000/css/login.css'>"+
+										"<script type='text/javascript' src='http://localhost:3000/js/superUtil.js'></script>"+
+										"<style>body{font-family: Arial, Helvetica, sans-serif;}</style>"+
 									"</head>"+
 									"<body>"+
-									
+									"<div class='navigation'>"+
+										"<div class='navLogo'><i>Black</i> Garage Sale</div>"+
+										"<ul class='navLinks'></ul>"+
+									"</div>"+
+
 									"<div class='baseBoard'></div>"+
 									"<img src='/garageImages/"+gItem._id+"/garageItemImage_1.jpg' width='20%;' /> &nbsp;&nbsp;"+
 									"<img src='/garageImages/"+gItem._id+"/garageItemImage_2.jpg' width='20%;' /> &nbsp;&nbsp;"+
@@ -215,7 +223,7 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<br/>"+
 									"<p><b>Price: </b>$"+gItem.price+"</p>"+
 									"<br/>"+
-									"<a href='/login'>Buy this Item</a>"
+									"<a href='/login'>Buy this Item</a>"+
 									"</body>"+
 								"</html>";
 			//res.send(gItem);

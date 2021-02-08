@@ -96,47 +96,59 @@ function GarageRouteController() {
                 });
                 
             });
-        
+        // route for logged in user to get all garage items createdby them
         router.route('/garage/items/:user_id')
             .get(tokenMethods.authenticateToken, function(req, res) {
                 var token = req.headers['authorization'].replace('Bearer ', '');
                 Admin.findOne({_id:req.params.user_id,token:token}, function (err, admin){
                     if(err){
-                        res.status(403).send({message:'There is no user by that ID'})
+                        res.status(403).send({message:'There is no user by that ID'});
                     } else if(admin != null) {
                         //res.send({message:'admin wishes to see all garage items they own'})
-                        getAllGarageItemsForUser(admin._id);
+                        getAllGarageItemsForUser(res, admin._id);
                     } else if(admin == null) {
                         User.findOne({_id:req.params.user_id, token:token}, function (err, user){
                             if(err){
                                 res.send(err);
                             } else if(user != null){
                                // res.send({message: 'user wishes to see all garage items they own'});
-                               getAllGarageItemsForUser(user._id);
+                               getAllGarageItemsForUser(res, user._id);
                             } else {
                                 res.sendStatus(403);
                             }
                         });
                     }
                 });
-
-                function getAllGarageItemsForUser(gUser){
-                    var usersGarageItems = [];
-                    //
-                    Garage.find(function(err, userItems){
-                        if(err){
-                            res.send(err);
-                        } else {
-                            for(var g = 0; g<= userItems.length-1; g++){
-                                if(userItems[g].createdBy == gUser){
-                                    usersGarageItems.push(userItems[g]);
-                                }
-                            }
-                            res.send(usersGarageItems);
-                        }
-                    });
-                }
             });
+        // route for public users  to get all garage items by owner and display for owner's garage
+        router.route('/garage/items/user/:user_id')
+            .get(function (req, res) {
+                getAllGarageItemsForUser(res, req.params.user_id);
+            });
+
+            function getAllGarageItemsForUser(res, gUser){
+                //var usersGarageItems = [];
+                //
+                Garage.find({
+                    createdBy: gUser
+                },function(err, userItems){
+                    if(err){
+                        res.status(404).send({message: 'There is no garage by that ID'});
+                    } else {
+                        res.send(userItems);
+                    }
+                    // if(err){
+                    //     res.send(err);
+                    // } else {
+                    //     for(var g = 0; g<= userItems.length-1; g++){
+                    //         if(userItems[g].createdBy == gUser){
+                    //             usersGarageItems.push(userItems[g]);
+                    //         }
+                    //     }
+                    //     res.send(usersGarageItems);
+                    // }
+                });
+            };
 
         
         router.route('/garage/item/:item_id')

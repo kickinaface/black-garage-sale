@@ -381,6 +381,6 @@ function saveEditItemDetails () {
 };
 
 function viewItem(itemToView){
-    console.log('Got to Item; ', itemToView);
+    // console.log('Got to Item; ', itemToView);
     window.location = ('/garage/item/'+ itemToView);
 }
