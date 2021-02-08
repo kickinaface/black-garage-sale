@@ -135,18 +135,13 @@ function GarageRouteController() {
                     if(err){
                         res.status(404).send({message: 'There is no garage by that ID'});
                     } else {
-                        res.send(userItems);
+                        if(userItems.length == 0){
+                            res.status(404).send({message: 'There is no garage by that ID'});
+                        } else {
+                            res.send(userItems);
+                        }
+                        
                     }
-                    // if(err){
-                    //     res.send(err);
-                    // } else {
-                    //     for(var g = 0; g<= userItems.length-1; g++){
-                    //         if(userItems[g].createdBy == gUser){
-                    //             usersGarageItems.push(userItems[g]);
-                    //         }
-                    //     }
-                    //     res.send(usersGarageItems);
-                    // }
                 });
             };
 
