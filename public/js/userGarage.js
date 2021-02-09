@@ -27,10 +27,6 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = '/';
     });
 
-    // getSecuredRequest();
-    // start app timer 
-   // appTimer();
-
    getUsersGarageById();
 
 });
@@ -54,24 +50,11 @@ function getUsersGarageById(){
                 window.location = '/garage';
             },1000);
         } else {
-                //console.log('handle data for users garage.');
-            //console.log(data);
-            //var sortedArray = _.sortBy(data, function(o) { return o.date });//.reverse();
-            
-        //    var sortedByDate =  _.sortBy(data, function (o){
-        //         console.log(o);
-        //         return o.date;
-        //     });
-            // var lodash = _;
-            // console.log(lodash.sortBy());
-            // _.groupBy(sortedByDate, function(i){
-            //     console.log('i', i);
-            // }); 
             var groupedByCategory = _.groupBy(data, function(m){          
                 //console.log(m);      
                 return m.category;
             });
-            //console.log('groupedItems: ', groupedByCategory);
+
             buildUserGarage(groupedByCategory);
         }
   

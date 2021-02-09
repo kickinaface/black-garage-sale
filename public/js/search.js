@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     // Check Token, Go to the Login if there is an invalid token.
-    var token = localStorage.getItem('token');
+    //var token = localStorage.getItem('token');
     superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
         console.log('authenticated: ', status, data);
         if(status != 200 && data.authenticated != true){
@@ -44,31 +44,27 @@ document.addEventListener("DOMContentLoaded", function(){
             window.location = '/login';
         }
     });
+
+    appTimer();
+
 });
 
 function appTimer() {
-    var minuteCount = 1;
-    var timeMinuteSet = 13;
-    var appTimer = setInterval(function(){
-        
-        minuteCount ++;
-        console.log('interval ', minuteCount);
-        if(minuteCount == timeMinuteSet) {
-            minuteCount = 1;
-            console.log('interval ', minuteCount);
-            superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
-                if(status == 200 && data.authenticated == true){
-                    // User is logged in and authenticated
-                } else {
-                    //console.log('go to profile');
-                    window.location = '/logout';
-                    //localStorage.removeItem('token');
-                }
-
-            });
-        }
-    },(1000* 60));
-
-    //console.log('later clear interval: ', appTimer);
+    setInterval(function(){
+        superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+            if(status == 200 && data.authenticated == true){
+                // User is logged in and authenticated
+                console.log('valid token');
+            } else {
+                //logout
+                localStorage.removeItem('token');
+                window.location = '/logout';
+            }
+        });
+    },(1000*60));
 };
-appTimer();
+
+function performSearch(){
+    var searchInputText = document.querySelector('.searchInputText');
+    console.log('searchInputText: ',searchInputText.value);
+};
