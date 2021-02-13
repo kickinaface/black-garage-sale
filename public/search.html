@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/messages.css">
+    <link rel="stylesheet" href="css/search.css">
 	<script type="text/javascript" src="js/superUtil.js"> </script>
 	<script type="text/javascript" src="js/search.js"></script>
 </head>
@@ -20,10 +20,28 @@
         <br>
 		<div class="blueBox">
             <div class="searchWrapper">
-            <input type="search" class="searchInputText">
-            <button onclick="performSearch();">Search</button>
+				<input type="search" class="searchInputText">
+				<button onclick="performSearch();">Search</button>
+				<br>
+				<br>
+				<b><i>Search By:</i></b>&nbsp;&nbsp;&nbsp;
+				<label for='searchForItems'>Item</label>
+				<input type="checkbox" name="searchForItems" class="searchForItems" onclick="toggleSearchType('searchForUsers');">
+
+				<label for='searchForUsers'>User</label>
+				<input type="checkbox" name="searchForUsers" class="searchForUsers" onclick="toggleSearchType('searchForItems');">
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+				<br>
+				<div class="resultsWrapper">
+					<ul></ul>
+				</div>
             </div>
-            <br>
            
 		</div>
 	</div>

@@ -36,8 +36,6 @@ function SearchRouteController() {
                                         }
                                         foundUsers.push(modifiedResult);
                                     }
-                                    //res.send(docs);
-                                    //foundUsers.push(docs);
                                 }
                             });
                         User.find({$text: {$search: toSearchFor}})
@@ -46,9 +44,7 @@ function SearchRouteController() {
                                 if(err){
                                     res.send(err);
                                 } else {
-                                    //res.send(udocs);
-                                    //foundUsers.push(udocs);
-                                    //res.send(udocs);
+
                                     for(var u = 0; u <= udocs.length-1; u++){
                                         var modifiedResult = {
                                             username: udocs[u].username,

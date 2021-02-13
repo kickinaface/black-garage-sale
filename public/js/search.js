@@ -47,6 +47,10 @@ document.addEventListener("DOMContentLoaded", function(){
 
     appTimer();
 
+    // Check default search by item
+    document.querySelector('.searchForItems').checked = true;
+    document.querySelector('.searchForUsers').checked = false;
+
 });
 
 function appTimer() {
@@ -65,6 +69,60 @@ function appTimer() {
 };
 
 function performSearch(){
-    var searchInputText = document.querySelector('.searchInputText');
-    console.log('searchInputText: ',searchInputText.value);
+    var searchInputText = document.querySelector('.searchInputText').value;
+    var searchForItems = document.querySelector('.searchForItems').checked;
+    var searchForUsers = document.querySelector('.searchForUsers').checked;
+    var responseMessages = document.querySelector('.searchWrapper .responseMessages');
+    var errorMessages = document.querySelector('.searchWrapper .errorMessages');
+    var searchType = null;
+    var resultsWrapper = document.querySelector('.resultsWrapper ul');
+
+    if(searchForItems == false && searchForUsers == true){
+        searchType = 'user'
+    } else if(searchForUsers == false && searchForItems == true){
+        searchType = 'item'
+    }
+
+    superUtil.getAuthenticatedRequest(token, ('api/search/?lookingFor='+searchInputText+'&searchType='+searchType), function (status, data){
+        console.log(data);
+        if(status != 200){
+            responseMessages.innerHTML = '';
+            errorMessages.innerHTML = data.message;
+        } else {
+            errorMessages.innerHTML = '';
+            if(data.length == 0){
+                resultsWrapper.innerHTML = '';
+                errorMessages.innerHTML = 'Sorry, there are no results for this search';
+            } else {
+                resultsWrapper.innerHTML = '';
+                if(searchType == 'item'){
+                    for(var d = 0; d<= data.length-1; d++){
+                        resultsWrapper.innerHTML+="<li>"+
+                                                        "<b>"+data[d].title+"</b>"+
+                                                        "<div>"+data[d].description+"</div>"+
+                                                        "<div><b>Category: </b>"+data[d].category+"</div>"+
+                                                        "<div class='itemPrice'>$"+data[d].price+"</div>"+
+                                                  "</li>";
+                    }
+                } else if(searchType == 'user'){
+                    console.log('build users');
+                    console.log(data);
+                    for(var u = 0; u<=data.length-1; u++){
+                        resultsWrapper.innerHTML += "<li>"+
+                                                        "<div>"+data[u].username+"</div>"+
+                                                        "<div><b>Role: </b>"+data[u].role+"</div>"+
+                                                        "<div><b>First Name: </b>"+data[u].firstName+"</div>"+
+                                                        "<div><b>Last Name: </b>"+data[u].lastName+"</div>"+
+                                                    "</li>";
+                    }
+                }
+                
+            }
+
+        }
+    });
+};
+
+function toggleSearchType(searchType) {
+    document.querySelector('.'+ searchType).checked = false;
 };

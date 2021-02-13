@@ -1,0 +1,91 @@
+{
+    margin:0;
+    padding:0;
+}
+
+body {
+    background-color: white;
+    color: black;
+}
+
+.mainContent {
+    width: 50%;
+    margin: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 800px;
+    cursor: crosshair;
+    margin: 0 auto;
+    text-align: center;
+    padding-top:5%;
+}
+
+.navLogo i {
+    color: grey;
+}
+
+/* .aboutLink {
+    margin: 30px 0px 30px 0px;
+    text-decoration: underline;
+    font-style: italic;
+    cursor: pointer;
+} */
+
+/* .profileWrapper button {
+    margin-top:10px;
+    margin-left: 5px;
+}
+
+.adminControls, .garageControls {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid black;
+} */
+
+/*modal styles */
+.modalWrapper {
+    position: fixed;
+    width:100%;
+    height: 100%;
+    top:0;
+    left:0;
+    right:0;
+    bottom: 0;
+    background:rgba(0, 0, 0, 0.5);
+    z-index: 9;
+    display: none;
+}
+
+.modalWrapper .modal{
+    margin: 0 auto;
+    margin-top:10%;
+    width: 50%;
+    background: white;
+    text-align:center;
+    padding: 20px;
+    
+}
+.modalWrapper .modal button {
+    margin:20px 0 0 0;
+    text-align: center;
+}
+.resultsWrapper ul{
+    list-style: none;
+}
+.resultsWrapper ul li {
+    text-align: left;
+    margin-bottom:15px;
+    border: 1px solid black;
+    padding:15px;
+}
+
+.resultsWrapper ul li:hover{
+    background:black;
+    border-color:white;
+    color:white;
+    cursor: pointer;
+}
+
+.itemPrice{
+    color: green;
+    font-weight: bold;
+}
