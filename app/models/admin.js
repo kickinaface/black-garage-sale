@@ -13,4 +13,5 @@ var AdminSchema	= new Schema({
 	forgotPass:String
 });
 
+AdminSchema.index({'firstName':'text', 'lastName':'text', 'username':'text'});
 module.exports = mongoose.model('Admin', AdminSchema);

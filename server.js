@@ -7,6 +7,7 @@ const mongoose	= require('mongoose');
 const dbUrl		= 'mongodb://localhost:27017/nifty-chat-old';//'//mongodb://<Carter>:<supertroopermongo32>@ds139817.mlab.com:39817/heroku_0b6l1bdm
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useUnifiedTopology', true);
+mongoose.set('useCreateIndex',true);
 mongoose.connect(dbUrl);
 
 const msgModel	= require('./app/models/messages');
@@ -20,6 +21,7 @@ const userRoutes = require('./routes/userRoutes/userRoutes');
 const loginRouteController = require('./routes/loginRouteController/loginRouteController');
 const uploadRouteController = require('./routes/uploadRoutes/uploadRoutes');
 const garageRouteController = require('./routes/garageRouteController/garageRouteController');
+const searchRouteController = require('./routes/searchRouteController/searchRouteController');
 //
 const tokenMethods = require('./app/methods/tokenMethods/tokenMethods');
 //
@@ -28,7 +30,7 @@ const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 const nodemailer = require('nodemailer');
 const mailController = require('./app/methods/mailController');
-const randomUdidGen = require('./app/methods/generateUdid');
+//const randomUdidGen = require('./app/methods/generateUdid');
 const fs = require('fs');
 
 // get config vars
@@ -91,6 +93,8 @@ loginRouteController.init(Admin, User, router, tokenMethods);
 uploadRouteController.init(Admin, User, router, fs, tokenMethods);
 //Garage routes
 garageRouteController.init(Garage, Admin, User, router, fs, tokenMethods);
+// Search routes
+searchRouteController.init(router, tokenMethods, Admin, User, Garage);
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
 	var clientIp = req.connection.remoteAddress;

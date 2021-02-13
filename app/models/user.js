@@ -12,5 +12,5 @@ var UserSchema	= new Schema({
     clientIpAddress:String,
     forgotPass:String
 });
-
+UserSchema.index({'firstName':'text', 'lastName':'text', 'username':'text'});
 module.exports = mongoose.model('User', UserSchema);
