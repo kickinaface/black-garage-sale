@@ -9,9 +9,9 @@ function TokenMethods() {
     
     this.authenticateToken = function authenticateToken(req, res, next) {
         // Gather the jwt access token from the request header
-        var authHeader = req.headers['authorization'];
+        var usersCookie = req.cookies.bCookieToken;// req.headers['authorization'];
         var clientUserAgent = req.headers['user-agent'];
-        var token = authHeader && authHeader.split(' ')[1]
+        var token = usersCookie;
         if (token == null) return res.sendStatus(401) // if there isn't any token
     
         jwt.verify(token, process.env.TOKEN_SECRET, function (err, user) {

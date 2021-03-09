@@ -1,7 +1,8 @@
 var superUtil = new SuperUtil();
 var token = localStorage.getItem('token');
 var userId = localStorage.getItem('userId');
-
+var bCookieToken = document.cookie.replace('bCookieToken=','');
+//
 document.addEventListener("DOMContentLoaded", function(){
     // begin
     superUtil.init(document);
@@ -37,13 +38,13 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = '/';
     });
 
-    superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
-        console.log('authenticated: ', status, data);
-        if(status != 200 && data.authenticated != true){
-            console.log('go to login');
-            window.location = '/login';
-        }
-    });
+    // superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+    //     console.log('authenticated: ', status, data);
+    //     if(status != 200 && data.authenticated != true){
+    //         console.log('go to login');
+    //         window.location = '/login';
+    //     }
+    // });
     loadAvatarPhoto();
     appTimer();
     getFirstLastName();
@@ -185,7 +186,7 @@ function closeModal(sClass) {
 }
 function appTimer() {
     setInterval(function(){
-        superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+        superUtil.getAuthenticatedRequest(bCookieToken, 'api/authRequest', function(status, data) {
             if(status == 200 && data.authenticated == true){
                 // User is logged in and authenticated
                 console.log('valid token');
@@ -202,7 +203,7 @@ function appTimer() {
 };
 
 function authCheck(){
-    superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+    superUtil.getAuthenticatedRequest(bCookieToken, 'api/authRequest', function(status, data) {
         if(status == 200 && data.authenticated == true){
             // User is logged in and authenticated
             console.log('valid token');

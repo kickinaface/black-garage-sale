@@ -1,6 +1,7 @@
 const express		= require('express');
 const app			= express();
 const bodyParser	= require('body-parser');
+const cookieParser 	= require('cookie-parser');
 const path 			= require('path');
 //
 const mongoose	= require('mongoose');
@@ -47,7 +48,7 @@ mailController.init(nodemailer);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cookieParser());
 app.use(fileUpload());
 
 var port = process.env.PORT || 3000;	//set port
@@ -56,13 +57,9 @@ var port = process.env.PORT || 3000;	//set port
 var router = express.Router();		//get an instance of the express router
 
 router.use(function (req, res, next) {
+	
 	//do logging
-	//console.log('Something is happening');
-	//console.log('A person has origin from: ', req);
-	//console.log('Request was made: User-Agent: ', req.headers['user-agent']);
-	//console.log('Request was made: token: ', req.headers['token']);
-	//console.log(require('crypto').randomBytes(64).toString('hex'));
-	//console.log('reasdfasdf params: ', req.query.username)
+	
 	next();//make sure we go to the next routes and dont stop here
 });
 
@@ -97,11 +94,9 @@ garageRouteController.init(Garage, Admin, User, router, fs, tokenMethods);
 searchRouteController.init(router, tokenMethods, Admin, User, Garage);
 //
 router.route('/authRequest').get(tokenMethods.authenticateToken, function (req, res) {
-	var clientIp = req.connection.remoteAddress;
-	var userAgent = req.headers['user-agent'];
-	//console.log('requesting authenticated token response.', req.headers['user-agent']);
+	var usersCookie = req.cookies.bCookieToken;
 	//
-	searchIp(clientIp, userAgent, function(data) {
+	searchIp(usersCookie, function(data) {
 		//console.log(clientIp, data);
 		if(data == true) {
 			res.json({authenticated: true});
@@ -147,13 +142,12 @@ app.get('/login', function (req, res){
 });
 
 app.get('/profile', function (req, res) {
-	//console.log('token: ', req.body);
-	var clientIp = req.connection.remoteAddress;
-	//console.log(clientIp);	
+	var usersCookie = req.cookies.bCookieToken;
 	var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, userAgent, function(data, user) {
+
+	searchIp(usersCookie, function(data, user) {
 		//	
-		if(data == true && clientIp == user.clientIpAddress && user.userAgent == userAgent) {
+		if(data == true && user.token == req.cookies.bCookieToken && user.userAgent == userAgent) {
 			if(user.role == 'admin'){
 				res.sendFile(path.join(__dirname+'/app/pages/adminProfile.html'));
 			}else if(user.role == 'basic'){
@@ -168,10 +162,9 @@ app.get('/profile', function (req, res) {
 });
 
 app.get('/garage', function (req, res) {
-	//console.log('token: ', req.body);
-	var clientIp = req.connection.remoteAddress;
+	var usersCookie = req.cookies.bCookieToken;
 	var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, userAgent, function(data) {
+	searchIp(usersCookie, function(data) {
 		//console.log(clientIp, data);
 		if(data == true) {
 			res.sendFile(path.join(__dirname+'/public/garage.html'));
@@ -240,9 +233,9 @@ app.get('/garage/item/:itemID', function (req, res){
 });
 
 app.get('/search', function (req, res) {
-	var clientIp = req.connection.remoteAddress;
+	var usersCookie = req.cookies.bCookieToken;
 	var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, userAgent, function(data) {
+	searchIp(usersCookie, function(data) {
 		//console.log(clientIp, data);
 		if(data == true) {
 			res.sendFile(path.join(__dirname+'/public/search.html'));
@@ -253,9 +246,9 @@ app.get('/search', function (req, res) {
 });
 
 app.get('/messages', function (req, res) {
-	var clientIp = req.connection.remoteAddress;
+	var usersCookie = req.cookies.bCookieToken;
 	var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, userAgent, function(data) {
+	searchIp(usersCookie, function(data) {
 		//console.log(clientIp, data);
 		if(data == true) {
 			res.sendFile(path.join(__dirname+'/public/messages.html'));
@@ -266,9 +259,9 @@ app.get('/messages', function (req, res) {
 });
 
 app.get('/logout', function (req, res) { 
-	var clientIp = req.connection.remoteAddress;
+	var usersCookie = req.cookies.bCookieToken;
 	var userAgent = req.headers['user-agent'];
-	searchIp(clientIp, userAgent, function(data, u) {
+	searchIp(usersCookie, function(data, u) {
 		//console.log(clientIp, data, u);
 		if(data == true) {
 			u.token = null;
@@ -291,13 +284,13 @@ app.get('/register', function (req, res) {
 	res.sendFile(path.join(__dirname+'/public/register.html'));
 });
 
-function searchIp(ip, userAgent, callback){
-	Admin.findOne({clientIpAddress: ip, userAgent: userAgent}, function (err, admin){
+function searchIp(usersToken, callback){
+	Admin.findOne({token: usersToken}, function (err, admin){
 		if(admin) {
 			callback(tokenMethods.verifyToken(admin.token), admin);
 		} else {
 			//callback(false);
-			User.findOne({clientIpAddress: ip, userAgent:userAgent}, function (err, user) {
+			User.findOne({token: usersToken}, function (err, user) {
 				if(user) {
 					callback(tokenMethods.verifyToken(user.token), user);
 				} else {

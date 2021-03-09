@@ -26,7 +26,7 @@ function LoginRouteController() {
                                     user.userAgent = clientUserAgent;
                                     user.clientIpAddress = clientIp;
                                     user.save();
-                                    //console.log('user: ', user);
+                                    res.cookie('bCookieToken', user.token);
                                     res.json({ 
                                         token: token,
                                         userId:user._id,
@@ -41,7 +41,7 @@ function LoginRouteController() {
                                         user.userAgent = clientUserAgent;
                                         user.clientIpAddress = clientIp;
                                         user.save();
-                                        //console.log('user: ', user);
+                                        res.cookie('bCookieToken', user.token);
                                         res.json({ 
                                             token: token,
                                             userId:user._id,
@@ -63,6 +63,7 @@ function LoginRouteController() {
                             admin.userAgent = clientUserAgent;
                             admin.clientIpAddress = clientIp;
                             admin.save();
+                            res.cookie('bCookieToken', admin.token);
                             res.json({ 
                                 token: token,
                                 userId:admin._id,
@@ -76,6 +77,7 @@ function LoginRouteController() {
                                 admin.token = adminToken;
                                 admin.userAgent = clientUserAgent;
                                 admin.clientIpAddress = clientIp;
+                                res.cookie('bCookieToken', admin.token);
                                 admin.save();
                                 //console.log('user: ', user);
                                 res.json({ 
