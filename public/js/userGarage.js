@@ -75,10 +75,10 @@ function buildUserGarage(garageItemsByCat){
         // then, add items within the box by group
         for(var i = 0; i<=items[c][1].length-1; i++){
             var cat = document.querySelector('.gItemLabel_'+items[c][0]);
-            var itemPath = ('/garage/item/'+items[c][1][i]._id);
+            // var itemPath = ('/garage/item/'+items[c][1][i]._id);
 
-            console.log('append each item: ', items[c][0]);
-            console.log('append each item: ', items[c][1][i]);
+            // console.log('append each item: ', items[c][0]);
+            // console.log('append each item: ', items[c][1][i]);
             cat.innerHTML += "<br/><div class='garageItem'>"+
                             "<span>"+items[c][1][i].title+"</span>"+
                                 "<div class='imageBoxWrapper' onclick=gotoLocation('"+items[c][1][i]._id+"');>"+

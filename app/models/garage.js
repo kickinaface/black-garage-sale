@@ -15,5 +15,5 @@ var GarageItemSchema	= new Schema({
     quantity:Number
 });
 
-GarageItemSchema.index({'title':'text', 'description':'text'});
+GarageItemSchema.index({'title':'text', 'description':'text', 'category':'text'});
 module.exports = mongoose.model('Garage', GarageItemSchema);

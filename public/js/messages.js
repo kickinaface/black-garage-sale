@@ -56,7 +56,36 @@ document.addEventListener("DOMContentLoaded", function(){
     getMessagesForUser(userId, token);
     getFirstLastName();
     loadAvatarPhoto();
+    checkMessageUrl();
 });
+
+function checkMessageUrl() {
+    var path = location.search;
+    var messageFromId = path.split('?createdBy=')[1];
+    messageFromId = messageFromId.split('&garageItemId=')[0];
+    var garageItemId = path.split('&garageItemId=')[1];
+    //console.log('garageItemId: ', garageItemId);
+    // console.log('id:',messageFromId);
+    // openSendMessageModal('.sendUserMessageModal');
+    superUtil.getAuthenticatedRequest(token, ('api/getUsername/'+messageFromId), function (status, data){
+        if(status == 200 && data.authenticated == true){
+            // User is logged in and authenticated
+            var toMessageEmail = data.email;
+            if(savedUsername == toMessageEmail){
+                alert("You cannot send a message to yourself.");
+            } else {
+                openSendMessageModal('.sendUserMessageModal');
+                document.querySelector('.toEmailAddress').value = toMessageEmail;
+                // console.log(savedUsername);
+                var buyThisItemMessage = (toMessageEmail+ " wants to buy your item. itemID: "+ garageItemId);
+                document.querySelector('.messageToUser').innerHTML = buyThisItemMessage;
+            }
+            
+        } else {
+            console.log(status, data);
+        }
+    });
+}
 
 function messageChatTimer(inSeconds){
     var chatTimer = setInterval(function(){
@@ -69,7 +98,7 @@ function appTimer() {
         superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
             if(status == 200 && data.authenticated == true){
                 // User is logged in and authenticated
-                console.log('valid token');
+                // console.log('valid token');
             } else {
                 //logout
                 localStorage.removeItem('token');
@@ -82,7 +111,21 @@ function appTimer() {
     //console.log('later clear interval: ', appTimer);
 };
 
+function authCheck(){
+    superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+        if(status == 200 && data.authenticated == true){
+            // User is logged in and authenticated
+            // console.log('valid token');
+        } else {
+            //logout
+            localStorage.removeItem('token');
+            window.location = '/logout';
+        }
+    });
+}
+
 function openSendMessageModal(modalType){
+    authCheck();
     if(modalType == '.sendUserMessageModal'){
         document.querySelector(modalType).style.display = 'block';
     }
@@ -96,6 +139,7 @@ function closeModal(sClass) {
 };
 
 function sendMessageToUser(methodType){
+    authCheck();
     if(methodType == 'modal'){
         var toEmailAddressText = document.querySelector('.sendUserMessageModal .toEmailAddress');
         var messageToUserText = document.querySelector('.sendUserMessageModal .messageToUser');
@@ -134,7 +178,11 @@ function sendMessageToUser(methodType){
             responseMessages.innerHTML = '';
             errorMessages.innerHTML = '';
             messageToUserText.value = '';
-
+            responseMessages.innerHTML = response.message;
+            setTimeout(function (){
+                closeModal('.sendUserMessageModal');
+            },1000);
+            
         }
     }, 'POST');
 
@@ -213,14 +261,15 @@ function getMessagesForUser(userId, token){
                     // console.log('this is user data entries all combined, just show other users');
                 } else {
                     
-                        leftPanel.innerHTML += '<div class="messageWrapper" onclick="loadMessagesWithUser(event);">'+
+                    leftPanel.innerHTML += '<div class="messageWrapper" onclick="loadMessagesWithUser(event);">'+
                                                 '<div class="messageicon">'+
                                                     '<img class="leftPanelAvatar" src="img/default-profile-icon-16.png" width="50px;" alt="">'+
                                                         '<div class="messagePreview">'+
                                                             '<div class="messageFromUser">'+userEmailAddress+'</div>'+
                                                         '</div>'+
                                                 '</div>'+
-                                                '</div>';
+                                                '<div class="userEmailAddress">'+userEmailAddress+'</div>'+
+                                            '</div>';
                 }
             }
             // Loop through the allCombinedMessages and refomat array for later use.
@@ -253,6 +302,7 @@ function getMessagesForUser(userId, token){
 }
 
 function loadMessagesWithUser(e) {
+    authCheck();
     var withUser = null;
 
     if(e != null) {

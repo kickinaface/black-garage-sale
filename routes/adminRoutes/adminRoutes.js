@@ -10,9 +10,6 @@ function AdminRoutes() {
                 var alreadyExistMessage = 'This user already exists, please sign in.';
                 var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
 
-                console.log('username: ', username);
-                console.log('password: ', password);
-
                 if (username === undefined || password === undefined || username === '' || password === '') {
                     res.status(403).json({ message: 'ERROR: You must define a username and password'});
                 }else if(ValidateEmail(username) == false){

@@ -223,6 +223,7 @@ function getGarageItemById(){
             "Currently Selected Category: <i>"+data.category+"</i>"+
             "<br>"+
             "<select name='editItemCategory' class='editItemCategory'>"+
+                    "<option value='"+data.category+"'>"+data.category+"</option>"+
                     "<option value='Automotive'>Automotive</option>"+
                     "<option value='Books'>Books</option>"+
                     "<option value='Crafts'>Crafts</option>"+

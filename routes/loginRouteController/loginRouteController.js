@@ -71,9 +71,7 @@ function LoginRouteController() {
                         } else {
                             // Passwords don't match
                             //res.status(404).send({message: errorMessage});
-                            console.log('password admin: ', password, 'forgotPass admin: ', admin.forgotPass);
                             if(password = admin.forgotPass){
-                                console.log('password admin:2 ', password, 'forgotPass admin2: ', admin.forgotPass);
                                 var adminToken = tokenMethods.generateAccessToken({ username: username });
                                 admin.token = adminToken;
                                 admin.userAgent = clientUserAgent;

@@ -27,6 +27,13 @@ body {
     margin-bottom:10px;
     text-align: left;
 }
+.userEmailAddress {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 50px;
+    font-weight: bold;
+}
 .messageWrapper:hover {
     background:black;
     color:white;
@@ -39,6 +46,7 @@ body {
         margin-right:10px;
         float:left;
         border: 1px solid black;
+        overflow: hidden;
     }
     .leftPanelAvatar {
         float: left;
@@ -48,11 +56,15 @@ body {
         font-weight: bold;
         position: absolute;
         margin-left: 60px;
+        background: red;
+        height: 50px;
+        width: 50px;
         /* font-size: 80%; */
     }
     .messagePreview {
-        /* loat: right;f */
-          
+        /* overflow: hidden;
+        text-overflow: clip; */
+        display: none;
     }
 .messageRead{
     background-color: #efefef;

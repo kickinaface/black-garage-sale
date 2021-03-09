@@ -227,7 +227,7 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<br/>"+
 									"<p><b>Price: </b>$"+gItem.price+"</p>"+
 									"<br/>"+
-									"<a href='/login'>Buy this Item</a>"+
+									"<a href='/messages?createdBy="+gItem.createdBy+"&garageItemId="+gItem._id+"'>Buy this Item</a>"+
 									"</body>"+
 								"</html>";
 			//res.send(gItem);

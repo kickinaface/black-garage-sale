@@ -84,7 +84,6 @@ function performSearch(){
     }
 
     superUtil.getAuthenticatedRequest(token, ('api/search/?lookingFor='+searchInputText+'&searchType='+searchType), function (status, data){
-        console.log(data);
         if(status != 200){
             responseMessages.innerHTML = '';
             errorMessages.innerHTML = data.message;
@@ -97,16 +96,25 @@ function performSearch(){
                 resultsWrapper.innerHTML = '';
                 if(searchType == 'item'){
                     for(var d = 0; d<= data.length-1; d++){
-                        resultsWrapper.innerHTML+="<li>"+
+                        resultsWrapper.innerHTML+="<li class='listItem' id="+data[d]._id+">"+
                                                         "<b>"+data[d].title+"</b>"+
                                                         "<div>"+data[d].description+"</div>"+
                                                         "<div><b>Category: </b>"+data[d].category+"</div>"+
                                                         "<div class='itemPrice'>$"+data[d].price+"</div>"+
                                                   "</li>";
                     }
+                    var listItems = document.querySelectorAll('.listItem');
+
+                    for(var item of listItems) {
+                        item.addEventListener("click", function (e){
+                            window.location = '/garage/item/'+e.currentTarget.id;
+                        });
+                    }
+
+                    
                 } else if(searchType == 'user'){
-                    console.log('build users');
-                    console.log(data);
+                    // console.log('build users');
+                    // console.log(data);
                     for(var u = 0; u<=data.length-1; u++){
                         resultsWrapper.innerHTML += "<li>"+
                                                         "<div>"+data[u].username+"</div>"+

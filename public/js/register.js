@@ -15,9 +15,7 @@ document.addEventListener("DOMContentLoaded", function(){
         };
         if (passwordInput1.value != passwordInput2.value){
             responsMessages.innerHTML = 'Please enter the same password twice';
-            console.log('passwordInput1.value ', passwordInput1.value);
         } else if(passwordInput1.value == passwordInput2.value){
-            console.log('adsfsaf')
             superUtil.sendJSON(postData, 'api/user', function (status, response){
                 console.log(status, response.message);
                 //message = response;

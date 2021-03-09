@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 // change modal logic to be inside of superUtil later
 function openModal(modalType) {
-    console.log('modalType: ', modalType);
+    authCheck();
     if(modalType == 'avatar'){
         document.querySelector('.changeAvatarModal').style.display = 'block';
     } else if (modalType == 'changeName') {
@@ -201,6 +201,20 @@ function appTimer() {
     //console.log('later clear interval: ', appTimer);
 };
 
+function authCheck(){
+    superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
+        if(status == 200 && data.authenticated == true){
+            // User is logged in and authenticated
+            console.log('valid token');
+        } else {
+            //logout
+            localStorage.removeItem('token');
+            window.location = '/logout';
+        }
+
+    });
+}
+
 //Basic user modal methods
 function updateName(){
     var changeFirstName = superUtil.grabElement('changeFirstName');
@@ -211,7 +225,6 @@ function updateName(){
         firstName: changeFirstName.value,
         lastName: changeLastName.value
     };
-    console.log('postData: ', postData);
     superUtil.authPostRequest(postData, 'api/updateName/'+(userId), function (status, response){
         console.log(status, response.message);
         //message = response;
@@ -255,7 +268,7 @@ function getFirstLastName() {
         if(status == 200) {
             displaynameText.innerHTML = (data.firstName + ' ' + data.lastName);
         } else {
-            console.log(status, data);
+            //console.log(status, data);
         }
     });
 }

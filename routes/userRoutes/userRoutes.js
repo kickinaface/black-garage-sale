@@ -1,3 +1,5 @@
+const { find } = require('lodash');
+
 function UserRoutes() {
     this.init = function init(User, Admin, router, tokenMethods) {
         const bcrypt = require('bcrypt');
@@ -71,12 +73,12 @@ function UserRoutes() {
                             } else {
                                 //User found change first or last names
                                 if(!changedFirstName){
-                                    console.log('firstName blank');
+                                   // console.log('firstName blank');
                                 } else {
                                     user.firstName = changedFirstName;
                                 }
                                 if(!changedLastName){
-                                    console.log('lastName blank');
+                                    //console.log('lastName blank');
                                 } else {
                                     user.lastName = changedLastName;
                                 }
@@ -93,12 +95,12 @@ function UserRoutes() {
                     } else {
                         // Admin found change first or last name
                         if(!changedFirstName){
-                            console.log('firstName blank');
+                            //console.log('firstName blank');
                         } else {
                             admin.firstName = changedFirstName;
                         }
                         if(!changedLastName){
-                            console.log('lastName blank');
+                            //console.log('lastName blank');
                         } else {
                             admin.lastName = changedLastName;
                         }
@@ -129,7 +131,28 @@ function UserRoutes() {
                     res.json(preparedUsers);
                 });
             });
-
+        router.route('/getUsername/:user_id')
+            .get(tokenMethods.authenticateToken, function (req, res){
+                var userId = req.params.user_id;
+                //console.log('userID: ',userId);
+                Admin.findOne({_id:userId}, function(err, admin){
+                    if(err) {
+                        res.status(403).send({message:'There is no user by that ID'});
+                    } else if(admin == null) {
+                        User.findOne({_id:userId}, function(err, user) {
+                            // console.log('err: ', err);
+                            // console.log('user: ', user);
+                            if(err){
+                                res.status(403).send({message:'There is no user by that ID'});
+                            }else if(user != null){
+                                res.json({email: user.username, authenticated: true});
+                            }
+                        });
+                    } else {
+                        res.json({email: admin.username, authenticated: true});
+                    }
+                });
+            });
         router.route('/displayName/:user_id')
             .get(tokenMethods.authenticateToken, function (req, res) {
                 var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
