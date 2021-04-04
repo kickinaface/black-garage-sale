@@ -116,12 +116,19 @@ function performSearch(){
                     // console.log('build users');
                     // console.log(data);
                     for(var u = 0; u<=data.length-1; u++){
-                        resultsWrapper.innerHTML += "<li>"+
+                        resultsWrapper.innerHTML += "<li class='listItem' id="+data[u]._id+">"+
                                                         "<div>"+data[u].username+"</div>"+
                                                         "<div><b>Role: </b>"+data[u].role+"</div>"+
                                                         "<div><b>First Name: </b>"+data[u].firstName+"</div>"+
                                                         "<div><b>Last Name: </b>"+data[u].lastName+"</div>"+
                                                     "</li>";
+                    }
+                    var listItems = document.querySelectorAll('.listItem');
+
+                    for(var item of listItems) {
+                        item.addEventListener("click", function (e){
+                            window.location = '/garage/user/'+e.currentTarget.id;
+                        });
                     }
                 }
                 

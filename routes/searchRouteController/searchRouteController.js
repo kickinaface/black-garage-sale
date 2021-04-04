@@ -29,6 +29,7 @@ function SearchRouteController() {
                                     
                                     for(var a = 0; a <= docs.length-1; a++){
                                         var modifiedResult = {
+                                            _id: docs[a]._id,
                                             username: docs[a].username,
                                             role: docs[a].role,
                                             firstName:docs[a].firstName,
@@ -47,6 +48,7 @@ function SearchRouteController() {
 
                                     for(var u = 0; u <= udocs.length-1; u++){
                                         var modifiedResult = {
+                                            _id: udocs[u]._id,
                                             username: udocs[u].username,
                                             role: udocs[u].role,
                                             firstName:udocs[u].firstName,

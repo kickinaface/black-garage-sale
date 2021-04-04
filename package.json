@@ -4,10 +4,11 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "body-parser": "^1.12.4",
+    "cloudinary": "^1.25.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.12.4",
-    "express-fileupload": "^1.2.0",
+    "express-fileupload": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",

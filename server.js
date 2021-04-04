@@ -49,7 +49,7 @@ mailController.init(nodemailer);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(fileUpload());
+app.use(fileUpload({useTempFiles: true}));
 
 var port = process.env.PORT || 3000;	//set port
 
