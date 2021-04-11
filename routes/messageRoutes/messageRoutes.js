@@ -195,7 +195,6 @@ function MessageRoutes() {
                                         preparedMessages.push(msgs[m]);
                                     }
                                 }
-                                console.log('preparedmessages: ', preparedMessages.length);
                                 // Create new Object that is grouped by fromUser
                                 var groupedMessages = _.groupBy(preparedMessages, function(m){                
                                     return m.fromUser;

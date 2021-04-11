@@ -4,6 +4,7 @@ var userId = localStorage.getItem('userId');
 var savedUsername = localStorage.getItem('username');
 var reformmatedCombinedMessages = [];
 var isChatPanelOpen = false;
+var oldMessagesLength = 0;
 
 document.addEventListener("DOMContentLoaded", function(){
     // begin
@@ -244,58 +245,61 @@ function getMessagesForUser(userId, token){
             // empty previous array of messages
             reformmatedCombinedMessages = [];
 
-            leftPanel.innerHTML = '';
-
             for(var m = 0; m <=numConversations-1; m++){
                 allCombinedMessages.push(data[newData[m]]);
             }
 
-            //append new grouped messages to html
-            for(c = 0; c<=messageGroupedByUser.length-1; c++){
-                //console.log('c: ', messageGroupedByUser[c][0]);
-                var userEmailAddress = messageGroupedByUser[c][0];
-                // console.log('userEmailAddress: ', userEmailAddress);
-                // console.log('username: ', savedUsername);
-
-                if(userEmailAddress == savedUsername){
-                    // console.log('this is user data entries all combined, just show other users');
-                } else {
-                    
-                    leftPanel.innerHTML += '<div class="messageWrapper" onclick="loadMessagesWithUser(event);">'+
-                                                '<div class="messageicon">'+
-                                                    '<img class="leftPanelAvatar" src="img/default-profile-icon-16.png" width="50px;" alt="">'+
-                                                        '<div class="messagePreview">'+
-                                                            '<div class="messageFromUser">'+userEmailAddress+'</div>'+
-                                                        '</div>'+
-                                                '</div>'+
-                                                '<div class="userEmailAddress">'+userEmailAddress+'</div>'+
-                                            '</div>';
-                }
-            }
             // Loop through the allCombinedMessages and refomat array for later use.
             for(var l = 0; l <=allCombinedMessages.length-1; l++){
-                //console.log('l: ', allCombinedMessages[l]);
                 for(var n = 0; n<= allCombinedMessages[l].length-1; n++){
-                    //console.log('n: ', allCombinedMessages[l][n]);
                     reformmatedCombinedMessages.push(allCombinedMessages[l][n]);
                 }
             }
-            loadMessagesWithUser(null);
-            // Add in left panel profile images
-            var leftPanelConversations = document.querySelectorAll('.messageWrapper');
+            // Only update the interface if we have new messages
+            if(reformmatedCombinedMessages.length > oldMessagesLength){
+                // Set new and old message values to be compared for populating new messages
+                oldMessagesLength = reformmatedCombinedMessages.length;
+                leftPanel.innerHTML = '';
+                //append new grouped messages to html
+                for(c = 0; c<=messageGroupedByUser.length-1; c++){
+                    var userEmailAddress = messageGroupedByUser[c][0];
 
-            for(var lpc = 0; lpc<= leftPanelConversations.length-1; lpc++){
-                var leftPanelConvoUser = leftPanelConversations[lpc].querySelector('.messagePreview .messageFromUser').innerHTML;
-                var leftPanelConvoUserImage = leftPanelConversations[lpc].querySelector('.leftPanelAvatar');
-
-                // search all messages for users avatar id and use it
-                for(var am = 0; am<=reformmatedCombinedMessages.length-1; am++){
-                    if(reformmatedCombinedMessages[am].fromUser == leftPanelConvoUser){
-                        var leftPanelAvatarId= reformmatedCombinedMessages[am].fromAvatarId;
-                        leftPanelConvoUserImage.src = ('avatar/'+leftPanelAvatarId+'/avatarImage.jpg');
+                    if(userEmailAddress == savedUsername){
+                        // console.log('this is user data entries all combined, just show other users');
+                    } else {
+                        
+                        leftPanel.innerHTML += '<div class="messageWrapper" onclick="loadMessagesWithUser(event);">'+
+                                                    '<div class="messageicon">'+
+                                                        '<img class="leftPanelAvatar" src="img/default-profile-icon-16.png" width="50px;" alt="">'+
+                                                            '<div class="messagePreview">'+
+                                                                '<div class="messageFromUser">'+userEmailAddress+'</div>'+
+                                                            '</div>'+
+                                                    '</div>'+
+                                                    '<div class="userEmailAddress">'+userEmailAddress+'</div>'+
+                                                '</div>';
                     }
                 }
+                //
+                loadMessagesWithUser(null);
+                // Add in left panel profile images
+                var leftPanelConversations = document.querySelectorAll('.messageWrapper');
+
+                for(var lpc = 0; lpc<= leftPanelConversations.length-1; lpc++){
+                    var leftPanelConvoUser = leftPanelConversations[lpc].querySelector('.messagePreview .messageFromUser').innerHTML;
+                    var leftPanelConvoUserImage = leftPanelConversations[lpc].querySelector('.leftPanelAvatar');
+
+                    // search all messages for users avatar id and use it
+                    for(var am = 0; am<=reformmatedCombinedMessages.length-1; am++){
+                        if(reformmatedCombinedMessages[am].fromUser == leftPanelConvoUser){
+                            var leftPanelAvatarId= reformmatedCombinedMessages[am].fromAvatarId;
+                            leftPanelConvoUserImage.src = ('avatar/'+leftPanelAvatarId+'/avatarImage.jpg');
+                        }
+                    }
+                }
+            } else {
+                //console.log('do nothing')
             }
+            //
         }
         
     });
@@ -308,10 +312,13 @@ function loadMessagesWithUser(e) {
     if(e != null) {
         isChatPanelOpen = true;
         withUser = e.currentTarget.querySelector('.messagePreview .messageFromUser').innerHTML;
+        // adjust css
+        document.querySelector('.chatDetails').style.height = '500px';
+        document.querySelector('.chatText').style.display = 'block';
+        document.querySelector('.sendMessageContentWrapper').style.display = 'block';
     } else if (e == null && isChatPanelOpen == true){
         withUser = document.querySelector('.sendMessageContentWrapper .sendMessageToUser').innerHTML;
     }
-    
     var chatText = document.querySelector('.chatText ul');
     var conversationWithUser = [];
     //
