@@ -196,6 +196,7 @@ app.get('/garage/item/:itemID', function (req, res){
 										"<link rel='stylesheet' href='http://localhost:3000/css/main.css'>"+
 										"<link rel='stylesheet' href='http://localhost:3000/css/login.css'>"+
 										"<script type='text/javascript' src='http://localhost:3000/js/superUtil.js'></script>"+
+										"<script type='text/javascript' src='http://localhost:3000/js/garageItem.js'></script>"+
 										"<style>body{font-family: Arial, Helvetica, sans-serif;}</style>"+
 									"</head>"+
 									"<body>"+

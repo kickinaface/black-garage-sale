@@ -14,7 +14,7 @@ function UploadRoutes(){
                 searchToken(req.body.avatarUploadUserToken, function (data, u) {
                     if(data == true){
                         userID = u._id;
-                        var imagePath = ('/avatar/'+userID+'/');
+                        var imagePath = ('./avatar/'+userID+'/');
                         var imageUrl = ('./avatar/'+userID+'/avatarImage.jpg');
                         //console.log('imagePath: ', imagePath)
                         if(fs.existsSync(imagePath)) {
