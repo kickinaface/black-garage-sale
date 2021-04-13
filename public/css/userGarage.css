@@ -64,11 +64,11 @@ body {
 
 .garageCategoryWrapper{
     width: 40%;
-    background: #ccc;
+    background: black;
     height: 300px;
     padding: 20px;
     margin:10px;
-    color:black;
+    color:white;
     float: left;
     overflow-y: scroll;
 }
@@ -87,5 +87,5 @@ body {
 }
 
 .userImageAvatar {
-    margin-right:9%;
+    padding-top: 20px;
 }

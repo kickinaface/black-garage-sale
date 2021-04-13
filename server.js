@@ -190,11 +190,12 @@ app.get('/garage/item/:itemID', function (req, res){
 			// BUILD STEP: Remove/change URL within this file for correct linkage.
 			var preMadeDocument = "<html>"+
 									"<head>"+
-										"<title>SuperUtil -LOGIN</title>"+
+										"<title>SuperUtil -ITEM</title>"+
 										"<meta name='viewport' content='width=device-width, initial-scale=1'>"+
 										"<link rel='stylesheet' href='http://localhost:3000/css/navigation.css'>"+
 										"<link rel='stylesheet' href='http://localhost:3000/css/main.css'>"+
 										"<link rel='stylesheet' href='http://localhost:3000/css/login.css'>"+
+										"<link rel='stylesheet' href='http://localhost:3000/css/garageItem.css'>"+
 										"<script type='text/javascript' src='http://localhost:3000/js/superUtil.js'></script>"+
 										"<script type='text/javascript' src='http://localhost:3000/js/garageItem.js'></script>"+
 										"<style>body{font-family: Arial, Helvetica, sans-serif;}</style>"+
@@ -211,17 +212,23 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<img src='/garageImages/"+gItem._id+"/garageItemImage_3.jpg' width='20%;' /> &nbsp;&nbsp;"+
 									"<br/>"+
 									"<br/>"+
+									"<div class='itemDescriptionWrapper'>"+
 									"<h2>"+gItem.title+"</h2>"+
+									"<br/>"+
+									"<b>Description: </b>"+
 									"<p>"+
 										gItem.description+
 									"</p>"+
-									"<p><b>"+gItem.category+"</b></p>"+
+									"<br/>"+
+									"<b>Category:</b>"+
+									"<p>"+gItem.category+"</p>"+
 									"<br/>"+
 									"<p><b>Quantity</b><br/>"+gItem.quantity+" left</p>"+
 									"<br/>"+
-									"<p><b>Price: </b>$"+gItem.price+"</p>"+
+									"<p><b>Price: </b>$"+parseFloat(gItem.price).toFixed(2)+"</p>"+
 									"<br/>"+
-									"<a href='/messages?createdBy="+gItem.createdBy+"&garageItemId="+gItem._id+"'>Buy this Item</a>"+
+									"<a href='/messages?createdBy="+gItem.createdBy+"&garageItemId="+gItem._id+"'><button>Buy Item</button></a>"+
+									"</div>"+
 									"</body>"+
 								"</html>";
 			//res.send(gItem);

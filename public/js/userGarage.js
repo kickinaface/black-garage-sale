@@ -1,23 +1,11 @@
 var superUtil = new SuperUtil();
 var token = localStorage.getItem('token');	
 document.addEventListener("DOMContentLoaded", function(){
-    // begin
     superUtil.init(document);
     // Build Navigation bar controls
-    var navigationLinks = [
-        {
-            title: 'HOME',
-            link:'/'
-        },
-        {
-            title: 'LOGIN',
-            link: '/login'
-        },
-        {
-            title:'REGISTER',
-            link: '/register'
-        }
-    ];
+    var navigationLinks = [];
+    var path = location.pathname;
+    var userId = path.split('user/')[1];
 
     superUtil.initNavigation('navigation', navigationLinks);
 
@@ -26,10 +14,38 @@ document.addEventListener("DOMContentLoaded", function(){
         //console.log('data: ', data);
         window.location = '/';
     });
+    
 
-   getUsersGarageById();
-
+    getUsersGarageById();
+    loadAvatarPhoto(userId);
 });
+
+function loadAvatarPhoto(userId){
+    var avatarPhoto = document.querySelector('.userImageAvatar');
+
+    if(userId != 'undefined'){
+        var imageUrl = ('/avatar/'+userId+'/avatarImage.jpg');
+        
+        urlExists(imageUrl, function (exists) {
+            if(!exists) {
+                // Do nothing continue loading default photo
+            } else {
+                avatarPhoto.src = imageUrl;
+            }
+        });
+    }
+};
+
+function urlExists(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        callback(xhr.status < 400);
+      }
+    };
+    xhr.open('HEAD', url);
+    xhr.send();
+}
 
 function getUsersGarageById(){
     var path = window.location.pathname.split('/');

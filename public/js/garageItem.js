@@ -4,20 +4,7 @@ document.addEventListener("DOMContentLoaded", function(){
     // begin
     superUtil.init(document);
     // Build Navigation bar controls
-    var navigationLinks = [
-        {
-            title: 'HOME',
-            link:'/'
-        },
-        {
-            title: 'LOGIN',
-            link: '/login'
-        },
-        {
-            title:'REGISTER',
-            link: '/register'
-        }
-    ];
+    var navigationLinks = [];
 
     superUtil.initNavigation('navigation', navigationLinks);
 
