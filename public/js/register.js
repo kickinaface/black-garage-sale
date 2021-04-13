@@ -6,12 +6,16 @@ document.addEventListener("DOMContentLoaded", function(){
 	var emailInput = superUtil.grabElement('registerEmailInput');
     var passwordInput1 = superUtil.grabElement('registerPasswordInput1');
     var passwordInput2 = superUtil.grabElement('registerPasswordInput2');
+    var firstNameInput = superUtil.grabElement('registerNameInput1');
+    var lastNameInput = superUtil.grabElement('registerNameInput2');
 	var responsMessages = superUtil.grabElement('serverMessages');
 
 	registerBtn.addEventListener('click', function(data) {
 		var postData = {
 			username: emailInput.value,
-			password: passwordInput2.value
+			password: passwordInput2.value,
+            firstName: firstNameInput.value,
+            lastName: lastNameInput.value
         };
         if (passwordInput1.value != passwordInput2.value){
             responsMessages.innerHTML = 'Please enter the same password twice';

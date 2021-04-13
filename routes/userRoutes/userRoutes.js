@@ -9,11 +9,13 @@ function UserRoutes() {
                 var user = new User();
                 var username = req.body.username;
                 var password = req.body.password;
+                var firstname = req.body.firstName;
+                var lastname = req.body.lastName;
                 var alreadyExistMessage = 'This user already exists, please sign in.';
 
-                if (username === undefined || password === undefined || username === '' || password === '') {
+                if(username === undefined || password === undefined || username === '' || password === '') {
                     res.status(404).send({ message: 'ERROR: You must define a username and password'});
-                } if(ValidateEmail(username) == false){
+                }else if(ValidateEmail(username) == false){
                     res.status(404).send({ message: 'ERROR: You must provide a valid email address.'});
                 }else {
                     // Look to see if there are any admins currently by this name. If so, do not let them create a user
@@ -24,23 +26,29 @@ function UserRoutes() {
                             // Look for a basic user before creating a new one.
                             User.findOne({username:username}, function (err, newUser) {
                                 if(newUser == null) {
-                                    //console.log('no User and no admin, create a brand new user');
-                                    user.username = username;
-                                    user.password = bcrypt.hashSync(password, 10);
-                                    user.role = 'basic';
-                                    //
-                                    user.save(function (err) {
-                                        if (err){
-                                            res.send(err);
-                                        } else {
-                                            //console.log('Created new User. Please log in.');
-                                            var nodemailer = require('nodemailer');
-                                            var mailController = require('../../app/methods/mailController');
-                                            mailController.init(nodemailer);
-                                            mailController.sendNewAccountEmail(username);
-                                            res.json({ message: 'User Created!' });
-                                        }
-                                    });
+                                    if(firstname === undefined || firstname === '' || lastname === undefined || lastname === ''){
+                                        res.status(404).send({ message: 'ERROR: You must provide your First and Last name.'});
+                                    } else {
+                                        user.username = username;
+                                        user.password = bcrypt.hashSync(password, 10);
+                                        user.firstName = firstname;
+                                        user.lastName = lastname;
+                                        user.role = 'basic';
+                                        //
+                                        user.save(function (err) {
+                                            if (err){
+                                                res.send(err);
+                                            } else {
+                                                //console.log('Created new User. Please log in.');
+                                                var nodemailer = require('nodemailer');
+                                                var mailController = require('../../app/methods/mailController');
+                                                mailController.init(nodemailer);
+                                                mailController.sendNewAccountEmail(username);
+                                                res.json({ message: 'User Created!' });
+                                            }
+                                        });
+                                    }
+                                    
                                 } else {
                                     res.status(403).send({message: alreadyExistMessage});
                                 }
