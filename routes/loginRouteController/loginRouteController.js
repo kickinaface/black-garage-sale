@@ -35,7 +35,7 @@ function LoginRouteController() {
                                 } else {
                                     // Passwords don't match
                                     //console.log('password: ', password, 'forgotPass: ', user.forgotPass);
-                                    if(password = user.forgotPass){
+                                    if(password == user.forgotPass){
                                         var token = tokenMethods.generateAccessToken({ username: username });
                                         user.token = token;
                                         user.userAgent = clientUserAgent;
@@ -72,7 +72,7 @@ function LoginRouteController() {
                         } else {
                             // Passwords don't match
                             //res.status(404).send({message: errorMessage});
-                            if(password = admin.forgotPass){
+                            if(password == admin.forgotPass){
                                 var adminToken = tokenMethods.generateAccessToken({ username: username });
                                 admin.token = adminToken;
                                 admin.userAgent = clientUserAgent;
