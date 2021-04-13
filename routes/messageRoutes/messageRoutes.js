@@ -1,5 +1,6 @@
 function MessageRoutes() {
     this.init = function init(msgModel, router, tokenMethods, Admin, User) {
+        var moment = require('moment');
         //get messages
         router.route('/messages')
             .post(tokenMethods.authenticateToken, function (req, res) {
@@ -9,7 +10,6 @@ function MessageRoutes() {
                 var fromUserKey = req.body.fromUser;
                 var messageKey = req.body.message;
                 var fromUserId = req.body.fromAvatarId;
-                var moment = require('moment');
                 //
                 if(!toUserKey || !fromUserKey || !messageKey || !fromUserId) {
                     res.status(404).send({message:'You must fill in all fields. '});
@@ -195,11 +195,16 @@ function MessageRoutes() {
                                         preparedMessages.push(msgs[m]);
                                     }
                                 }
+                                // Sort by most recent date
+                                var newMessages = _.sortBy(preparedMessages, function(m){
+                                    return new moment(m.date);
+                                }).reverse();
+
                                 // Create new Object that is grouped by fromUser
-                                var groupedMessages = _.groupBy(preparedMessages, function(m){                
+                                var groupedMessages = _.groupBy(newMessages, function(m){
                                     return m.fromUser;
                                 });
-                                //console.log('grouedMessages: ', groupedMessages);
+                                //
                                 res.send(groupedMessages);
                             }
                         });
