@@ -207,6 +207,7 @@ app.get('/garage/item/:itemID', function (req, res){
 									"</div>"+
 
 									"<div class='baseBoard'></div>"+
+									"<br/>"+
 									"<img src='/garageImages/"+gItem._id+"/garageItemImage_1.jpg' width='20%;' /> &nbsp;&nbsp;"+
 									"<img src='/garageImages/"+gItem._id+"/garageItemImage_2.jpg' width='20%;' /> &nbsp;&nbsp;"+
 									"<img src='/garageImages/"+gItem._id+"/garageItemImage_3.jpg' width='20%;' /> &nbsp;&nbsp;"+
@@ -214,6 +215,9 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<br/>"+
 									"<div class='itemDescriptionWrapper'>"+
 									"<h2>"+gItem.title+"</h2>"+
+									"<br/>"+
+									"<b>Item ID:</b> "+ gItem._id+
+									"<br/>"+
 									"<br/>"+
 									"<b>Description: </b>"+
 									"<p>"+

@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     getUsersGarageById();
     loadAvatarPhoto(userId);
+    getFirstLastName(userId);
 });
 
 function loadAvatarPhoto(userId){
@@ -77,26 +78,39 @@ function getUsersGarageById(){
     });
 };
 
+function getFirstLastName(userId) {
+    var displaynameText = document.querySelector('.garageOwner');
+    superUtil.grabJSON('/api/garage/displayName/'+(userId), function (status, data){
+        if(status == 200) {
+            displaynameText.innerHTML = (data.firstName + ' ' + data.lastName);
+        } else {
+            console.log(status, data);
+        }
+    });
+};
+
 function buildUserGarage(garageItemsByCat){
     var items = Object.entries(garageItemsByCat);
     var garageItemWrapper = document.querySelector('.garageItemWrapper ul');
+    //items = items.reverse();
     //console.log(Object.entries(garageItemsByCat));
     for(var c = 0; c<=items.length-1; c++){
-        console.log('append cat: ', items[c]);
+        //console.log('append cat: ', items[c]);
         // add box by group
         garageItemWrapper.innerHTML +="<li>"+
-                                            "<div class='garageCategoryWrapper gItemLabel_"+items[c][0]+"'><span class='catTitle'>"+items[c][0]+"</span></div>"+
+                                            "<div class='garageCategoryWrapper gItemLabel_"+items[c][0]+"'><h3 class='catTitle'>"+items[c][0]+"</h3></div>"+
                                       "</li>";
         //console.log('items: ', items[c][1]);
         // then, add items within the box by group
-        for(var i = 0; i<=items[c][1].length-1; i++){
+        var individualItems = items[c][1].reverse();
+        for(var i = 0; i<=individualItems.length-1; i++){
             var cat = document.querySelector('.gItemLabel_'+items[c][0]);
             // var itemPath = ('/garage/item/'+items[c][1][i]._id);
 
             // console.log('append each item: ', items[c][0]);
             // console.log('append each item: ', items[c][1][i]);
             cat.innerHTML += "<br/><div class='garageItem'>"+
-                            "<span>"+items[c][1][i].title+"</span>"+
+                            "<h4>"+items[c][1][i].title+"</h4>"+
                                 "<div class='imageBoxWrapper' onclick=gotoLocation('"+items[c][1][i]._id+"');>"+
                                     "<img src='/garageImages/"+items[c][1][i]._id+"/garageItemImage_1.jpg' width='23%'/>"+
                                     "<img src='/garageImages/"+items[c][1][i]._id+"/garageItemImage_2.jpg' width='23%'/>"+

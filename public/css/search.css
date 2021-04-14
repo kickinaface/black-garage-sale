@@ -20,7 +20,8 @@ body {
 }
 
 .navLogo i {
-    color: grey;
+    color: black;
+    background-color:#cae00d;
 }
 
 /* .aboutLink {

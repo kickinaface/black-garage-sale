@@ -20,7 +20,8 @@ body {
 }
 
 .navLogo i {
-    color: grey;
+    color: black;
+    background-color:#cae00d;
 }
 
 .aboutLink {
@@ -60,6 +61,7 @@ body {
 
 .garageItemWrapper ul {
     list-style: none;
+    float: left;
 }
 
 .garageCategoryWrapper{
@@ -67,7 +69,7 @@ body {
     background: black;
     height: 300px;
     padding: 20px;
-    margin:10px;
+    margin:0px 15px 20px 0px;
     color:white;
     float: left;
     overflow-y: scroll;
@@ -78,6 +80,10 @@ body {
     margin: 10px;
     background: white;
     text-align: center;
+    color: black;
+}
+.garageItem h4{
+    padding:10px;
 }
 /* .imageBoxWrapper {
     width: 100%;
@@ -88,4 +94,17 @@ body {
 
 .userImageAvatar {
     padding-top: 20px;
+    padding-bottom: 20px;
+    float: left;
+}
+
+.userGarageDescWrapper{
+    margin-top:20px;
+    margin-left:20px;
+    float: left;
+    text-align: left;
+}
+.garageOwner {
+    font-size: 15pt;
+    font-style: italic;
 }

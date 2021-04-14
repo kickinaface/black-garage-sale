@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function(){
 			username: emailInput.value,
 			password: passwordInput.value
 		};
-
+		// make a global method
 		superUtil.sendJSON(postData, 'api/login', function (status, response){
 			console.log(status, response.message);
 			//message = response;
@@ -30,6 +30,31 @@ document.addEventListener("DOMContentLoaded", function(){
 		}, 'POST');
 	});
 
+	document.addEventListener('keydown', function (e) {
+		if(e.code == 'Enter'){
+			var postData = {
+				username: emailInput.value,
+				password: passwordInput.value
+			};
+			// make a global method
+			superUtil.sendJSON(postData, 'api/login', function (status, response){
+				console.log(status, response.message);
+				//message = response;
+				console.log(response);
+				
+				if(status != 200){
+					responsMessages.innerHTML = response.message;
+				} else if(status == 200) {
+					localStorage.setItem('userId', response.userId);
+					localStorage.setItem('token', response.token);
+					localStorage.setItem('username', response.email);
+					responsMessages.innerHTML = 'Success!! You are logged in. (Redirecting you to your profile)';
+					window.location = '/profile';
+				}
+			}, 'POST');
+		}
+	});
+
 	// Check Token, Go to the profile if there is a valid token. There is no need to login if there is a valid token.
 	var token = localStorage.getItem('token');
     superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
@@ -44,6 +69,10 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 	
 });
+
+function loginControl(){
+
+}
 
 function openModal(modalType){
 	console.log('modalType: ', modalType);

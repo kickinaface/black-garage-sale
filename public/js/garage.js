@@ -224,14 +224,17 @@ function getGarageItemById(){
             "<br>"+
             "<select name='editItemCategory' class='editItemCategory'>"+
                     "<option value='"+data.category+"'>"+data.category+"</option>"+
+                    "<option value='Appliances'>Appliances</option>"+
                     "<option value='Automotive'>Automotive</option>"+
                     "<option value='Books'>Books</option>"+
+                    "<option value='Clothes'>Clothes</option>"+
                     "<option value='Crafts'>Crafts</option>"+
-                    "<option value='Construction'>Construction</option>"+
+                    "<option value='Entertainment'>Entertainment</option>"+
                     "<option value='Electronics'>Electronics</option>"+
                     "<option value='Garden'>Garden</option>"+
-                    "<option value='Home'>Home</option>"+
+                    "<option value='Home & Garden'>Home & Garden</option>"+
                     "<option value='Jewelry'>Jewelry</option>"+
+                    "<option value='Tools'>Tools</option>"+
                     "<option value='Other'>Other</option>"+
             "</select>"+
         "</p>"+
@@ -256,10 +259,8 @@ function getGarageItemById(){
             "<p><label for='editItemAvailableStatus'>Item Un-Available (Out of Stock)</label></p>"+
             "<input type='checkbox' name='editItemAvailableStatus' class='editItemAvailableStatus' value='availableStatus'>"+
         "</p>"+ 
-        "<br>"+
-        "<i><b>***** Be sure you wish to actually save the item before clicking Save.<br/> Otherwise, please click Close to cancel.</b></i>"+
         "<br/>"+
-        "<button type='button' onclick='saveEditItemDetails();'>Save Edit Item</button>"+
+        "<button type='button' onclick='saveEditItemDetails();'>Save</button>"+
         "<br>"+
         "<br>";
             // Set isSold checkbox

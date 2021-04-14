@@ -303,6 +303,31 @@ function GarageRouteController() {
                     });
                 }
             });
+
+        router.route('/garage/displayName/:user_id')
+            .get(function(req, res){
+                var userID = req.params.user_id;
+                // console.log('userId: ', req.params.user_id);
+                // console.log('verifiedToken: ', verifiedToken);
+                Admin.findOne({_id:userID}, function (err, admin){
+                    if (err) {res.send(err) };
+                    // console.log(admin);
+                    if(admin == null) {
+                        //res.status(403).send({message: ''})
+                        // No admin, look for basic user
+                        User.findOne({_id:userID}, function(err, user) {
+                            if(err){res.send(err)};
+                            if(user == null) {
+                                res.sendStatus(403);
+                            } else {
+                                res.json({firstName:user.firstName, lastName: user.lastName});
+                            }
+                        });
+                    } else {
+                        res.json({firstName:admin.firstName, lastName: admin.lastName});
+                    }
+                });
+            });
     };
 };
 var garageRouteController = new GarageRouteController();
