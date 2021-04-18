@@ -102,18 +102,26 @@ function MessageRoutes() {
                     }
                 }
             })
-            //get all the messages (accessed at GET http://localhost:8080/api/ncMsgs)
+            //get all the messages
             /// change comment style layout
             .get(tokenMethods.authenticateToken, function (req, res) {
-                msgModel.find(function (err, msgs) {
-                    if (err) {
+                Admin.findOne({token: req.cookies.bCookieToken}, function (err, admin){
+                    if(err){
                         res.send(err);
-                    } else {
-                        res.json(msgs);
+                    } else if(admin != null){
+                        msgModel.find(function (err, msgs) {
+                            if (err) {
+                                res.send(err);
+                            } else {
+                                res.json(msgs);
+                            }
+                        });
+                    } else if (admin == null){
+                        res.status(403).send({message: 'Only Admins'});
                     }
                 });
             });
-            //on routes that end in /ncMsgs/:ncMsg_id
+            //Get individual messages by id
             //-----------------------------------------------------
         router.route('/messages/:msg_id')
             //get the ncMsg with that id

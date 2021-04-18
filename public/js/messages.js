@@ -63,29 +63,28 @@ document.addEventListener("DOMContentLoaded", function(){
 function checkMessageUrl() {
     var path = location.search;
     var messageFromId = path.split('?createdBy=')[1];
-    messageFromId = messageFromId.split('&garageItemId=')[0];
-    var garageItemId = path.split('&garageItemId=')[1];
-    //console.log('garageItemId: ', garageItemId);
-    // console.log('id:',messageFromId);
-    // openSendMessageModal('.sendUserMessageModal');
-    superUtil.getAuthenticatedRequest(token, ('api/getUsername/'+messageFromId), function (status, data){
-        if(status == 200 && data.authenticated == true){
-            // User is logged in and authenticated
-            var toMessageEmail = data.email;
-            if(savedUsername == toMessageEmail){
-                alert("You cannot send a message to yourself.");
+    // If the url contains the proper path initiate
+    if(messageFromId !=undefined){
+        messageFromId = messageFromId.split('&garageItemId=')[0];
+        var garageItemId = path.split('&garageItemId=')[1];
+        superUtil.getAuthenticatedRequest(token, ('api/getUsername/'+messageFromId), function (status, data){
+            if(status == 200 && data.authenticated == true){
+                // User is logged in and authenticated
+                var toMessageEmail = data.email;
+                if(savedUsername == toMessageEmail){
+                    alert("You cannot send a message to yourself.");
+                } else {
+                    openSendMessageModal('.sendUserMessageModal');
+                    document.querySelector('.toEmailAddress').value = toMessageEmail;
+                    var buyThisItemMessage = (savedUsername+ " wants to buy your item. itemID: "+ garageItemId);
+                    document.querySelector('.messageToUser').innerHTML = buyThisItemMessage;
+                }
+                
             } else {
-                openSendMessageModal('.sendUserMessageModal');
-                document.querySelector('.toEmailAddress').value = toMessageEmail;
-                // console.log(savedUsername);
-                var buyThisItemMessage = (toMessageEmail+ " wants to buy your item. itemID: "+ garageItemId);
-                document.querySelector('.messageToUser').innerHTML = buyThisItemMessage;
+                console.log(status, data);
             }
-            
-        } else {
-            console.log(status, data);
-        }
-    });
+        });
+    }
 }
 
 function messageChatTimer(inSeconds){
