@@ -190,8 +190,15 @@ app.get('/garage/item/:itemID', function (req, res){
 			// BUILD STEP: Remove/change URL within this file for correct linkage.
 			var preMadeDocument = "<html>"+
 									"<head>"+
-										"<title>SuperUtil -ITEM</title>"+
+										"<title>Black Garage Sale -ITEM</title>"+
+										"<meta charset='utf-8'>"+
+										"<meta http-equiv='X-UA-Compatible' content='IE=edge'></meta>"+
 										"<meta name='viewport' content='width=device-width, initial-scale=1'>"+
+										"<meta property='og:url'                content='http://localhost:3000/garage/item/"+gItem._id+"' />"+
+										"<meta property='og:type'               content='article' />"+
+										"<meta property='og:title'              content='"+gItem.title+"' />"+
+										"<meta property='og:description'        content='"+gItem.description+"' />"+
+										"<meta property='og:image'              content='"+gItem.itemImageUrl1+"' />"+
 										"<link rel='stylesheet' href='http://localhost:3000/css/navigation.css'>"+
 										"<link rel='stylesheet' href='http://localhost:3000/css/main.css'>"+
 										"<link rel='stylesheet' href='http://localhost:3000/css/login.css'>"+
