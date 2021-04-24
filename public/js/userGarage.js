@@ -1,5 +1,7 @@
 var superUtil = new SuperUtil();
-var token = localStorage.getItem('token');	
+var token = localStorage.getItem('token');
+var userId = localStorage.getItem('userId');
+//
 document.addEventListener("DOMContentLoaded", function(){
     superUtil.init(document);
     // Build Navigation bar controls
@@ -15,11 +17,25 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = '/';
     });
     
-
     getUsersGarageById();
     loadAvatarPhoto(userId);
     getFirstLastName(userId);
+    //Check to see who it is
+    checkUser(userId);
 });
+
+function checkUser(user){
+    superUtil.getAuthenticatedRequest(token, '/api/authRequest', function(status, data) {
+        var idFromPath = location.pathname.split('/user/')[1];
+        if(status != 200 && data.authenticated != true){
+            //console.log('invalid token, regular user');
+        } else {
+            if(userId == idFromPath){
+                document.querySelector('.navMessages').innerHTML+= "<span>This is your public view.</span>";
+            }
+        }
+    });
+}
 
 function loadAvatarPhoto(userId){
     var avatarPhoto = document.querySelector('.userImageAvatar');
@@ -90,7 +106,7 @@ function getFirstLastName(userId) {
 };
 
 function buildUserGarage(garageItemsByCat){
-    var items = Object.entries(garageItemsByCat);
+    var items = Object.entries(garageItemsByCat).reverse();
     var garageItemWrapper = document.querySelector('.garageItemWrapper ul');
     //items = items.reverse();
     //console.log(Object.entries(garageItemsByCat));
@@ -98,13 +114,15 @@ function buildUserGarage(garageItemsByCat){
         //console.log('append cat: ', items[c]);
         // add box by group
         garageItemWrapper.innerHTML +="<li>"+
-                                            "<div class='garageCategoryWrapper gItemLabel_"+items[c][0]+"'><h3 class='catTitle'>"+items[c][0]+"</h3></div>"+
+                                            "<div class='garageCategoryWrapper gItemLabel_"+c+"'><h3 class='catTitle'>"+items[c][0]+"</h3></div>"+
                                       "</li>";
         //console.log('items: ', items[c][1]);
         // then, add items within the box by group
         var individualItems = items[c][1].reverse();
         for(var i = 0; i<=individualItems.length-1; i++){
-            var cat = document.querySelector('.gItemLabel_'+items[c][0]);
+            //console.log('items[c][0]: ', items[c][0]);
+            var cat = document.querySelector('.gItemLabel_'+c);
+            //console.log('cat: ', cat);
             // var itemPath = ('/garage/item/'+items[c][1][i]._id);
 
             // console.log('append each item: ', items[c][0]);

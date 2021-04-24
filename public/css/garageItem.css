@@ -1,3 +1,11 @@
 .itemDescriptionWrapper{
     padding: 0px 0px 0px 15px;
 }
+
+.navMessages{
+    color:gold;
+    position: absolute;
+    left: 45%;
+    top:7px;
+    font-weight: bold;
+}

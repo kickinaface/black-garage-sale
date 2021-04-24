@@ -66,7 +66,7 @@ function GarageRouteController() {
                             if(err){
                                 response.send(err)
                             } else{
-                                response.send({message:'Successfully added new item!'});
+                                response.send({message:'Successfully added new item!', itemID: garageItem._id});
                             }
                         });
                     };

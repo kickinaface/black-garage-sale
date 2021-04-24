@@ -16,7 +16,7 @@ body {
     cursor: crosshair;
     margin: 0 auto;
     text-align: center;
-    padding-top:5%;
+    padding-top:15px;
 }
 
 .navLogo i {
@@ -31,7 +31,7 @@ body {
     cursor: pointer;
 }
 
-.profileWrapper button {
+.garageControls button {
     margin-top:10px;
     margin-left: 5px;
 }
@@ -95,4 +95,11 @@ body {
 }
 .editItemDescription{
     padding: 10px;
+}
+
+.userImageAvatar{
+    border: 1px solid black;
+}
+.displayname {
+    padding-bottom: 15px;
 }

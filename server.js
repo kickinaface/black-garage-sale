@@ -203,6 +203,7 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<body>"+
 									"<div class='navigation'>"+
 										"<div class='navLogo'><i>Black</i> Garage Sale</div>"+
+										"<div class='navMessages'></div>"+
 										"<ul class='navLinks'></ul>"+
 									"</div>"+
 
@@ -218,6 +219,8 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<br/>"+
 									"<b>Item ID:</b> "+ gItem._id+
 									"<br/>"+
+									"<b>Create by ID:</b> <span class='createdBy'>"+ gItem.createdBy+"</span>"+
+									"<br/>"+
 									"<br/>"+
 									"<b>Description: </b>"+
 									"<p>"+
@@ -230,6 +233,12 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<p><b>Quantity</b><br/>"+gItem.quantity+" left</p>"+
 									"<br/>"+
 									"<p><b>Price: </b>$"+parseFloat(gItem.price).toFixed(2)+"</p>"+
+									"<br/>"+
+									"<b>isSold:</b> "+ gItem.isSold+
+									"<br/>"+
+									"<br/>"+
+									"<b>Available:</b> "+ gItem.isAvailable+
+									"<br/>"+
 									"<br/>"+
 									"<a href='/messages?createdBy="+gItem.createdBy+"&garageItemId="+gItem._id+"'><button>Buy Item</button></a>"+
 									"</div>"+

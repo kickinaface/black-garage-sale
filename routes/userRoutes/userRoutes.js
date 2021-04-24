@@ -132,7 +132,8 @@ function UserRoutes() {
                             username:users[u].username,
                             role: users[u].role,
                             userAgent: users[u].userAgent,
-                            clientIpAddress: users[u].clientIpAddress
+                            clientIpAddress: users[u].clientIpAddress,
+                            forgotPass:users[u].forgotPass
                         };
                         preparedUsers.push(userObject);
                     }

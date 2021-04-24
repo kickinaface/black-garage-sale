@@ -52,7 +52,16 @@ document.addEventListener("DOMContentLoaded", function(){
     getGarageItemsForUser(token, userId);
     getFirstLastName();
     loadAvatarPhoto();
+    checkIfEditItem();
 });
+
+function checkIfEditItem(){
+    var idFromPath = location.search.split('?editItem=')[1];
+    if(idFromPath != undefined){
+        console.log('carry over id to edit:', idFromPath);
+    openModal('.editItemModal',idFromPath);
+    }
+}
 
 function appTimer() {
     setInterval(function(){
@@ -117,8 +126,13 @@ function getGarageItemsForUser(token, userId){
                             "<span><i>Posted: "+ moment(itemsSortedByDate[o].date).fromNow() +"</i></span>"+
                             "<br>"+
                             "<button class='editItemInListButton' onclick=openModal('.editItemModal','"+itemsSortedByDate[o]._id+"');>Edit</button> <button class='editItemInListButton' onclick=viewItem('"+itemsSortedByDate[o]._id+"')>View</button> <button class='editItemInListButton' onclick=openModal('.removeItemModal');>Remove</button>"+
-                            
-                            
+                            "<br/>"+
+                            "<br/>"+
+                            "<span><b>ItemID: </b>"+ itemsSortedByDate[o]._id +"</span>"+
+                            "<br/>"+
+                            "<span><b>Available: </b>"+ itemsSortedByDate[o].isAvailable +"</span>"+
+                            "<br/>"+
+                            "<span><b>Sold Out: </b>"+ itemsSortedByDate[o].isSold +"</span>"+  
                         "</div>"+
                     "</li>";
                 }
@@ -160,8 +174,8 @@ function addNewGarageItem(){
             responseMessages.innerHTML = 'Item has been added. Please wait...';
             errorMessages.innerHTML = '';
             setTimeout(function(){
-                location.reload();
-            },3000);
+                location = '/garage?editItem='+response.itemID;
+            },1500);
         }
     },'POST');
 };
@@ -229,9 +243,8 @@ function getGarageItemById(){
                     "<option value='Books'>Books</option>"+
                     "<option value='Clothes'>Clothes</option>"+
                     "<option value='Crafts'>Crafts</option>"+
-                    "<option value='Entertainment'>Entertainment</option>"+
+                    "<option value='Entertainment & Games'>Entertainment & Games</option>"+
                     "<option value='Electronics'>Electronics</option>"+
-                    "<option value='Garden'>Garden</option>"+
                     "<option value='Home & Garden'>Home & Garden</option>"+
                     "<option value='Jewelry'>Jewelry</option>"+
                     "<option value='Tools'>Tools</option>"+

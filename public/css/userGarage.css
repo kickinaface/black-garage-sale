@@ -81,6 +81,7 @@ body {
     background: white;
     text-align: center;
     color: black;
+    cursor: pointer;
 }
 .garageItem h4{
     padding:10px;
@@ -93,9 +94,10 @@ body {
 }
 
 .userImageAvatar {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     float: left;
+    border:1px solid black;
 }
 
 .userGarageDescWrapper{
@@ -107,4 +109,12 @@ body {
 .garageOwner {
     font-size: 15pt;
     font-style: italic;
+}
+
+.navMessages{
+    color:gold;
+    position: absolute;
+    left: 45%;
+    top:7px;
+    font-weight: bold;
 }

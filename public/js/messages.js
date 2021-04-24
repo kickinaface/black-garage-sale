@@ -269,7 +269,7 @@ function getMessagesForUser(userId, token){
                         
                         leftPanel.innerHTML += '<div class="messageWrapper" onclick="loadMessagesWithUser(event);">'+
                                                     '<div class="messageicon">'+
-                                                        '<img class="leftPanelAvatar" src="img/default-profile-icon-16.png" width="50px;" alt="">'+
+                                                        '<img class="leftPanelAvatar" src="/img/default-profile-icon-16.png" width="50px;" alt="">'+
                                                             '<div class="messagePreview">'+
                                                                 '<div class="messageFromUser">'+userEmailAddress+'</div>'+
                                                             '</div>'+
@@ -291,7 +291,7 @@ function getMessagesForUser(userId, token){
                     for(var am = 0; am<=reformmatedCombinedMessages.length-1; am++){
                         if(reformmatedCombinedMessages[am].fromUser == leftPanelConvoUser){
                             var leftPanelAvatarId= reformmatedCombinedMessages[am].fromAvatarId;
-                            leftPanelConvoUserImage.src = ('avatar/'+leftPanelAvatarId+'/avatarImage.jpg');
+                            leftPanelConvoUserImage.src = ('/avatar/'+leftPanelAvatarId+'/avatarImage.jpg');
                         }
                     }
                 }
@@ -311,10 +311,20 @@ function loadMessagesWithUser(e) {
     if(e != null) {
         isChatPanelOpen = true;
         withUser = e.currentTarget.querySelector('.messagePreview .messageFromUser').innerHTML;
-        // adjust css
+        // adjust css for displaying chat messages upon clicking left panel interaction
         document.querySelector('.chatDetails').style.height = '500px';
         document.querySelector('.chatText').style.display = 'block';
         document.querySelector('.sendMessageContentWrapper').style.display = 'block';
+        //
+        // adjust css for left panel user clicking the recent message. Upon clicking
+        var messageWrapper = document.querySelectorAll('.messageWrapper');
+        for(var m=0; m<=messageWrapper.length-1; m++){
+            messageWrapper[m].style.background = 'white';
+            messageWrapper[m].style.color = 'black';
+        }
+        e.currentTarget.style.background = 'black';
+        e.currentTarget.style.color = 'white';
+
     } else if (e == null && isChatPanelOpen == true){
         withUser = document.querySelector('.sendMessageContentWrapper .sendMessageToUser').innerHTML;
     }

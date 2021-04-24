@@ -9,14 +9,14 @@ body {
 }
 
 .mainContent {
-    width: 100%;
+    width: 90%;
     margin: 10px;
     font-family: Arial, Helvetica, sans-serif;
     min-height: 800px;
     cursor: crosshair;
     margin: 0 auto;
     text-align: center;
-    padding-top:5%;
+    padding-top:15px;
 }
 .messageWrapper {
     border: 1px solid black;
@@ -26,6 +26,7 @@ body {
     cursor: pointer;
     margin-bottom:10px;
     text-align: left;
+    color:black;
 }
 .userEmailAddress {
     white-space: nowrap;
@@ -35,8 +36,8 @@ body {
     font-weight: bold;
 }
 .messageWrapper:hover {
-    background:black;
-    color:white;
+    background:#ccc !important;
+    color:black !important;
 }
     .messageicon{
         width: 50px;
@@ -71,9 +72,19 @@ body {
     opacity: .5;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (max-width: 600px) {
     .mainContent {
-        width: 75%;
+        width: 100%;
+    }
+    .leftMessagesTab{
+        width: auto !important;
+        float: none !important;
+    }
+    .chatMessagesTab{
+        float: none !important;
+        width: auto !important;
+        margin-left: 100px;
+        display: none;
     }
 }
 
@@ -89,15 +100,17 @@ body {
     cursor: pointer;
 }
 
-.profileWrapper button {
+.messagesControls button {
     margin-top:10px;
     margin-left: 5px;
 }
 
-.adminControls {
+.messagesControls {
     margin: 20px;
     padding: 10px;
     border: 1px solid black;
+    margin:0 auto;
+    width:45%;
 }
 /* .messages{
     width: 100%;
@@ -105,15 +118,20 @@ body {
 .leftMessagesTab {
     float: left;
     width: 30%;
-    background:#ccc;
+    background: #efefef;
     padding:10px;
+    border: 1px solid black;
+    color:black;
 }
 .chatMessagesTab {
-    float:left;
+    float:right;
     width: 60%;
-    background: #666; 
+    background: black; 
     height: auto;
     padding:10px;
+}
+.chatMessagesTab h4 {
+    color:white;
 }
     .chatDetails {
         position: relative;
@@ -132,6 +150,7 @@ body {
         position: absolute;
         bottom: 4%;
         height: 369px;
+        width: 98%;
         overflow-y: scroll;
         display: flex;
         flex-direction: column-reverse;
@@ -147,13 +166,15 @@ body {
         text-align: left;
     }
     .leftMessage {
-        background-color:rgb(175, 175, 175);
+        background-color:white;
+        border:1px solid black;
     }
     .rightMessages {
         /* float: right;
         font-style: italic; */
         text-align: right !important;
         background: #ccc;
+        border:1px solid black;
     }
     .chatText div p {
         /* float: left; */
@@ -164,6 +185,9 @@ body {
             overflow: hidden;
             width: 50px;
             height: 50px;
+        }
+        .chatAvatar img {
+            border: 1px solid black;
         }
         .rightMessages .chatAvatar {
             float: right;
@@ -196,12 +220,19 @@ body {
     text-align: center;
 }
 
-.sendMessageButton{
+/* .sendMessageButton{
     margin-bottom: 15px;
-}
+} */
 .sendMessageContentWrapper{
     position: absolute;
     bottom: 0;
     background: white;
     display: none;
+    width:98%;
+}
+.userImageAvatar{
+    border: 1px solid black;
+}
+.displayname {
+    padding-bottom: 15px;
 }

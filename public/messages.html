@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SuperUtil -PROFILE</title>
+    <title>Black Garage Sale -MESSAGES</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/main.css">
@@ -51,12 +51,25 @@
 		<div class="blueBox">
             <h2 class="displayname">First Name Last name</h2>
             <img src="img/default-profile-icon-16.png" width="100px" alt="Profile Picture" class="userImageAvatar">
+            <br>
+            <br>
+            <div class="messagesControls">
+                <h4>Messages Controls:</h4>
+				<button type="button" class="sendMessageButton" title="sendMessage" onclick="openSendMessageModal('.sendUserMessageModal');">Send A Message</button>
+				<button type="button" title="editItem" onclick="openModal('.editItemModal', null);">Messages Settings</button>
+			</div>
+            <br>
+            <br>
             <div class="messages">
                 <div class="leftMessagesTab">
-                    <h4>My Messages</h4>
+                    <!-- <h4>My Messages</h4>
                     <br>
                     <button class="sendMessageButton" onclick="openSendMessageModal('.sendUserMessageModal');">Send A Message</button>
+                    <br> -->
+                    <h4>Recent Messages:</h4>
+                    <br>
                     <div class="userMessagePreviewWrapper">
+                        No Messages
                         <!-- <div class="messageWrapper">
                             <div class="messageicon"><img src="img/default-profile-icon-16.png" width="50px;" alt=""></div>
                             <div class="messagePreview">
@@ -69,9 +82,9 @@
                     
                 </div>
                 <div class="chatMessagesTab">
-                    <h4>Chat</h4>
+                    <h4 style="margin-bottom:6px;">Chat</h4>
                     <div class="chatDetails">
-                        Click on a user on the left in: <strong>"My Messages"</strong> to chat. <br>No messages? Click <strong>"Send a Message"</strong> to a user.
+                        Click on a user on the left in: <strong>"Recent Messages"</strong> to chat. <br>No messages? Click <strong>"Send a Message"</strong> to a user.
                         <div class="chatText">
                             <!-- Previous UL -->
                             <ul>
