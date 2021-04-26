@@ -29,14 +29,11 @@ const tokenMethods = require('./app/methods/tokenMethods/tokenMethods');
 const dotenv = require('dotenv');
 
 const fileUpload = require('express-fileupload');
-const nodemailer = require('nodemailer');
-const mailController = require('./app/methods/mailController');
 //const randomUdidGen = require('./app/methods/generateUdid');
 const fs = require('fs');
 
 // get config vars
 dotenv.config();
-mailController.init(nodemailer);
 // access config var
 //console.log(process.env.TOKEN_SECRET);
 

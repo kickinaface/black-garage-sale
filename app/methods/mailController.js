@@ -1,18 +1,13 @@
-function MailController() {
-    var _this = this;
-    var transporter;
-
-    this.init = function(nodemailer){
-        _this.nodemailer = nodemailer;
-        transporter = _this.nodemailer.createTransport({
-            service:'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+    service:'Gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
-    
+});
+//
+function MailController() {
     this.sendResetPasswordEmail = function sendResetPasswordEmail(toEmail, udid){
         var mailOptions = {
             from: process.env.EMAIL_USER,
@@ -22,11 +17,11 @@ function MailController() {
             " If this wasn't you, please contact your Administrator"
         };
         
-        return transporter.sendMail(mailOptions, function (err, data) {
+        transporter.sendMail(mailOptions, function (err, data) {
             if(err) {
-                return false;
+                console.log(err);
             } else {
-                return true;
+                console.log(data.response);
             }
         });
 
@@ -41,11 +36,11 @@ function MailController() {
             " If this wasn't you, please contact your Administrator"
         };
         
-        return transporter.sendMail(mailOptions, function (err, data) {
+        transporter.sendMail(mailOptions, function (err, data) {
             if(err) {
-                return false;
+                console.log(err);
             } else {
-                return true;
+                console.log(data.response);
             }
         });
     };
@@ -58,11 +53,11 @@ function MailController() {
             html:message
         };
         
-        return transporter.sendMail(mailOptions, function (err, data) {
+        transporter.sendMail(mailOptions, function (err, data) {
             if(err) {
-                return false;
+                console.log(err);
             } else {
-                return true;
+                console.log(data.response);
             }
         });
     }
@@ -75,11 +70,11 @@ function MailController() {
             html:"Welcome to Black Garage Sale! Thank you for registering with us."
         };
         
-        return transporter.sendMail(mailOptions, function (err, data) {
+        transporter.sendMail(mailOptions, function (err, data) {
             if(err) {
-                return false;
+                console.log(err);
             } else {
-                return true;
+                console.log(data.response);
             }
         });
     }; 
