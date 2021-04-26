@@ -50,7 +50,7 @@ function MailController() {
             from: process.env.EMAIL_USER,
             to: toEmail,
             subject: 'New Message: Black Garage Sale <Do Not Reply>',
-            html:message
+            html: (message + '<br/><a href="https://black-garage-sale.herokuapp.com/messages">View Messages</a>')
         };
         
         transporter.sendMail(mailOptions, function (err, data) {

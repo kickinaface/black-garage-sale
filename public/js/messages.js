@@ -73,14 +73,10 @@ function mobileAdapt(){
     }
     //
     window.addEventListener('resize', function (w){
-        console.log(w.target.innerWidth);
         if(w.target.innerWidth<=setWidthLimit){
             isMobile = true;
-            //document.querySelector('.chatMessagesTab').style.display = 'none';
         } else {
             isMobile = false;
-            //document.querySelector('.leftMessagesTab').style.display = 'block';
-            //document.querySelector('.chatMessagesTab').style.display = 'block';
         }
     });
     
