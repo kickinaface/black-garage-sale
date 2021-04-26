@@ -1,22 +1,25 @@
 function MailController() {
     var _this = this;
+    var transporter;
+
     this.init = function(nodemailer){
         _this.nodemailer = nodemailer;
-    }
-    this.sendResetPasswordEmail = function sendResetPasswordEmail(toEmail, udid){
-        var transporter = _this.nodemailer.createTransport({
+        transporter = _this.nodemailer.createTransport({
             service:'gmail',
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
             }
         });
-        //var formmattedUrl = ('http://localhost:3000/api/resetPassword/'+(toEmail)+'/'+udid+'/');
+    }
+    
+    this.sendResetPasswordEmail = function sendResetPasswordEmail(toEmail, udid){
         var mailOptions = {
             from: process.env.EMAIL_USER,
             to: toEmail,
             subject: 'Reset Password: Black Garage Sale <Do Not Reply>',
-            html:"Here is your temporary password: <br><br><b>"+udid+"</b> <br><br>Please sign in with it immediately. If this wasn't you, please contact your Administrator"
+            html:"Here is your temporary password: <br><br><b>"+udid+"</b> <br><br>Please sign in with it immediately and CHANGE YOUR PASSWORD!"+
+            " If this wasn't you, please contact your Administrator"
         };
         
         return transporter.sendMail(mailOptions, function (err, data) {
@@ -27,20 +30,44 @@ function MailController() {
             }
         });
 
+    };
 
-    //     console.log('send reset password email ', toEmail);
-    //     console.log(_this.nodemailer);
-    }
-
-    this.sendNewAccountEmail = function sendResetPasswordEmail(toEmail){
-        var transporter = _this.nodemailer.createTransport({
-            service:'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
+    this.passwordHasBeenReset = function passwordHasBeenReset(toEmail){
+        var mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: toEmail,
+            subject: 'Changed Password: Black Garage Sale <Do Not Reply>',
+            html:"This email is to confirm that your password has been reset."+
+            " If this wasn't you, please contact your Administrator"
+        };
+        
+        return transporter.sendMail(mailOptions, function (err, data) {
+            if(err) {
+                return false;
+            } else {
+                return true;
             }
         });
-        //var formmattedUrl = ('http://localhost:3000/api/resetPassword/'+(toEmail)+'/'+udid+'/');
+    };
+
+    this.sendEmailFromMessages = function sendEmailFromMessages(toEmail, message){
+        var mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: toEmail,
+            subject: 'New Message: Black Garage Sale <Do Not Reply>',
+            html:message
+        };
+        
+        return transporter.sendMail(mailOptions, function (err, data) {
+            if(err) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+    }
+
+    this.sendNewAccountEmail = function sendNewAccountEmail(toEmail){
         var mailOptions = {
             from: process.env.EMAIL_USER,
             to: toEmail,
@@ -55,8 +82,8 @@ function MailController() {
                 return true;
             }
         });
-    } 
-}
+    }; 
+};
 
 var mailController = new MailController();
 module.exports = mailController;

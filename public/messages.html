@@ -57,6 +57,7 @@
                 <h4>Messages Controls:</h4>
 				<button type="button" class="sendMessageButton" title="sendMessage" onclick="openSendMessageModal('.sendUserMessageModal');">Send A Message</button>
 				<button type="button" title="editItem" onclick="openModal('.editItemModal', null);">Messages Settings</button>
+                <button type="button" title="editItem" onclick="location='/messages'">Show Recent</button>
 			</div>
             <br>
             <br>
@@ -84,7 +85,7 @@
                 <div class="chatMessagesTab">
                     <h4 style="margin-bottom:6px;">Chat</h4>
                     <div class="chatDetails">
-                        Click on a user on the left in: <strong>"Recent Messages"</strong> to chat. <br>No messages? Click <strong>"Send a Message"</strong> to a user.
+                        <span class='chatInstructions'>Click on a user on the left in: <strong>"Recent Messages"</strong> to chat. <br>No messages? Click <strong>"Send a Message"</strong> to a user.</span>
                         <div class="chatText">
                             <!-- Previous UL -->
                             <ul>

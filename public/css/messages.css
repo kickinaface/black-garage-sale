@@ -74,7 +74,7 @@ body {
 
 @media screen and (max-width: 600px) {
     .mainContent {
-        width: 100%;
+        width: 90%;
     }
     .leftMessagesTab{
         width: auto !important;
@@ -83,7 +83,6 @@ body {
     .chatMessagesTab{
         float: none !important;
         width: auto !important;
-        margin-left: 100px;
         display: none;
     }
 }

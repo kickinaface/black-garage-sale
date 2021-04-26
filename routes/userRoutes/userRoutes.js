@@ -1,4 +1,5 @@
 const { find } = require('lodash');
+const mailController = require('../../app/methods/mailController');
 
 function UserRoutes() {
     this.init = function init(User, Admin, router, tokenMethods) {
@@ -207,6 +208,7 @@ function UserRoutes() {
                                 admin.password = bcrypt.hashSync(newPassword, 10);
                                 admin.save();
                                 //console.log('user: ', user);
+                                mailController.passwordHasBeenReset(admin.username);
                                 res.json({message: 'Successfully changed password. Please wait'});
                             } else {
                                 // Passwords don't match
@@ -217,6 +219,7 @@ function UserRoutes() {
                                     admin.save();
                                     //console.log('user: ', user);
                                     //res.redirect('/logout');
+                                    mailController.passwordHasBeenReset(admin.username);
                                     res.json({message: 'Successfully changed password. Please wait'});
                                 } else {
                                     res.status(404).send({message: 'You must enter the correct old password'});
@@ -233,6 +236,7 @@ function UserRoutes() {
                                         user.save();
                                         //console.log('user: ', user);
                                         //res.redirect('/logout');
+                                        mailController.passwordHasBeenReset(user.username);
                                         res.json({message: 'Successfully changed password. Please wait'});
                                     } else {
                                         if(oldPassword == user.forgotPass){
@@ -241,6 +245,7 @@ function UserRoutes() {
                                             user.save();
                                             //console.log('user: ', user);
                                             //res.redirect('/logout');
+                                            mailController.passwordHasBeenReset(user.username);
                                             res.json({message: 'Successfully changed password. Please wait'});
                                         } else {
                                             res.status(404).send({message: 'You must enter the correct old password'});

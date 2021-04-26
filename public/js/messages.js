@@ -5,6 +5,7 @@ var savedUsername = localStorage.getItem('username');
 var reformmatedCombinedMessages = [];
 var isChatPanelOpen = false;
 var oldMessagesLength = 0;
+var isMobile = false;
 
 document.addEventListener("DOMContentLoaded", function(){
     // begin
@@ -58,7 +59,32 @@ document.addEventListener("DOMContentLoaded", function(){
     getFirstLastName();
     loadAvatarPhoto();
     checkMessageUrl();
+    mobileAdapt();
 });
+
+function mobileAdapt(){
+    var setWidthLimit = 600;
+    var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+    if(width <= setWidthLimit){
+        isMobile = true;
+    } else {
+        isMobile = false;
+    }
+    //
+    window.addEventListener('resize', function (w){
+        console.log(w.target.innerWidth);
+        if(w.target.innerWidth<=setWidthLimit){
+            isMobile = true;
+            //document.querySelector('.chatMessagesTab').style.display = 'none';
+        } else {
+            isMobile = false;
+            //document.querySelector('.leftMessagesTab').style.display = 'block';
+            //document.querySelector('.chatMessagesTab').style.display = 'block';
+        }
+    });
+    
+};
 
 function checkMessageUrl() {
     var path = location.search;
@@ -315,6 +341,8 @@ function loadMessagesWithUser(e) {
         document.querySelector('.chatDetails').style.height = '500px';
         document.querySelector('.chatText').style.display = 'block';
         document.querySelector('.sendMessageContentWrapper').style.display = 'block';
+        //Hide under text 
+        document.querySelector('.chatInstructions').style.display = 'none';
         //
         // adjust css for left panel user clicking the recent message. Upon clicking
         var messageWrapper = document.querySelectorAll('.messageWrapper');
@@ -324,6 +352,15 @@ function loadMessagesWithUser(e) {
         }
         e.currentTarget.style.background = 'black';
         e.currentTarget.style.color = 'white';
+        //
+        // If in mobile view and clicked, apply show hide logic for messages and 
+        // append the close button to toggle show hide
+        if(isMobile){
+            document.querySelector('.leftMessagesTab').style.display = 'none';
+            // document.querySelector('.chatMessagesTab').style.float = 'left';
+            // document.querySelector('.chatMessagesTab').style.width = '900px';
+            document.querySelector('.chatMessagesTab').style.display = 'block';
+        }
 
     } else if (e == null && isChatPanelOpen == true){
         withUser = document.querySelector('.sendMessageContentWrapper .sendMessageToUser').innerHTML;
@@ -382,7 +419,22 @@ function loadMessagesWithUser(e) {
     }
     // Set message to user 
     document.querySelector('.sendMessageContentWrapper .sendMessageToUser').innerHTML = sendMessageToUser;
-
+    //
+    //console.log(document.querySelectorAll('.chatText ul li div'))
+    // sort through message list and add links to itemID tag
+    var openMessagesList = document.querySelectorAll('.chatText ul li div');
+    //
+    for(var om=0; om<= openMessagesList.length-1; om++){
+        var specificMessageText = openMessagesList[om].innerHTML.split('itemID: ')[1];
+        
+        //console.log('message: ', openMessagesList[om].innerHTML);
+        if(specificMessageText != undefined){
+            specificMessageText = specificMessageText.replace('</p>','');
+            //console.log('specificMessageText: ', specificMessageText.replace('</p>',''));
+            openMessagesList[om].innerHTML += "<center><b><a href='/garage/item/"+specificMessageText+"'/>VISIT ITEM HERE</a></b></center>";
+        }
+    }
+    //
     gotoBottom('.chatText');
     
 }
