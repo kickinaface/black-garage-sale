@@ -9,3 +9,13 @@
     top:7px;
     font-weight: bold;
 }
+
+.baseBoard{
+    padding-left: 20px;
+}
+
+@media screen and (max-width: 500px) {
+    .navigation {
+        height: auto;
+    }
+}

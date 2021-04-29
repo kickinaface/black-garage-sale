@@ -24,6 +24,10 @@ body {
     background-color:#cae00d;
 }
 
+.navLinks li:nth-child(3) a{
+    color:#cae00d;
+}
+
 .aboutLink {
     margin: 30px 0px 30px 0px;
     text-decoration: underline;
@@ -102,4 +106,19 @@ body {
 }
 .displayname {
     padding-bottom: 15px;
+}
+
+@media screen and (max-width: 500px) {
+    .navigation{
+        height: 255px;
+    }
+    .mainContent{
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .mainContent {
+        width: 85%;
+    }
 }

@@ -30,3 +30,26 @@
     .navLinks li:hover, .navLinks li a:hover {
         color:grey;
     }
+    @media screen and (max-width: 500px) {
+        .navigation{
+            height: 170px;
+        }
+        .navLinks{
+            margin-top:10px;
+            padding-bottom: 20px;
+            /* background: red; */
+            width: 100%;
+            
+        }
+        .navLinks li {
+            /* background: purple ; */
+            text-align: center;
+            width: 95%;
+            float: left;
+            padding: 10px 0px 10px 0px;
+        }
+        .navLinks li a{
+            font-size: 13pt;
+            float: none;
+        }
+    }

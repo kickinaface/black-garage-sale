@@ -73,15 +73,15 @@ function getUsersGarageById(){
         //console.log(status);
         if(status != 200){
             document.querySelector('body').innerHTML = '<h1>'+JSON.parse(data).message+'</h1>';
-            setTimeout(function(){
-                window.location = '/garage';
-            },1000);
+            // setTimeout(function(){
+            //     window.location = '/garage';
+            // },1000);
         } else if (data.length == 0){
             //console.log('throw message about nothing here');
             document.querySelector('.blueBox').innerHTML = '<h1>There are no items here</h1>';
-            setTimeout(function(){
-                window.location = '/garage';
-            },1000);
+            // setTimeout(function(){
+            //     window.location = '/garage';
+            // },1000);
         } else {
             var groupedByCategory = _.groupBy(data, function(m){          
                 //console.log(m);      

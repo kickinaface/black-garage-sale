@@ -191,17 +191,17 @@ app.get('/garage/item/:itemID', function (req, res){
 										"<meta charset='utf-8'>"+
 										"<meta http-equiv='X-UA-Compatible' content='IE=edge'></meta>"+
 										"<meta name='viewport' content='width=device-width, initial-scale=1'>"+
-										"<meta property='og:url'                content='http://localhost:3000/garage/item/"+gItem._id+"' />"+
+										"<meta property='og:url'                content='/garage/item/"+gItem._id+"' />"+
 										"<meta property='og:type'               content='article' />"+
 										"<meta property='og:title'              content='"+gItem.title+"' />"+
 										"<meta property='og:description'        content='"+gItem.description+"' />"+
 										"<meta property='og:image'              content='"+gItem.itemImageUrl1+"' />"+
-										"<link rel='stylesheet' href='http://localhost:3000/css/navigation.css'>"+
-										"<link rel='stylesheet' href='http://localhost:3000/css/main.css'>"+
-										"<link rel='stylesheet' href='http://localhost:3000/css/login.css'>"+
-										"<link rel='stylesheet' href='http://localhost:3000/css/garageItem.css'>"+
-										"<script type='text/javascript' src='http://localhost:3000/js/superUtil.js'></script>"+
-										"<script type='text/javascript' src='http://localhost:3000/js/garageItem.js'></script>"+
+										"<link rel='stylesheet' href='/css/navigation.css'>"+
+										"<link rel='stylesheet' href='/css/main.css'>"+
+										"<link rel='stylesheet' href='/css/login.css'>"+
+										"<link rel='stylesheet' href='/css/garageItem.css'>"+
+										"<script type='text/javascript' src='/js/superUtil.js'></script>"+
+										"<script type='text/javascript' src='/js/garageItem.js'></script>"+
 										"<style>body{font-family: Arial, Helvetica, sans-serif;}</style>"+
 									"</head>"+
 									"<body>"+
@@ -210,12 +210,12 @@ app.get('/garage/item/:itemID', function (req, res){
 										"<div class='navMessages'></div>"+
 										"<ul class='navLinks'></ul>"+
 									"</div>"+
-
-									"<div class='baseBoard'></div>"+
 									"<br/>"+
-									"<img src='/garageImages/"+gItem._id+"/garageItemImage_1.jpg' width='20%;' /> &nbsp;&nbsp;"+
-									"<img src='/garageImages/"+gItem._id+"/garageItemImage_2.jpg' width='20%;' /> &nbsp;&nbsp;"+
-									"<img src='/garageImages/"+gItem._id+"/garageItemImage_3.jpg' width='20%;' /> &nbsp;&nbsp;"+
+									"<div class='baseBoard'>"+
+										"<img src='/garageImages/"+gItem._id+"/garageItemImage_1.jpg' width='20%;' /> &nbsp;&nbsp;"+
+										"<img src='/garageImages/"+gItem._id+"/garageItemImage_2.jpg' width='20%;' /> &nbsp;&nbsp;"+
+										"<img src='/garageImages/"+gItem._id+"/garageItemImage_3.jpg' width='20%;' /> &nbsp;&nbsp;"+
+									"</div>"+
 									"<br/>"+
 									"<br/>"+
 									"<div class='itemDescriptionWrapper'>"+

@@ -136,7 +136,7 @@ function GarageRouteController() {
                         res.status(404).send({message: 'There is no garage by that ID'});
                     } else {
                         if(userItems.length == 0){
-                            res.status(404).send({message: 'There is no garage by that ID'});
+                            res.status(404).send({message: 'This user has no items'});
                         } else {
                             res.send(userItems);
                         }

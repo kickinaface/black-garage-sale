@@ -87,9 +87,25 @@ body {
     }
 }
 
+@media screen and (max-width: 500px) {
+    .navigation{
+        height: 255px;
+    }
+    
+    /* .mainContent{
+        width: 85%;
+    } */
+    .messagesControls{
+        width: 80% !important;
+    }
+}
+
 .navLogo i {
     color: black;
     background-color:#cae00d;
+}
+.navLinks li:nth-child(2) a{
+    color:#cae00d;
 }
 
 .aboutLink {

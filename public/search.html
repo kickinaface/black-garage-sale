@@ -20,16 +20,18 @@
         <br>
 		<div class="blueBox">
             <div class="searchWrapper">
+				<div>
+					<b><i>Search By:</i></b>&nbsp;&nbsp;&nbsp;
+					<label for='searchForItems'>Item</label>
+					<input type="checkbox" name="searchForItems" class="searchForItems" onclick="toggleSearchType('searchForUsers');">
+
+					<label for='searchForUsers'>User</label>
+					<input type="checkbox" name="searchForUsers" class="searchForUsers" onclick="toggleSearchType('searchForItems');">
+				</div>
+				<br>
 				<input type="search" class="searchInputText">
 				<button onclick="performSearch();">Search</button>
 				<br>
-				<br>
-				<b><i>Search By:</i></b>&nbsp;&nbsp;&nbsp;
-				<label for='searchForItems'>Item</label>
-				<input type="checkbox" name="searchForItems" class="searchForItems" onclick="toggleSearchType('searchForUsers');">
-
-				<label for='searchForUsers'>User</label>
-				<input type="checkbox" name="searchForUsers" class="searchForUsers" onclick="toggleSearchType('searchForItems');">
 				<br>
 				<div class="responseMessages">
 					<p></p>
