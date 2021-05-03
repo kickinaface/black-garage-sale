@@ -205,6 +205,7 @@ app.get('/garage/item/:itemID', function (req, res){
 										"<style>body{font-family: Arial, Helvetica, sans-serif;}</style>"+
 									"</head>"+
 									"<body>"+
+									"<div class='garageDoor'></div>"+
 									"<div class='navigation'>"+
 										"<div class='navLogo'><i>Black</i> Garage Sale</div>"+
 										"<div class='navMessages'></div>"+
