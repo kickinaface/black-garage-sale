@@ -1,4 +1,3 @@
-const { find } = require('lodash');
 const mailController = require('../../app/methods/mailController');
 
 function UserRoutes() {
@@ -263,11 +262,8 @@ function UserRoutes() {
         //
         router.route('/resetPassword')
             .post(function(req, res){
-                const nodemailer = require('nodemailer');
                 const randomUdidGen = require("../../app/methods/generateUdid");
                 const mailController = require('../../app/methods/mailController');
-
-                mailController.init(nodemailer);
 
                 var userEmail = req.body.userEmail;
                 var udid = randomUdidGen.gen();
@@ -321,6 +317,43 @@ function UserRoutes() {
                     }
                 });
             });
+
+        router.route('/user/messagEmailSetting')
+            .get(tokenMethods.authenticateToken, function (req, res){
+                var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+                Admin.findOne({token: verifiedToken}, function (err, admin){
+                    if (err){
+                        console.log(err);
+                        res.send(err);
+                    } else if(admin != null){
+                        // User has not set this yet so set it. True is default.
+                        if(admin.emailMessages == undefined){
+                            admin.emailMessages = true;
+                            admin.save();
+                            res.send({emailMessages: admin.emailMessages});
+                        } else {
+                            res.send({emailMessages: admin.emailMessages});
+                        }
+                    } else if (admin == null){
+                        User.findOne({token: verifiedToken}, function (err, user){
+                            if(err){
+                                console.log(err);
+                            } else if(user != null){
+                                // User has not set this yet so set it. True is default.
+                                if(user.emailMessages == undefined){
+                                    user.emailMessages = true;
+                                    user.save();
+                                    res.send({emailMessages: user.emailMessages});
+                                } else {
+                                    res.send({emailMessages: user.emailMessages});
+                                }
+                            } else {
+                                res.sendStatus(403);
+                            }
+                        });
+                    }
+                });
+        });
     };
     
     // make this more Accessible 
@@ -330,7 +363,16 @@ function UserRoutes() {
         } else {
             return (false);
         }
-    }
+    };
+
+    function ValidatePassword(password){
+        // Minimum eight characters, at least one letter, one number and one special character:
+        if(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(password)){
+            return (true);
+        } else {
+            return (false);
+        }
+    };
 };
 
 var userRoutes = new UserRoutes();

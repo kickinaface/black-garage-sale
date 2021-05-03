@@ -10,7 +10,8 @@ var UserSchema	= new Schema({
     token: String,
     userAgent: String,
     clientIpAddress:String,
-    forgotPass:String
+    forgotPass:String,
+    emailMessages:Boolean
 });
 UserSchema.index({'firstName':'text', 'lastName':'text', 'username':'text'});
 module.exports = mongoose.model('User', UserSchema);

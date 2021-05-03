@@ -10,7 +10,8 @@ var AdminSchema	= new Schema({
 	token: String,
 	userAgent:String,
 	clientIpAddress:String,
-	forgotPass:String
+	forgotPass:String,
+	emailMessages:Boolean
 });
 
 AdminSchema.index({'firstName':'text', 'lastName':'text', 'username':'text'});

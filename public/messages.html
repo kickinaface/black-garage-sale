@@ -41,6 +41,29 @@
 			<button onclick="closeModal('.sendUserMessageModal');">Close</button>
 		</div>
 	</div>
+    <div class="modalWrapper messageSettingsModal">
+        <div class="modal">
+            <p>
+                <h2>Message Settings</h2>
+            </p>
+            <br>
+            <form">
+                <p>
+                    <label for="allowEmailisChecked">Email me when I receive messages:</label>
+					<input type="checkbox" class="allowEmailisChecked" value="allowEmailisChecked">
+                </p>
+                <br>
+				<br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+            </form>
+            <button onclick="closeModal('.messageSettingsModal');">Close</button>
+        </div>
+    </div>
 	<div class="navigation">
 		<div class="navLogo"><i>Black</i> Garage Sale</div>
 		<ul class="navLinks"></ul>
@@ -56,7 +79,7 @@
             <div class="messagesControls">
                 <h4>Messages Controls:</h4>
 				<button type="button" class="sendMessageButton" title="sendMessage" onclick="openSendMessageModal('.sendUserMessageModal');">Send A Message</button>
-				<button type="button" title="editItem" onclick="openModal('.editItemModal', null);">Messages Settings</button>
+				<button type="button" title="messageSettings" onclick="openModal('.messageSettingsModal', null);">Messages Settings</button>
                 <button type="button" title="editItem" onclick="location='/messages'">Show Recent</button>
 			</div>
             <br>

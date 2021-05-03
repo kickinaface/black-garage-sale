@@ -60,7 +60,16 @@ document.addEventListener("DOMContentLoaded", function(){
     loadAvatarPhoto();
     checkMessageUrl();
     mobileAdapt();
+    getNotificationSettings(token);
 });
+
+function getNotificationSettings(token){
+    superUtil.getAuthenticatedRequest(token, 'api/user/messagEmailSetting', function (status, data){
+        if(status == 200){
+            document.querySelector('.allowEmailisChecked').checked = data.emailMessages;
+        }
+    });
+}
 
 function mobileAdapt(){
     var setWidthLimit = 600;
@@ -433,4 +442,8 @@ function loadMessagesWithUser(e) {
     //
     gotoBottom('.chatText');
     
+}
+
+function openModal(modalType) {
+    document.querySelector(modalType).style.display = 'block';
 }
