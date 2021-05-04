@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function(){
 	var emailInput = superUtil.grabElement('loginEmailInput');
 	var passwordInput = superUtil.grabElement('loginPasswordInput');
 	var responsMessages = superUtil.grabElement('serverMessages');
-
+	var loginErrorMessages = superUtil.grabElement('loginErrorMessages');
+	//
 	loginBtn.addEventListener('click', function(data) {
 		var postData = {
 			username: emailInput.value,
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function(){
 			console.log(response);
 			
 			if(status != 200){
-				responsMessages.innerHTML = response.message;
+				loginErrorMessages.innerHTML = response.message;
 			} else if(status == 200) {
 				localStorage.setItem('userId', response.userId);
 				localStorage.setItem('token', response.token);
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(){
 				console.log(response);
 				
 				if(status != 200){
-					responsMessages.innerHTML = response.message;
+					loginErrorMessages.innerHTML = response.message;
 				} else if(status == 200) {
 					localStorage.setItem('userId', response.userId);
 					localStorage.setItem('token', response.token);

@@ -115,6 +115,12 @@ body {
     .mainContent{
         width: 85%;
     }
+    .modalWrapper .modal{
+        width: 80%;
+    }
+    #editItemImage1, #editItemImage2, #editItemImage3{
+        border:none;
+    }
 }
 
 @media screen and (max-width: 600px) {

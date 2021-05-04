@@ -50,6 +50,7 @@ body {
     background:rgba(0, 0, 0, 0.5);
     z-index: 9;
     display: none;
+    overflow-y:auto;
 }
 
 .modalWrapper .modal{
@@ -64,4 +65,14 @@ body {
 .modalWrapper .modal button {
     margin:20px 0 0 0;
     text-align: center;
+}
+
+.loginErrorMessages{
+    color:red;
+}
+
+@media screen and (max-width: 500px) {
+    .modalWrapper .modal{
+        width: 80%;
+    }
 }

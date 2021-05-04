@@ -98,6 +98,9 @@ body {
     .messagesControls{
         width: 80% !important;
     }
+    .modalWrapper .modal{
+        width: 80% !important;
+    }
 }
 
 .navLogo i {

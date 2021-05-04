@@ -37,3 +37,7 @@ body {
     font-style: italic;
     cursor: pointer;
 }
+
+.registerErrorMessages{
+    color:red;
+}

@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function(){
     var firstNameInput = superUtil.grabElement('registerNameInput1');
     var lastNameInput = superUtil.grabElement('registerNameInput2');
 	var responsMessages = superUtil.grabElement('serverMessages');
-
+    var registerErrorMessages = superUtil.grabElement('registerErrorMessages');
+    //
 	registerBtn.addEventListener('click', function(data) {
 		var postData = {
 			username: emailInput.value,
@@ -18,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
             lastName: lastNameInput.value
         };
         if (passwordInput1.value != passwordInput2.value){
-            responsMessages.innerHTML = 'Please enter the same password twice';
+            registerErrorMessages.innerHTML = 'Please enter the same password twice';
         } else if(passwordInput1.value == passwordInput2.value){
             superUtil.sendJSON(postData, 'api/user', function (status, response){
                 console.log(status, response.message);
@@ -26,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 //console.log(responsMessages);
                 
                 if(status != 200){
-                    responsMessages.innerHTML = response.message;
+                    registerErrorMessages.innerHTML = response.message;
                 } else if(status == 200) {
                     //localStorage.setItem('token', response.token);
                     responsMessages.innerHTML = response.message;
