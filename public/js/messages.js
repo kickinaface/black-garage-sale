@@ -447,3 +447,18 @@ function loadMessagesWithUser(e) {
 function openModal(modalType) {
     document.querySelector(modalType).style.display = 'block';
 }
+
+function saveMessageSettings(){
+    var emailMessages = document.querySelector('.allowEmailisChecked').checked;
+    var postData = {
+        emailMessages: emailMessages
+    };
+    superUtil.authPostRequest(postData, 'api/user/messagEmailSetting/', function (status, data){
+        if(status != 200){
+            document.querySelector('.messageSettingsModal .errorMessages p').innerHTML = data.message;
+        } else if(status == 200){
+            document.querySelector('.messageSettingsModal .responseMessages p').innerHTML = data.message;
+            getNotificationSettings(token);
+        }
+    }, 'POST');
+}

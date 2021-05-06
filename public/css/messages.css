@@ -237,7 +237,9 @@ body {
     margin:20px 0 0 0;
     text-align: center;
 }
-
+.errorMessages{
+    color:red;
+}
 /* .sendMessageButton{
     margin-bottom: 15px;
 } */

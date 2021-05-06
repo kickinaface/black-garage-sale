@@ -62,11 +62,16 @@ function MessageRoutes() {
                                     mModel.date = moment().format();
                                     mModel.fromAvatarId = fromUserId;
                                     
-                                    //save the ncMsg and check for errors
+                                    //save the message and check for errors
                                     mModel.save(function (err) {
                                         if (err){
                                             res.send(err);
                                         } else {
+                                            // Check if user enabled email notifications/
+                                            if(admin.emailMessages == true){
+                                                var preparedMessage = ('<strong>From: '+ fromUserKey+ '</strong><br/>'+messageKey);
+                                                mailController.sendEmailFromMessages(toUserKey, preparedMessage);
+                                            }
                                             res.json({ message: 'Message Created!' });
                                         }
                                     });
@@ -88,8 +93,10 @@ function MessageRoutes() {
                                                     if (err){
                                                         res.send(err);
                                                     } else {
-                                                        var preparedMessage = ('<strong>From: '+ fromUserKey+ '</strong><br/>'+messageKey);
-                                                        mailController.sendEmailFromMessages(toUserKey, preparedMessage);
+                                                        if(user.emailMessages == true){
+                                                            var preparedMessage = ('<strong>From: '+ fromUserKey+ '</strong><br/>'+messageKey);
+                                                            mailController.sendEmailFromMessages(toUserKey, preparedMessage);
+                                                        }
                                                         res.json({ message: 'Message Created!' });
                                                     }
                                                 });

@@ -33,7 +33,7 @@ function UserRoutes() {
                                         user.password = bcrypt.hashSync(password, 10);
                                         user.firstName = firstname;
                                         user.lastName = lastname;
-                                        user.role = 'basic';
+                                        user.role = 'Basic';
                                         //
                                         user.save(function (err) {
                                             if (err){
@@ -124,21 +124,33 @@ function UserRoutes() {
         
         router.route('/users')
             .get(tokenMethods.authenticateToken, function (req, res) {
-                User.find(function (err, users){
-                    var preparedUsers = [];
-                    for(var u=0; u<=users.length-1; u++){
-                        var userObject = {
-                            _id: users[u]._id,
-                            username:users[u].username,
-                            role: users[u].role,
-                            userAgent: users[u].userAgent,
-                            clientIpAddress: users[u].clientIpAddress,
-                            forgotPass:users[u].forgotPass
-                        };
-                        preparedUsers.push(userObject);
+                var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+                Admin.findOne({token: verifiedToken}, function (err, admin){
+                    if(err){
+                        console.log(err);
+                        res.send(err);
+                    } else if(admin != null){
+                        User.find(function (err, users){
+                            var preparedUsers = [];
+                            for(var u=0; u<=users.length-1; u++){
+                                var userObject = {
+                                    _id: users[u]._id,
+                                    username:users[u].username,
+                                    role: users[u].role,
+                                    userAgent: users[u].userAgent,
+                                    clientIpAddress: users[u].clientIpAddress,
+                                    forgotPass:users[u].forgotPass,
+                                    emailMessages:users[u].emailMessages
+                                };
+                                preparedUsers.push(userObject);
+                            }
+                            res.json(preparedUsers);
+                        });
+                    } else {
+                        res.sendStatus(403);
                     }
-                    res.json(preparedUsers);
                 });
+                
             });
         router.route('/getUsername/:user_id')
             .get(tokenMethods.authenticateToken, function (req, res){
@@ -353,6 +365,48 @@ function UserRoutes() {
                         });
                     }
                 });
+        }).post(tokenMethods.authenticateToken,function(req, res){
+            var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+            var newSettingValue = req.body.emailMessages;
+            //
+            if(newSettingValue == undefined) {
+                res.status(404).send({message: 'You must provide a settings value'});
+            } else {
+                Admin.findOne({token:verifiedToken}, function (err, admin){
+                    if(err){
+                        console.log(err);
+                        res.send(err)
+                    } else if(admin != null){
+                        admin.emailMessages = newSettingValue;
+                        admin.save(function (err){
+                            if(err){
+                                res.send(err)
+                            } else {
+                                res.send({message: 'Successfully changed'});
+                            }
+                        });
+                    } else if(admin == null){
+                        User.findOne({token: verifiedToken}, function (err, user){
+                            if(err){
+                                console.log(err);
+                                res.send(err);
+                            } else if(user!= null){
+                                user.emailMessages = newSettingValue;
+                                user.save(function (err){
+                                    if(err){
+                                        res.send(err)
+                                    } else {
+                                        res.send({message: 'Successfully changed'});
+                                    }
+                                });
+                            } else {
+                                res.sendStatus(403);
+                            }
+                        });
+                    }
+                });
+            }
+            
         });
     };
     
