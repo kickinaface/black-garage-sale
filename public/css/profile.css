@@ -84,4 +84,10 @@ body {
     .mainContent{
         width: 85%;
     }
+    #avatarUpload {
+        border:none;
+    }
+    .modalWrapper .modal{
+        width: 80%;
+    }
 }

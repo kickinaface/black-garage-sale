@@ -34,7 +34,7 @@ function AdminRoutes() {
                                             // Add user
                                             admin.username = username;
                                             admin.password = bcrypt.hashSync(password, 10);
-                                            admin.role = 'admin';
+                                            admin.role = 'Admin';
                                             //
                                             admin.save(function (err) {
                                                 if (err){

@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function(){
     // Check Token, Go to the Login if there is an invalid token.
     //var token = localStorage.getItem('token');
     superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
-        console.log('authenticated: ', status, data);
         if(status != 200 && data.authenticated != true){
             console.log('go to login');
             window.location = '/login';
@@ -58,7 +57,6 @@ function appTimer() {
         superUtil.getAuthenticatedRequest(token, 'api/authRequest', function(status, data) {
             if(status == 200 && data.authenticated == true){
                 // User is logged in and authenticated
-                console.log('valid token');
             } else {
                 //logout
                 localStorage.removeItem('token');

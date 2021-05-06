@@ -14,8 +14,25 @@
     padding-left: 20px;
 }
 
+.isSold, .isAvailable, .buyItemButton, .createdBy{
+    display: none;
+}
+
+.itemPrice {
+    color:green;
+    font-weight: bold;
+}
+
+.ownerAvatar{
+    border:1px solid black;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 500px) {
     .navigation {
         height: auto;
+    }
+    .ownerAvatar{
+        width: 15%;
     }
 }

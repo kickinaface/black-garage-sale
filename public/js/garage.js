@@ -264,7 +264,7 @@ function getGarageItemById(){
         "</p>"+
         "<br>"+
         "<p>"+
-            "<p><label for='editItemSoldStatus'>Item is Sold</label></p>"+
+            "<p><label for='editItemSoldStatus'>Item is Sold Out</label></p>"+
             "<input type='checkbox' name='editItemSoldStatus' class='editItemSoldStatus' value='soldStatus'>"+
         "</p>"+
         "<br>"+

@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     //Check to see who it is
     checkUser(userId);
+    setItemBaseBoard();
 
 });
 
@@ -28,4 +29,26 @@ function checkUser(user){
     } else {
         //console.log('do not show valid user message.')
     }
+};
+
+function setItemBaseBoard(){
+    var isSoldValue = document.querySelector('.isSold span').innerHTML;
+    var isAvailableValue = document.querySelector('.isAvailable span').innerHTML;
+    var buyItemButton = document.querySelector('.buyItemButton');
+    //
+    if(isSoldValue == 'false' && isAvailableValue=='true'){
+       buyItemButton.style.display = 'block';
+    } 
+
+    if(isSoldValue == 'true'){
+        document.querySelector('.itemErrors').innerHTML +='<b style="color:red;">SOLD OUT<b><br/>';
+    } 
+
+    if(isAvailableValue == 'false'){
+        document.querySelector('.itemErrors').innerHTML +='<b style="color:red;">OUT OF STOCK<b>';
+    }
+};
+
+function gotoUserGarage(garageID){
+    window.location = ('/garage/user/'+garageID);
 }

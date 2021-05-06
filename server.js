@@ -145,9 +145,9 @@ app.get('/profile', function (req, res) {
 	searchIp(usersCookie, function(data, user) {
 		//	
 		if(data == true && user.token == req.cookies.bCookieToken && user.userAgent == userAgent) {
-			if(user.role == 'admin'){
+			if(user.role == 'Admin'){
 				res.sendFile(path.join(__dirname+'/app/pages/adminProfile.html'));
-			}else if(user.role == 'basic'){
+			}else if(user.role == 'Basic'){
 				res.sendFile(path.join(__dirname+'/app/pages/basicProfile.html'));
 			}
 			
@@ -224,7 +224,10 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<br/>"+
 									"<b>Item ID:</b> "+ gItem._id+
 									"<br/>"+
-									"<b>Create by ID:</b> <span class='createdBy'>"+ gItem.createdBy+"</span>"+
+									"<b>Item Owner:</b> <span class='createdBy'>"+ gItem.createdBy+"</span>"+
+									"<br />"+
+									"<br />"+
+									"<img onclick=gotoUserGarage('"+gItem.createdBy+"'); class='ownerAvatar' src='/img/default-profile-icon-16.png' width='10%'/>"+
 									"<br/>"+
 									"<br/>"+
 									"<b>Description: </b>"+
@@ -237,15 +240,15 @@ app.get('/garage/item/:itemID', function (req, res){
 									"<br/>"+
 									"<p><b>Quantity</b><br/>"+gItem.quantity+" left</p>"+
 									"<br/>"+
-									"<p><b>Price: </b>$"+parseFloat(gItem.price).toFixed(2)+"</p>"+
+									"<p><b>Price: </b><span class='itemPrice'>$"+parseFloat(gItem.price).toFixed(2)+"</span></p>"+
 									"<br/>"+
-									"<b>isSold:</b> "+ gItem.isSold+
+									"<div class='isSold'><b>isSold:</b> <span>"+ gItem.isSold+"</span></div>"+
+									"<div class='isAvailable'><b>Available:</b> <span>"+ gItem.isAvailable+"</span></div>"+
+									"<a class='buyItemButton' href='/messages?createdBy="+gItem.createdBy+"&garageItemId="+gItem._id+"'><button>Buy Item</button></a>"+
+									"<div class='itemErrors'></div>"+
 									"<br/>"+
 									"<br/>"+
-									"<b>Available:</b> "+ gItem.isAvailable+
 									"<br/>"+
-									"<br/>"+
-									"<a href='/messages?createdBy="+gItem.createdBy+"&garageItemId="+gItem._id+"'><button>Buy Item</button></a>"+
 									"</div>"+
 									"</body>"+
 								"</html>";
