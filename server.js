@@ -147,7 +147,7 @@ app.get('/profile', function (req, res) {
 		if(data == true && user.token == req.cookies.bCookieToken && user.userAgent == userAgent) {
 			if(user.role == 'admin'){
 				res.sendFile(path.join(__dirname+'/app/pages/adminProfile.html'));
-			}else if(user.role == 'basic'){
+			}else if(user.role == 'basic' || user.role == 'subscriber'){
 				res.sendFile(path.join(__dirname+'/app/pages/basicProfile.html'));
 			}
 			

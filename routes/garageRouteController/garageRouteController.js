@@ -1,4 +1,4 @@
-const { toNumber } = require("lodash");
+const { toNumber, toLower } = require("lodash");
 
 function GarageRouteController() {
     this.init = function init(Garage, Admin, User, router, fs, tokenMethods) {
@@ -33,14 +33,14 @@ function GarageRouteController() {
                                 res.send(err);
                             } else if(admin != null){
                                 //console.log(admin);
-                                addNewItem(garageItem, res);
+                                addNewItem(garageItem, admin.role, res);
                             } else if(admin == null){
                                 User.findOne({_id:createdBy, token: token}, function (err, user) {
                                     if(err){
                                         res.send(err);
                                     } else if(user != null) {
                                        // console.log(user);
-                                        addNewItem(garageItem, res);
+                                        addNewItem(garageItem, user.role, res);
                                     } else {
                                         res.sendStatus(403);
                                     }
@@ -49,24 +49,36 @@ function GarageRouteController() {
                         });
                     }
 
-                    function addNewItem(garageItem, response) {
-                        //console.log('Add new garage item: ', garageItem);
-                        garageItem.createdBy = createdBy;
-                        garageItem.date = moment().format();
-                        garageItem.rating = null;
-                        garageItem.comments = [];
-                        garageItem.price = itemPrice;
-                        garageItem.isSold = false;
-                        garageItem.isAvailable = true;
-                        garageItem.quantity = itemQuantity;
-                        garageItem.title = itemTitle;
-                        garageItem.description = itemDescription;
-                        garageItem.category = itemCategory;
-                        garageItem.save(function (err) {
+                    function addNewItem(garageItem, role, response) {
+                        Garage.find({createdBy: createdBy}, function (err, items){
                             if(err){
-                                response.send(err)
-                            } else{
-                                response.send({message:'Successfully added new item!', itemID: garageItem._id});
+                                console.log(err);
+                            } else if(items != null){
+                                var numItemsInUsersGarage = items.length;
+                                var basicLimit = 30;
+
+                                if(toLower(role) != 'subscriber' && numItemsInUsersGarage >= basicLimit){
+                                    res.status(403).send({message: 'You have reached your limit of items. You may delete items for more space. Please subscribe to add unlimited items.'});
+                                } else if(numItemsInUsersGarage < basicLimit || toLower(role) == 'subscriber') {
+                                    garageItem.createdBy = createdBy;
+                                    garageItem.date = moment().format();
+                                    garageItem.rating = null;
+                                    garageItem.comments = [];
+                                    garageItem.price = itemPrice;
+                                    garageItem.isSold = false;
+                                    garageItem.isAvailable = true;
+                                    garageItem.quantity = itemQuantity;
+                                    garageItem.title = itemTitle;
+                                    garageItem.description = itemDescription;
+                                    garageItem.category = itemCategory;
+                                    garageItem.save(function (err) {
+                                        if(err){
+                                            response.send(err)
+                                        } else{
+                                            response.send({message:'Successfully added new item!', itemID: garageItem._id});
+                                        }
+                                    });
+                                }
                             }
                         });
                     };
