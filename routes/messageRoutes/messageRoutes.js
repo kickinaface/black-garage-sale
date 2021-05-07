@@ -231,6 +231,56 @@ function MessageRoutes() {
                     }
                
                 });
+
+            router.route('/messages/conversation/delete/:userEmail')
+                .delete(tokenMethods.authenticateToken, function (req, res){
+                    var verifiedToken = req.headers['authorization'].replace('Bearer ', '');
+                    var userToDelete = req.params.userEmail;
+                    //var messageModel = new msgModel();
+                    //
+                    User.findOne({token:verifiedToken}, function (err, user){
+                        if(err){
+                            console.log(err);
+                            res.send(err)
+                        } else if(user != null){
+                            findAndDeleteConversation(userToDelete, user.username);
+                        } else if(user == null){
+                            Admin.findOne({token: verifiedToken}, function (err, admin){
+                                if(err){
+                                    console.log(err);
+                                    res.send(err);
+                                } else if(admin != null){
+                                    console.log('found admin user: email');
+                                    findAndDeleteConversation(userToDelete, admin.username);
+                                } else {
+                                    res.send(403);
+                                }
+                            });
+                        }
+                    });
+
+                    function findAndDeleteConversation(userToDelete, tokenUsersEmail){
+                        // Find all FROM messages and DELETE
+                        msgModel.deleteMany({fromUser: userToDelete, toUser: tokenUsersEmail}, function (err, fromMsg){
+                            if(err){
+                                console.log(err);
+                            } else if(fromMsg.n == 1){
+                                console.log('deleted FROM');
+                            }
+                        });
+                        // Find all TO messages and DELETE
+                        msgModel.deleteMany({toUser: userToDelete, fromUser:tokenUsersEmail}, function (err, toMsg){
+                            if(err){
+                                console.log(err);
+                            } else if(toMsg.n == 1){
+                                console.log('Deleted TO');
+                            }
+                        });
+                        //
+                        res.send({message:'This conversation has been deleted'})
+                    };
+                    
+            });
     };
 };
 

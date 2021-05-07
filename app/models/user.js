@@ -11,7 +11,8 @@ var UserSchema	= new Schema({
     userAgent: String,
     clientIpAddress:String,
     forgotPass:String,
-    emailMessages:Boolean
+    emailMessages:Boolean,
+    isHidden:Boolean
 });
 UserSchema.index({'firstName':'text', 'lastName':'text', 'username':'text'});
 module.exports = mongoose.model('User', UserSchema);

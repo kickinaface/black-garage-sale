@@ -1,6 +1,7 @@
 var superUtil = new SuperUtil();
 var token = localStorage.getItem('token');
 var userId = localStorage.getItem('userId');
+var createdByUserId;
 //
 document.addEventListener("DOMContentLoaded", function(){
     // begin
@@ -19,11 +20,11 @@ document.addEventListener("DOMContentLoaded", function(){
     //Check to see who it is
     checkUser(userId);
     setItemBaseBoard();
-
+    loadAvatarPhoto();
 });
 
 function checkUser(user){
-    var createdByUserId = document.querySelector('.createdBy').innerHTML;
+    createdByUserId = document.querySelector('.createdBy').innerHTML;
     if(token != null && user == createdByUserId) {
         document.querySelector('.navMessages').innerHTML+= "<span>This is your public view.</span>";
     } else {
@@ -52,3 +53,30 @@ function setItemBaseBoard(){
 function gotoUserGarage(garageID){
     window.location = ('/garage/user/'+garageID);
 }
+
+function loadAvatarPhoto(){
+    var avatarPhoto = document.querySelector('.ownerAvatar');
+
+    if(createdByUserId != 'undefined'){
+        var imageUrl = ('/avatar/'+createdByUserId+'/avatarImage.jpg');
+        
+        urlExists(imageUrl, function (exists) {
+            if(!exists) {
+                // Do nothing continue loading default photo
+            } else {
+                avatarPhoto.src = imageUrl;
+            }
+        });
+    }
+};
+
+function urlExists(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        callback(xhr.status < 400);
+      }
+    };
+    xhr.open('HEAD', url);
+    xhr.send();
+};

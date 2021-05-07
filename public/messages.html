@@ -13,6 +13,26 @@
     
 </head>
 <body>
+    <div class="modalWrapper deleteConvoModal">
+        <div class="modal">
+            <p>
+                <h2>Delete Conversation</h2>
+            </p>
+            <br/>
+            *** Are you sure you wish to delete this conversation? This cannot be undone!
+            <br/>
+            <button onclick="deleteConversation()" class="deleteConvo">(X) Delete Forever</button>
+            <br/>
+            <button onclick="closeModal('.deleteConvoModal');">Cancel</button>
+            <br>
+				<div class="responseMessages">
+					<p></p>
+				</div>
+				<div class="errorMessages">
+					<p></p>
+				</div>
+        </div>
+    </div>
     <div class="modalWrapper sendUserMessageModal">
 		<div class="modal">
 			<p>
@@ -121,6 +141,7 @@
                             Send message to: <span class='sendMessageToUser'></span>
                             <input type='text' class='responseInputField' placeholder='Send message'>
                             <button type='button' onclick='sendMessageToUser(2)'>Send</button>
+                            <button type="button" onclick='openModal(".deleteConvoModal");' class='deleteConvo'>(X) Delete</button>
                             <div class='responseMessages'>
                                 <p></p>
                             </div>

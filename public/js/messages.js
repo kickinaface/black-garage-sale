@@ -286,7 +286,7 @@ function getMessagesForUser(userId, token){
                 }
             }
             // Only update the interface if we have new messages
-            if(reformmatedCombinedMessages.length > oldMessagesLength){
+            if(reformmatedCombinedMessages.length > oldMessagesLength || reformmatedCombinedMessages.length < oldMessagesLength){
                 // Set new and old message values to be compared for populating new messages
                 oldMessagesLength = reformmatedCombinedMessages.length;
                 leftPanel.innerHTML = '';
@@ -461,4 +461,23 @@ function saveMessageSettings(){
             getNotificationSettings(token);
         }
     }, 'POST');
+}
+
+function deleteConversation(){
+    var userToDelete = document.querySelector('.sendMessageToUser').innerHTML;
+    var errorMessagesHolder = document.querySelector('.deleteConvoModal .errorMessages p');
+    var successMessageHolder = document.querySelector('.deleteConvoModal .responseMessages p');
+    //
+    superUtil.authPostRequest(null, ('api/messages/conversation/delete/'+userToDelete), function (status, data){
+        if(status != 200){
+            errorMessagesHolder.innerHTML = data.message;
+        } else if(status == 200){
+            successMessageHolder.innerHTML = data.message;
+            setTimeout(function(){
+                errorMessagesHolder.innerHTML = '';
+                successMessageHolder.innerHTML = '';
+                window.location.reload();
+            },1000);
+        }
+    }, 'DELETE');
 }

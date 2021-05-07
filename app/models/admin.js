@@ -11,7 +11,8 @@ var AdminSchema	= new Schema({
 	userAgent:String,
 	clientIpAddress:String,
 	forgotPass:String,
-	emailMessages:Boolean
+	emailMessages:Boolean,
+	isHidden:Boolean
 });
 
 AdminSchema.index({'firstName':'text', 'lastName':'text', 'username':'text'});

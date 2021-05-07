@@ -12,7 +12,8 @@ var GarageItemSchema	= new Schema({
     price: Number,
     isSold:Boolean,
     isAvailable:Boolean,
-    quantity:Number
+    quantity:Number,
+    isHidden:Boolean
 });
 
 GarageItemSchema.index({'title':'text', 'description':'text', 'category':'text'});
