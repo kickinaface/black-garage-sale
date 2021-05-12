@@ -12,7 +12,7 @@ var accessToken;
 oAuth2Client.getAccessToken().then(function (value){
     accessToken = value;
 }).catch(function (err){
-    console.log(err);
+    //console.log(err);
 })
 //
 const transporter = nodemailer.createTransport({

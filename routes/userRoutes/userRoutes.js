@@ -216,23 +216,31 @@ function UserRoutes() {
                         if(admin != null){
                             //console.log(admin);
                             if(bcrypt.compareSync(oldPassword, admin.password)) {
-                                // Passwords match send user the token
-                                admin.password = bcrypt.hashSync(newPassword, 10);
-                                admin.save();
-                                //console.log('user: ', user);
-                                mailController.passwordHasBeenReset(admin.username);
-                                res.json({message: 'Successfully changed password. Please wait'});
+                                if(ValidatePassword(newPassword) == false){
+                                    res.status(404).send({message: 'Password must have: Minimum eight characters, at least one letter, one number and one special character'});
+                                } else {
+                                    // Passwords match send user the token
+                                    admin.password = bcrypt.hashSync(newPassword, 10);
+                                    admin.save();
+                                    //console.log('user: ', user);
+                                    mailController.passwordHasBeenReset(admin.username);
+                                    res.json({message: 'Successfully changed password. Please wait'});
+                                }
                             } else {
                                 // Passwords don't match
                                 // res.status(404).send({message: 'You must enter the correct old password'});
                                 if(oldPassword == admin.forgotPass){
-                                    admin.password = bcrypt.hashSync(newPassword, 10);
-                                    admin.forgotPass = null;
-                                    admin.save();
-                                    //console.log('user: ', user);
-                                    //res.redirect('/logout');
-                                    mailController.passwordHasBeenReset(admin.username);
-                                    res.json({message: 'Successfully changed password. Please wait'});
+                                    if(ValidatePassword(newPassword) == false){
+                                        res.status(404).send({message: 'Password must have: Minimum eight characters, at least one letter, one number and one special character'});
+                                    } else {
+                                        admin.password = bcrypt.hashSync(newPassword, 10);
+                                        admin.forgotPass = null;
+                                        admin.save();
+                                        //console.log('user: ', user);
+                                        //res.redirect('/logout');
+                                        mailController.passwordHasBeenReset(admin.username);
+                                        res.json({message: 'Successfully changed password. Please wait'});
+                                    }
                                 } else {
                                     res.status(404).send({message: 'You must enter the correct old password'});
                                 }
@@ -243,22 +251,30 @@ function UserRoutes() {
                                 if(user != null) {
                                     //console.log(user);
                                     if(bcrypt.compareSync(oldPassword, user.password)) {
-                                        // Passwords match send user the token
-                                        user.password = bcrypt.hashSync(newPassword, 10);
-                                        user.save();
-                                        //console.log('user: ', user);
-                                        //res.redirect('/logout');
-                                        mailController.passwordHasBeenReset(user.username);
-                                        res.json({message: 'Successfully changed password. Please wait'});
-                                    } else {
-                                        if(oldPassword == user.forgotPass){
+                                        if(ValidatePassword(newPassword) == false){
+                                            res.status(404).send({message: 'Password must have: Minimum eight characters, at least one letter, one number and one special character'});
+                                        } else {
+                                            // Passwords match send user the token
                                             user.password = bcrypt.hashSync(newPassword, 10);
-                                            user.forgotPass = null;
                                             user.save();
                                             //console.log('user: ', user);
                                             //res.redirect('/logout');
                                             mailController.passwordHasBeenReset(user.username);
                                             res.json({message: 'Successfully changed password. Please wait'});
+                                        }
+                                    } else {
+                                        if(oldPassword == user.forgotPass){
+                                            if(ValidatePassword(newPassword) == false){
+                                                res.status(404).send({message: 'Password must have: Minimum eight characters, at least one letter, one number and one special character'});
+                                            } else {
+                                                user.password = bcrypt.hashSync(newPassword, 10);
+                                                user.forgotPass = null;
+                                                user.save();
+                                                //console.log('user: ', user);
+                                                //res.redirect('/logout');
+                                                mailController.passwordHasBeenReset(user.username);
+                                                res.json({message: 'Successfully changed password. Please wait'});
+                                            }
                                         } else {
                                             res.status(404).send({message: 'You must enter the correct old password'});
                                         }
