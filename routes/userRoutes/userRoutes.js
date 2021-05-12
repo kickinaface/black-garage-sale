@@ -17,6 +17,8 @@ function UserRoutes() {
                     res.status(404).send({ message: 'ERROR: You must define a username and password'});
                 }else if(ValidateEmail(username) == false){
                     res.status(404).send({ message: 'ERROR: You must provide a valid email address.'});
+                }else if(ValidatePassword(password) == false){
+                    res.status(404).send({ message: 'Password must have: Minimum eight characters, at least one letter, one number and one special character'});
                 }else {
                     // Look to see if there are any admins currently by this name. If so, do not let them create a user
                     Admin.findOne({username:username}, function (err, adminUser) {
@@ -42,7 +44,6 @@ function UserRoutes() {
                                                 //console.log('Created new User. Please log in.');
                                                 var nodemailer = require('nodemailer');
                                                 var mailController = require('../../app/methods/mailController');
-                                                mailController.init(nodemailer);
                                                 mailController.sendNewAccountEmail(username);
                                                 res.json({ message: 'User Created!' });
                                             }
