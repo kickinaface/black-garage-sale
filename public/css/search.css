@@ -26,6 +26,7 @@ body {
 
 .navLinks li:nth-child(4) a{
     color:#cae00d;
+    font-weight: bold;
 }
 
 /* .aboutLink {

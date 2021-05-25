@@ -33,6 +33,8 @@ const transporter = nodemailer.createTransport({
 //
 function MailController() {
     this.sendResetPasswordEmail = function sendResetPasswordEmail(toEmail, udid){
+        //debug
+        console.log(udid);
         var mailOptions = {
             from: 'blackgaragesale@gmail.com',
             to: toEmail,

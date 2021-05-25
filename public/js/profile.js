@@ -189,7 +189,7 @@ function appTimer() {
         superUtil.getAuthenticatedRequest(bCookieToken, 'api/authRequest', function(status, data) {
             if(status == 200 && data.authenticated == true){
                 // User is logged in and authenticated
-                console.log('valid token');
+                //console.log('valid token');
             } else {
                 //logout
                 localStorage.removeItem('token');
@@ -206,7 +206,7 @@ function authCheck(){
     superUtil.getAuthenticatedRequest(bCookieToken, 'api/authRequest', function(status, data) {
         if(status == 200 && data.authenticated == true){
             // User is logged in and authenticated
-            console.log('valid token');
+            //console.log('valid token');
         } else {
             //logout
             localStorage.removeItem('token');

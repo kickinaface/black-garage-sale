@@ -13,6 +13,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     min-height: 800px;
     cursor: pointer;
+    text-align: center;
 }
 
 .navLogo i {
@@ -104,4 +105,11 @@ a:hover{
 }
 .forgotPasswordLink {
     font-size: 11pt;
+}
+
+.webLogo{
+    margin-top:6%;
+    max-width: 60%;
+    opacity: 70%;
+    border:1px solid black;
 }
