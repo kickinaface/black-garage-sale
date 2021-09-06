@@ -33,6 +33,7 @@ button {
     color: white;
     outline: none;
     border: none;
+    border-radius: 5px;
 }
 button:hover {
     background: rgb(71, 71, 71);
@@ -82,11 +83,13 @@ button:active{
     width: 50%;
     background: white;
     text-align:center;
-    
+    border-radius: 5px;
+    border:1px solid black;
 }
 .modalWrapper .modal button {
     margin:290px 0 0 0;
     text-align: center;
+    border-radius: 5px;
 }
 
 .errorMessages {

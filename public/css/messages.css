@@ -27,6 +27,7 @@ body {
     margin-bottom:10px;
     text-align: left;
     color:black;
+    border-radius: 5px;
 }
 .userEmailAddress {
     white-space: nowrap;
@@ -130,6 +131,7 @@ body {
     border: 1px solid black;
     margin:0 auto;
     width:45%;
+    border-radius: 5px;
 }
 /* .messages{
     width: 100%;
@@ -141,6 +143,7 @@ body {
     padding:10px;
     border: 1px solid black;
     color:black;
+    border-radius: 5px;
 }
 .chatMessagesTab {
     float:right;
@@ -149,6 +152,7 @@ body {
     height: auto;
     padding:10px;
     margin-bottom: 30px;
+    border-radius: 5px;
 }
 .chatMessagesTab h4 {
     color:white;
@@ -188,6 +192,7 @@ body {
     .leftMessage {
         background-color:white;
         border:1px solid black;
+        border-radius: 5px;
     }
     .rightMessages {
         /* float: right;
@@ -195,6 +200,7 @@ body {
         text-align: right !important;
         background: #ccc;
         border:1px solid black;
+        border-radius: 5px;
     }
     .chatText div p {
         /* float: left; */
