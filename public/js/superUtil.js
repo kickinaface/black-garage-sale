@@ -122,6 +122,7 @@ function Navigation(){
 	this.init = function init(navEl, links) {
 		this.navigation = navEl;
 		buildLinks(links, navEl);
+		listenForMessages(userId, token, navEl);
 	};
 	function buildLinks(links, nav){
 		// Append links to navigation element.
@@ -130,4 +131,53 @@ function Navigation(){
 				"<li><a href='"+links[n].link+"'>"+links[n].title+"</a></li>";
 		}
 	};
+
+	function listenForMessages(userId, token, el){
+		var oldMessagesLength = 0;
+		var checkMessagePageCount = 0;
+
+		var messagesListener = setInterval(function(){
+			
+			superUtil.getAuthenticatedRequest(token, 'api/messages/forUser/'+(userId), function (status, data){
+				if(status != 200){
+					clearInterval(messagesListener);
+				} else if(status == 200){
+					checkMessagePageCount++;
+					var newData = Object.keys(data);
+					var numConversations = newData.length;
+					var allCombinedMessages = [];
+
+					// empty previous array of messages
+					reformmatedCombinedMessages = [];
+
+					for(var m = 0; m <=numConversations-1; m++){
+						allCombinedMessages.push(data[newData[m]]);
+					}
+		
+					// Loop through the allCombinedMessages and refomat array for later use.
+					for(var l = 0; l <=allCombinedMessages.length-1; l++){
+						for(var n = 0; n<= allCombinedMessages[l].length-1; n++){
+							reformmatedCombinedMessages.push(allCombinedMessages[l][n]);
+						}
+					}
+
+					// Only update the interface if we have new messages
+					if(reformmatedCombinedMessages.length > oldMessagesLength){
+						// Set new and old message values to be compared for populating new messages
+						oldMessagesLength = reformmatedCombinedMessages.length;
+						// Only after the page count has increased do we add an indicator light. Yet,
+						// if will only show when the oldMessagesLength count is increasing otheriwise
+						// it does not even appear.
+						if(checkMessagePageCount > 1){
+							el.innerHTML+="<div class='messageIndicatorLight'></div>";
+						}
+						
+					} else {
+						// Dont do anything because there are no new messages.
+						//console.log('there are no new messages.')
+					}
+				}
+			});
+		},(10000));
+	}
 };

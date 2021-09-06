@@ -34,6 +34,7 @@ const fs = require('fs');
 
 // get config vars
 dotenv.config();
+
 // access config var
 //console.log(process.env.TOKEN_SECRET);
 

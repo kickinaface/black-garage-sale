@@ -1,5 +1,6 @@
 var superUtil = new SuperUtil();
 var token = localStorage.getItem('token');
+var userId = localStorage.getItem('userId');
 document.addEventListener("DOMContentLoaded", function(){
     // begin
     superUtil.init(document);
